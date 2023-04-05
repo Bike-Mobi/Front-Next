@@ -39,6 +39,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 # Documentation
 
+## Dependencias
+
+- Tailwind.css - v3.3.1 - https://tailwindcss.com/
+
 ## Arquitetura do projeto
 
 
