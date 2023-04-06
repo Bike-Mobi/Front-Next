@@ -42,6 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Dependencias
 
 - Tailwind.css - v3.3.1 - https://tailwindcss.com/
+- HeroIcons - v2.0.17 - https://heroicons.com/
 
 ## Arquitetura do projeto
 
