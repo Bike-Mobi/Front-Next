@@ -1,4 +1,4 @@
-import Nav from '@/components/Nav'
+import Nav from '@/components/site/Nav'
 import React from 'react'
 
 const SiteLayout = (props) => {
