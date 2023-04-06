@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Classsificados = () => {
+const Classificados = () => {
     return (
         <div className='mt-20'>Classificados</div>
     )
 }
 
-export default Classsificados
+export default Classificados
