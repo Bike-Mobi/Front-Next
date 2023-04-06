@@ -46,6 +46,21 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Arquitetura do projeto
 
+```bash
+- /public
+- /src
+    |- /app
+        |- /(site)
+        |- /sistema
+    |- /components   
+        |- /site
+        |- /sistema
+```
+
+- */public* possui as dependencias de imagens estaticas do sistema
+- */app* possui e define as rotas
+- */components* possui os componentes do sistema, e os divide entre componentes/sections do site e do sistema
+
 ### Estilização
 Como o padrão de estilização deste projeto é feito com tailwind, os temas de cores do projeto estão no arquivo **tailwind.config.js**
 
