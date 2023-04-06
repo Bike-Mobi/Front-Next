@@ -9,6 +9,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    colors: {
+      'azul': '#3AA0FF',
+      'white': '#fff',
+      'tomEscuro': '#170F49'
+    },
     extend: {},
   },
   plugins: [],
