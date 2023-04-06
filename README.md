@@ -46,7 +46,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Arquitetura do projeto
 
-
+### Estilização
+Como o padrão de estilização deste projeto é feito com tailwind, os temas de cores do projeto estão no arquivo **tailwind.config.js**
 
 ### Esquema de Rotas
 Como este é um projeto em Next.js na versão 13, seu esquema de rotas funciona com as rotas sendo as pastas dentro de **/src/app**, sendo assim, para por exemplo termos a rota /dashboard, deve-se criar a rota /dashboard dentro de /app e dentro da pasta dashboard criar o arquivo **page.jsx**, que equivale a rota da pasta.
