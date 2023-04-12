@@ -14,7 +14,7 @@ const AboutUs = () => {
                     O Bike Mobi vem como a melhor opção para você e sua bike. Facilitando o acompanhamento das manutenções preventivas e corretivas, dando dicas de manutenção, avisos de furto e rastreamento de sua bike, é o que vai te dar mais tranquilidade na hora da sua pedalada. Buscamos juntar pessoas neste ecossistema de usuários de bikes, seja para esporte, lazer ou uso urbano. Mais saúde, menos stress e um mundo melhor no futuro para as novas gerações.
                 </p>
             </div>
-            <div className='w-1/2 md:block hidden'>
+            <div className='w-1/2 md:block hidden -z-10'>
                 <img src="bicicleta-listra.png" alt="Bicicleta" className='relative -right-24'/>
             </div>
         </div>
