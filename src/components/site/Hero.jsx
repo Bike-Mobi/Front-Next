@@ -3,7 +3,7 @@ import React from 'react'
 
 const Hero = () => {
     return (
-        <div className='h-screen'>
+        <div className='mb-64 md:mb-0 md:h-screen'>
             <div className='absolute top-0 -z-10 h-screen'>
                 <img src="banner.png" alt="Banner de ciclismo" className='md:h-screen h-[90vh] object-cover'/>
                 <div className='bg-gradient-to-b from-[rgba(0,0,0,0)] to-white h-24 relative -top-24'></div>
