@@ -37,7 +37,7 @@ const Nav = () => {
                     }
                 </button>
             </div>
-            <div className='bg-azul md:p-4 p-3 md:w-36 w-24 md:rounded-br-[72px] rounded-r-[48px] absolute left-0'>
+            <div className='bg-azul md:p-4 p-3 md:w-36 w-24 md:rounded-br-[72px] rounded-r-[48px]  md:rounded-r-[0px] absolute left-0'>
                 <img src="bikemobi-logo.png" alt="Logo Bike Mobi"/>
             </div>
         </div>
