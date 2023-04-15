@@ -82,3 +82,10 @@ Exemplo:
 
 #### Head
 Um raciocino analogo é o do arquivo **head.jsx**, que, permite inclusões de *links*, *title*, *metas* e etcs, dentro de das pastas, rotas e subrotas.
+
+### Chamada da API
+#### GET 
+Tendo em vista que a relação do sistema com a API Rest se dá atravez da chamada GET para carregar as informações do usuario na página, e nas chamandas POST, DELETE e UPDATE quando algum tipo de formulario é preeenchido, neste projeto, as chamadas GET devem estar, no Layout.jsx da página, dentro de um useEffect(), tal qual no exemplo abaixo:
+
+```js
+```
