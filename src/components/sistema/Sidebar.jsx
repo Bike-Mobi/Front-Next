@@ -44,8 +44,8 @@ const Sidebar = (props) => {
                         item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : null
                         
                         return(
-                            <Link href={item.link}>
-                                <div key={item} className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                            <Link key={item} href={item.link}>
+                                <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-5`}>
                                     <div className={`${yellow} w-7`}>{item.icon}</div>
                                     <div className='text-base font-medium'>{item.name}</div>
                                 </div>
@@ -73,8 +73,8 @@ const Sidebar = (props) => {
                     item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : yellow = null
 
                     return(
-                        <Link href={item.link}>
-                            <div key={item} className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-3`}>
+                        <Link key={item} href={item.link}>
+                            <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-3`}>
                                 <div className={`${yellow} w-7`}>{item.icon}</div>
                                 <div className='text-base font-medium'>{item.name}</div>
                             </div>
