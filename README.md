@@ -45,6 +45,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - HeroIcons - v2.0.17 - https://heroicons.com/
 - Daisy UI - v2.51.6 - https://daisyui.com/
 - react-input-mask - v3.0 - https://github.com/sanniassin/react-input-mask
+- Axios - v1.4.0 - https://axios-http.com/ptbr/docs/intro
 
 ## Arquitetura do projeto
 
@@ -82,10 +83,13 @@ const [cpf, setCpf] = useState()
 
 const handleCpf = (e) => setCpf(e.target.value)
 
-<TextInput name="CPF" mask="999.999.999-99" required maxWidth="md" onChange={handleCpf} />
+<TextInput name="CPF" mask="999.999.999-99" required width="md" onChange={handleCpf} />
 ``` 
 
 Outro ponto que vale ressaltar é a extensão instalada do **react-input-mask**, que permite o uso de mascaras para os inputs de texto. Por tanto, o componente de *TextInput* utiliza *<ReactInputMask/>* ao inves de um input convencional.
+
+### Formularios
+Para o desenvolvimento de formulario, e para que sejam feitas as requisições das APIs para que se faça as funcionalidades de um CRUD deve-se utilizar o Axios. Um bom exemlo é a página de infos do ciclista.
 
 ### Esquema de Rotas
 Como este é um projeto em Next.js na versão 13, seu esquema de rotas funciona com as rotas sendo as pastas dentro de **/src/app**, sendo assim, para por exemplo termos a rota /dashboard, deve-se criar a rota /dashboard dentro de /app e dentro da pasta dashboard criar o arquivo **page.jsx**, que equivale a rota da pasta.
