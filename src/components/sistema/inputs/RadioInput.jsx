@@ -4,21 +4,21 @@ const RadioInput = (props) => {
     return (
         <div>
             <label className="label">
-                <span className="label-text">{props.name}</span>
+                <span className="label-text font-medium">{props.name}</span>
             </label>
-            <div className='flex gap-4 ml-1 mt-2'>
+            <div className='grid grid-cols-2 gap-4 ml-1 mt-2'>
                 {props.items.map((item, index) => (
                     
                     <div className="flex items-center gap-x-2" key={index}>
                         <input
-                        id={index}
-                        name={props.name}
-                        value={item.name}
-                        type="radio"
-                        onChange={props.onChange}
-                        className="radio radio-primary border-cinza border-opacity-50"
+                            id={index}
+                            name={props.name}
+                            value={item.name}
+                            type="radio"
+                            onChange={props.onChange}
+                            className="radio radio-primary border-cinza"
                         />
-                        <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-gray-900">
+                        <label htmlFor="push-everything" className="block text-sm leading-6">
                         {item.name}
                         </label>
                     </div>

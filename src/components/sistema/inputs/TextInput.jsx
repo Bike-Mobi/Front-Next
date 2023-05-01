@@ -3,7 +3,7 @@ import ReactInputMask from 'react-input-mask'
 
 const TextInput = (props) => {
 
-    // maxWidth deve ser max-w-sm, max-w-md, max-w-lg ...
+    // width deve ser w-32, w-40, w-80 ...
 
     let req, classReq
     if(props.required) {
@@ -14,11 +14,18 @@ const TextInput = (props) => {
     }
 
     return (
-        <div className={props.ClassName}>
+        <div className={`${props.ClassName} ${props.width}`}>
             <label className="label">
-                <span className={`label-text ${classReq}`}>{props.name}</span>
+                <span className={`label-text font-medium ${classReq}`}>{props.name}</span>
             </label>
-            <ReactInputMask type="text" required={req} placeholder={props.placeholder} onChange={props.onChange} mask={props.mask} className={`input input-bordered w-full ${props.maxWidth}`} />
+            <ReactInputMask type="text"
+                required={req}
+                placeholder={props.placeholder}
+                value={props.value}
+                onChange={props.onChange}
+                mask={props.mask}
+                className={`input input-accent input-bordered ${props.width}`}
+            />
         </div>
     )
 }

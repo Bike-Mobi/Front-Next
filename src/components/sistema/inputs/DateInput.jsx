@@ -8,9 +8,13 @@ const DateInput = (props) => {
     return (
         <div className={props.className}>
             <label className="label">
-                <span className="label-text">{props.name}</span>
+                <span className="label-text font-medium">{props.name}</span>
             </label>
-            <input type="date" required={req} onChange={props.onChange} className="input input-bordered w-full invalid:border-error" />
+            <input type="date"
+                required={req}
+                onChange={props.onChange}
+                className="input input-accent input-bordered w-full invalid:border-error"
+            />
         </div>
     )
 }
