@@ -9,7 +9,7 @@ const Header = (props) => {
 
     return (
         <div className='flex'>
-            <div className='absolute right-20 md:right-6 -top-1 flex'>
+            <div className='absolute right-20 md:right-8 -top-1 flex'>
                 <div>
                     <div className='font-dmsans relative top-4 left-3 rounded-full bg-[#FE6C1A] text-white font-medium text-center w-6 h-6'>{props.nNotificacoes}</div>
                     <BellIcon className='text-tomEscuro w-8'/>
@@ -22,13 +22,13 @@ const Header = (props) => {
                     <img src={props.imgPerfil} alt="Icone de Usuario" className='h-12 w-12 ml-3 rounded-full'/>
                 </div>
             </div>
-            <div className='tag w-screen'>
+            <div className='tag'>
                 <div className='bg-cinza h-[1px] mt-16 mx-5'></div>
             </div>
             <style jsx>{`
                 @media(min-width: 500px){
                     .tag{
-                        width: calc(100vw - 256px)
+                        width: calc(100vw - 276px)
                     }
                 }
             `}</style>
