@@ -43,6 +43,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - Tailwind.css - v3.3.1 - https://tailwindcss.com/
 - HeroIcons - v2.0.17 - https://heroicons.com/
+- Daisy UI - v2.51.6 - https://daisyui.com/
+- react-input-mask - v3.0 - https://github.com/sanniassin/react-input-mask
 
 ## Arquitetura do projeto
 
@@ -55,6 +57,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
     |- /components   
         |- /site
         |- /sistema
+            |- /inputs
 ```
 
 - */public* possui as dependencias de imagens estaticas do sistema
@@ -62,7 +65,27 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - */components* possui os componentes do sistema, e os divide entre componentes/sections do site e do sistema
 
 ### Estilização
-Como o padrão de estilização deste projeto é feito com tailwind, os temas de cores do projeto estão no arquivo **tailwind.config.js**
+Como o padrão de estilização deste projeto é feito com tailwind, os temas de cores do projeto estão no arquivo **tailwind.config.js**.
+</br>
+
+Para auxilizar, também é utilizado o a lib **Daisy UI**, que é um pluguin para tailwind. É importante se atentar as dependencias do Daisy UI, que são basicamente as configurações de themas feitas no arquivo *tailwind.config.js* e a adição do: **plugins: [require("daisyui")]**.
+
+#### Inputs
+Os inputs utilizados nos Formularios e CRUDs do sistema estão em **/components/sistema/inputs**.
+</br>
+Estes componentes estão divididos pelos tipos de input, e para utiliza-los é só chama-los. Eles possuiem propriedades que em geral são: className, name, required, onChange...
+</br>
+Vale ressaltar que ao adicionar um novo input, caso seja de um tipo já existente, utilizar o componente já criado, para seguir o padrão do sistema. Alem disso, cada input deve possuir um estrutura com o *Componente Input*, o *useState()* para guardar o valor e a *function()* que vai pegar o valor atravez do onChange().
+
+```JavaScript
+const [cpf, setCpf] = useState()
+
+const handleCpf = (e) => setCpf(e.target.value)
+
+<TextInput name="CPF" mask="999.999.999-99" required maxWidth="md" onChange={handleCpf} />
+``` 
+
+Outro ponto que vale ressaltar é a extensão instalada do **react-input-mask**, que permite o uso de mascaras para os inputs de texto. Por tanto, o componente de *TextInput* utiliza *<ReactInputMask/>* ao inves de um input convencional.
 
 ### Esquema de Rotas
 Como este é um projeto em Next.js na versão 13, seu esquema de rotas funciona com as rotas sendo as pastas dentro de **/src/app**, sendo assim, para por exemplo termos a rota /dashboard, deve-se criar a rota /dashboard dentro de /app e dentro da pasta dashboard criar o arquivo **page.jsx**, que equivale a rota da pasta.
@@ -71,6 +94,7 @@ Como este é um projeto em Next.js na versão 13, seu esquema de rotas funciona 
 Dentro da mesma pasta de exemplo que utilizamos como **/dashboard**, temos o Layout, que ao criarmos o arquivo **layout.jsx**, onde este layout criado, que **deve possuir um elemento filho dentro**, temos um Layout que não será renderizado toda vez que for tracado de rota, caso esta rota, esteja utiizando deste mesmo layout(dentro da mesma pasta). Um ponto importante, é que os layouts de uma pasta são concatenados com os Layouts de suas subpastas.
 <br>
 Exemplo:
+
 ```bash
 - /app
     |- /sistema
