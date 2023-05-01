@@ -34,18 +34,46 @@ const Sidebar = (props) => {
     const shortName = props.name?.split(" ")[0] + ' ' + props.name?.split(" ")[1]
 
     return (
-        <div className='flex bg-azul h-screen w-fit font-dmsans'>
-            <div className='hidden md:flex flex-col'>
-                <div className='font-bold text-white text-3xl my-7 mb-10 flex justify-center'>Bike Mobi</div>
-                <div>
-                    {items.map(item => {
-
+        <div className=''>
+            <div className='flex bg-azul h-screen w-fit font-dmsans sticky top-0 max-h-screen'>
+                <div className='hidden md:flex flex-col'>
+                    <div className='font-bold text-white text-3xl my-7 mb-10 flex justify-center'>Bike Mobi</div>
+                    <div>
+                        {items.map((item, index) => {
+                            route == item.link ? selected = "bg-white text-azul" : selected = "text-white"
+                            item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : null
+            
+                            return(
+                                <Link key={index} href={item.link}>
+                                    <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                                        <div className={`${yellow} w-7`}>{item.icon}</div>
+                                        <div className='text-base font-medium'>{item.name}</div>
+                                    </div>
+                                </Link>
+                            )
+                        })}
+                        <div className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                            <div className={`w-7`}><ArrowRightOnRectangleIcon/></div>
+                            <div className='text-base font-medium'>Logout</div>
+                        </div>
+                    </div>
+                </div>
+                <div className='hidden md:block bg-white w-4 h-full rounded-l-2xl'></div>
+            </div>
+            <div className={`fixed top-0 bg-azul w-[60%] h-full border-r border-white text-white font-semibold text-2xl ease-in-out duration-500 ${transition} z-40 flex flex-col`}>
+                <div className='bg-white flex p-4 rounded-lg mt-4 mb-8 mx-auto'>
+                    <img src={props.imgPerfil} alt="Icone de Usuario" className='h-12 w-12 mr-3 rounded-full'/>
+                    <div className='font-dmsans text-base'>
+                        <div className='font-bold text-azul'>{shortName}</div>
+                        <div className='font-normal text-cinza'>{props.type}</div>
+                    </div>
+                </div>
+                    {items.map((item, index) => {
                         route == item.link ? selected = "bg-white text-azul" : selected = "text-white"
-                        item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : null
-                        
+                        item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : yellow = null
                         return(
-                            <Link key={item} href={item.link}>
-                                <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                            <Link key={index} href={item.link}>
+                                <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-3`}>
                                     <div className={`${yellow} w-7`}>{item.icon}</div>
                                     <div className='text-base font-medium'>{item.name}</div>
                                 </div>
@@ -56,43 +84,14 @@ const Sidebar = (props) => {
                         <div className={`w-7`}><ArrowRightOnRectangleIcon/></div>
                         <div className='text-base font-medium'>Logout</div>
                     </div>
-                </div>
             </div>
-            <div className='hidden md:block bg-white w-4 h-full rounded-l-2xl'></div>
-            <div className={`fixed top-0 bg-azul w-[60%] h-full border-r border-white text-white font-semibold text-2xl ease-in-out duration-500 ${transition} z-40 flex flex-col`}>
-                <div className='bg-white flex p-4 rounded-lg mt-4 mb-8 mx-auto'>
-                    <img src={props.imgPerfil} alt="Icone de Usuario" className='h-12 w-12 mr-3 rounded-full'/>
-                    <div className='font-dmsans text-base'>
-                        <div className='font-bold text-azul'>{shortName}</div>
-                        <div className='font-normal text-cinza'>{props.type}</div>
-                    </div>
-                </div>
-                {items.map(item => {
-
-                    route == item.link ? selected = "bg-white text-azul" : selected = "text-white"
-                    item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : yellow = null
-
-                    return(
-                        <Link key={item} href={item.link}>
-                            <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-3`}>
-                                <div className={`${yellow} w-7`}>{item.icon}</div>
-                                <div className='text-base font-medium'>{item.name}</div>
-                            </div>
-                        </Link>
-                    )
-                })}
-                <div className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
-                    <div className={`w-7`}><ArrowRightOnRectangleIcon/></div>
-                    <div className='text-base font-medium'>Logout</div>
-                </div>
-                </div>
-                <button className='block md:hidden absolute right-4 top-4' onClick={handleNav}>
-                    {nav ?
-                        <XMarkIcon className='my-auto h-8 text-tomEscuro' />
-                        :
-                        <Bars3Icon className='my-auto h-8 text-tomEscuro' />
-                    }
-                </button>
+            <button className='block md:hidden absolute right-4 top-4' onClick={handleNav}>
+                {nav ?
+                    <XMarkIcon className='my-auto h-8 text-tomEscuro' />
+                    :
+                    <Bars3Icon className='my-auto h-8 text-tomEscuro' />
+                }
+            </button>
         </div>
     )
 }
