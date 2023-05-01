@@ -13,7 +13,7 @@ module.exports = {
       'azul': '#3AA0FF',
       'white': '#fff',
       'tomEscuro': '#170F49',
-      'cinza': '#5E597A',
+      'cinza': '#979797',
       'cinzaClaro': '#EFF0F6'
     },
     fontFamily: {
