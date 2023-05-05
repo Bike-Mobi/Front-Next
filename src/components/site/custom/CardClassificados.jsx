@@ -1,5 +1,3 @@
-import ModalCardClassificados from './ModalCardClassificados'
-
 
 const CardClassificados = (props) => {
 
