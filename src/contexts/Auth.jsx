@@ -1,7 +1,6 @@
 'use client'
 
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
 import { createContext, useContext, useState } from "react";
 import { ApiContext } from "./Api";
@@ -12,12 +11,14 @@ export function AuthProvider({ children }) {
 
     const { instance } = useContext(ApiContext)
 
-    const [authData, setAuthData] = useState(undefined)
-    const [token, setToken] = useState()
-    const [error, setError] = useState()
-    const [isLoading, setIsLoading] = useState()
+    const [authData, setAuthData] = useState(undefined) // para setar infos globais (do header component)
+    const [error, setError] = useState() // para mostrar error no alerta
+    const [isLoading, setIsLoading] = useState() // para gerar loading do LoginButton
+    const [directory, setDirectory] = useState() // para definir o diretorio das rotas da sidebar
+    const [valid, setValid] = useState(false) // para não 
 
-    const router = useRouter()  
+    const router = useRouter() 
+    const path = usePathname()
 
     async function verifyToken(token, typePage) {
 
@@ -29,26 +30,42 @@ export function AuthProvider({ children }) {
                 userMenagement(token, resp.data, typePage)
             })
         } catch (error) {
-            userMenagement(token, false, typePage)
+            return userMenagement(token, false, typePage)
         }
     }
 
     function userMenagement(token, authData, typePage) {
 
         const type = authData.type
+        let routeDestiny
 
         if (!token) {
             router.push('/autenticacao/login')
         } else {
             if (typePage != type) {
                 if (authData.is_admin) {
-                    router.push('/sistema/admin/dashboard') // rota inicial Admin
+
+                    setDirectory('admin')
+                    routeDestiny = '/sistema/admin/dashboard' // rota inicial Admin
+                    router.push(routeDestiny)
+
                 } else if (type == 'Shopkeeper') {
-                    router.push('/sistema/loja/dashboard') // rota inicial Lojista
+
+                    setDirectory('loja')
+                    routeDestiny = '/sistema/loja/dashboard' // rota inicial Lojista
+                    router.push(routeDestiny)
+
                 } else if (type == 'Cyclist') {
-                    router.push('/sistema/ciclista/config-ciclista') // rota inicial Ciclista
+
+                    setDirectory('ciclista')
+                    routeDestiny = '/sistema/ciclista/config-ciclista' // rota inicial Ciclista
+                    router.push(routeDestiny)
+                    
                 }
             }
+        }
+        if (routeDestiny == path) {
+            setValid(true)
         }
     }
 
@@ -61,8 +78,6 @@ export function AuthProvider({ children }) {
                 email: email,
                 password: password
             })
-
-            setToken(auth.data.access_token)
             
             if (auth) {
                 setCookie(null, 'bikeMobiToken', auth.data.access_token, {
@@ -87,7 +102,7 @@ export function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ authData, error, isLoading, setIsLoading, signIn, signOut, verifyToken, userMenagement }}>
+        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, setIsLoading, signIn, signOut, verifyToken, userMenagement }}>
             {children}
         </AuthContext.Provider>
     )
