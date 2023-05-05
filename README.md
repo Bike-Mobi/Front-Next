@@ -113,7 +113,28 @@ Um raciocino analogo é o do arquivo **head.jsx**, que, permite inclusões de *l
 
 ### Chamada da API
 #### GET 
-Tendo em vista que a relação do sistema com a API Rest se dá atravez da chamada GET para carregar as informações do usuario na página, e nas chamandas POST, DELETE e UPDATE quando algum tipo de formulario é preeenchido, neste projeto, as chamadas GET devem estar, no Layout.jsx da página, dentro de um useEffect(), tal qual no exemplo abaixo:
+Tendo em vista que a relação do sistema com a API Rest se dá atravez da chamada GET para carregar as informações do usuario na página, e nas chamandas POST, DELETE e UPDATE quando algum tipo de formulario é preeenchido, neste projeto, foi criado o context *Api.jsx* que básicamente configura a chamada API Rest padrão do sistema, ele está em um context para que possa ser acessado em varias partes do sistema. Seu uso e lógica está diretamente relacionada a Autenticação do sistema também
+```JavaScript
+const instance = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_BACK_END,
+    headers: {
+        Accept : "application/json",
+        "Content-Type": "application/json"
+    },
+});
+```
+Basicamente aqui, definimos a baseURL, que será concatenada com toda url que for passada no *instance*, que por sinal, será passada da mesma forma com que se passa o axios. Optou-se por utilizar um .env para adicionar a url, e chama-la desta forma, a sintaxe no **.env.local** fica:
+```env
+NEXT_PUBLIC_API_BACK_END=http://127.0.0.1:8000/api
+```
+- Vale destacar, que o nome .env.local e a sintaxe *NEXT_PUBLIC* são padrões do Next.js, os quais sem eles não funciona. O NEXT_PUBLIC indica que o sistema consegue ter acesso a informação.
 
-```js
+O header definido na instancia também serve para garantir a comunicação adequada com a API, para que ela só procure as dependencias *.json* para fazer as requisições ( indicação do pessoal da Adapti que fez o Back-end ).
+</br>
+Ainda no *headers*, de inicio ele fica apenas assim como no sódigo acima, porem, depois de conseguir o token, para fazer as requisições JWT precisamos enviar o token no headers também, para isso, inserimos ele quando conseguimos o token da seguinte forma:
+
+- O *Bearer* é o padrão do Bask-end (JWT)
+
+```JavaScript
+instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
 ```
