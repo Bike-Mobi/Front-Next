@@ -2,21 +2,26 @@
 
 import nookies from "nookies"
 import { AuthContext } from '@/contexts/Auth'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import LoadingComponent from "@/components/sistema/loadingComponent"
 
 const layout = ({ children }) => {
 
-    const { verifyToken, authData } = useContext(AuthContext)
+    const { verifyToken, valid } = useContext(AuthContext)
 
     const { ['bikeMobiToken']: token } = nookies.get()
-    console.log(token)
     
     useEffect(() => {
-        verifyToken(token, authData, null)
+        async function verify() {
+            await verifyToken(token, null)
+        }
+        verify()
     }, [])
     
     return (
-        <div>{children}</div>
+        <div>
+            {valid ? children : <LoadingComponent />}
+        </div>
     )
 }
 
