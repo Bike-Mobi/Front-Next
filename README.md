@@ -201,23 +201,41 @@ Caso tenha dado certo a requisição feita no verifyToken ira gerenciar para ond
 - A função primeiro vai conferir o token, caso não o encontre, redireciona o usuario para a tela de login.
 - Caso encontre o token, agora irá analisar qual tipo de usuario é. Caso, seja um usuario admin ( no back-end o usuario ser admin e seu type não estão relacionados). ele é redirecionado a rota inicial de admin. É importante destacar que esse redirecionamente acontece toda vez que for atualizado o layout, ou seja, apenas caso o usuario coloque uma url que está fora do seu diretorio de acesso ou quando ele faz o login.
 - Em seguida, confere o type para ver se é do tipo lógista e depois se é do tipo ciclista. Com raciocino analogo.
+- Também seta-se o useState() directory, para utilizar esta variavel na sidebar, para que os ususarios sejam sempre redirecionados para os links dos seus diretorios correspondentes.
+- Vale ressaltar que é salvo o *routeDestiny*, que é o destino, para onde o *router* envia o usuario, ele serve para que possa verificar se a rota destino é igual a rota do navegador, para que apenas nesse caso, o *valid* seja verdadeiro e deixe o layput randerizar o conteúdo. Isso serve para que enquanto o usuario está sendo rediereciona, ele não tenha acesso a rota a qual ele não pode ver, mesmo que pr alguns segundos.
 ```JavaScript
 function userMenagement(token, authData, typePage) {
 
     const type = authData.type
+    let routeDestiny
 
     if (!token) {
         router.push('/autenticacao/login')
     } else {
         if (typePage != type) {
             if (authData.is_admin) {
-                router.push('') // rota inicial Admin
+
+                setDirectory('admin')
+                routeDestiny = // rota inicial Admin
+                router.push(routeDestiny)
+
             } else if (type == 'Shopkeeper') {
-                router.push('') // rota inicial Lojista
+
+                setDirectory('loja')
+                routeDestiny = // rota inicial Lojista
+                router.push(routeDestiny)
+
             } else if (type == 'Cyclist') {
-                router.push('') // rota inicial Ciclista
+
+                setDirectory('ciclista')
+                routeDestiny = // rota inicial Ciclista
+                router.push(routeDestiny)
+        
             }
         }
+    }
+    if (routeDestiny == path) {
+        setValid(true)
     }
 }
 ```
@@ -236,20 +254,27 @@ function signOut() {
 
 #### Layout
 Como já dito antes, as funções são chamadas nas páginas, e o layout vai sempre que for atualizado( roda o useEffect() ) conferir as rotas do usuario. Aqui possui um exemplo de layout:
+- É importante ressaltar o **valid** que só permite mostras as informações de dentro do diretorio quando for validado na função *userManagement*
 ```JavaScript
 const CiclistaLayout = ({ children }) => {
 
-const { verifyToken, authData } = useContext(AuthContext)
+    const { verifyToken, valid } = useContext(AuthContext)
 
-const { ['bikeMobiToken']: token } = nookies.get()
-console.log(token)
+    const { ['bikeMobiToken']: token } = nookies.get()
 
-useEffect(() => {
-    verifyToken(token, authData, 'Cyclist')
-}, [])
-
-return (
-    <div>{children}</div>
-)
+    useEffect(() => {
+        async function verify() {
+            await verifyToken(token, 'Cyclist')
+        }
+        verify()
+    }, [])
+    
+    return (
+        <div>
+            {valid ? children : <LoadingComponent />}
+        </div>
+    )
 }
+
+export default CiclistaLayout
 ```
