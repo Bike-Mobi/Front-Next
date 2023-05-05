@@ -9,16 +9,16 @@ import React, { useContext, useState } from 'react'
 
 const Sidebar = (props) => {
 
-    const {signOut} = useContext(AuthContext)
+    const {signOut, directory} = useContext(AuthContext)
 
     const items = [
-        { link: '/sistema/dashboard', name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-        { link: '/sistema/lojas', name: 'Lojas', icon: <BuildingStorefrontIcon /> },
-        { link: '/sistema/anuncios', name: 'Anúncios', icon: <NewspaperIcon /> },
-        { link: 'sistema/meusanuncios', name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-        { link: 'sistema/manutencoes', name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-        { link: 'sistema/perfil', name: 'Perfil', icon: <UserIcon /> },
-        { link: 'sistema/sejapremium', name: 'Seja Premium', icon: <StarIcon/> }
+        { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+        { link: `/sistema/${directory}/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
+        { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+        { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+        { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+        { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
+        { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
         
     ]
 
