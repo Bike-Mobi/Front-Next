@@ -198,6 +198,58 @@ async function verifyToken(token, typePage) {
 
 #### userManagement()
 Caso tenha dado certo a requisição feita no verifyToken ira gerenciar para onde mandar e manter o usuario, para que um ciclista não consiga acessar as rotas do lojsita por exemplo. Caso a requisição tenha dado errado, o userManagement enviará o usuario de volta para a tela de login.
+- A função primeiro vai conferir o token, caso não o encontre, redireciona o usuario para a tela de login.
+- Caso encontre o token, agora irá analisar qual tipo de usuario é. Caso, seja um usuario admin ( no back-end o usuario ser admin e seu type não estão relacionados). ele é redirecionado a rota inicial de admin. É importante destacar que esse redirecionamente acontece toda vez que for atualizado o layout, ou seja, apenas caso o usuario coloque uma url que está fora do seu diretorio de acesso ou quando ele faz o login.
+- Em seguida, confere o type para ver se é do tipo lógista e depois se é do tipo ciclista. Com raciocino analogo.
 ```JavaScript
+function userMenagement(token, authData, typePage) {
 
+    const type = authData.type
+
+    if (!token) {
+        router.push('/autenticacao/login')
+    } else {
+        if (typePage != type) {
+            if (authData.is_admin) {
+                router.push('') // rota inicial Admin
+            } else if (type == 'Shopkeeper') {
+                router.push('') // rota inicial Lojista
+            } else if (type == 'Cyclist') {
+                router.push('') // rota inicial Ciclista
+            }
+        }
+    }
+}
+```
+
+#### signOut()
+A função signOut é simples, caso o usuario queira deslogar do sistema, ela apenas reseta as variaveis do sistema e apaga o token do usuario, para em seguida envia-lo para página de login.
+```JavaScript
+function signOut() {
+    destroyCookie(null, 'bikeMobiToken', {
+        path: '/'
+    })
+    setAuthData(undefined)
+    router.push('autenticacao/login')
+}
+```
+
+#### Layout
+Como já dito antes, as funções são chamadas nas páginas, e o layout vai sempre que for atualizado( roda o useEffect() ) conferir as rotas do usuario. Aqui possui um exemplo de layout:
+```JavaScript
+const CiclistaLayout = ({ children }) => {
+
+const { verifyToken, authData } = useContext(AuthContext)
+
+const { ['bikeMobiToken']: token } = nookies.get()
+console.log(token)
+
+useEffect(() => {
+    verifyToken(token, authData, 'Cyclist')
+}, [])
+
+return (
+    <div>{children}</div>
+)
+}
 ```
