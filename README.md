@@ -112,7 +112,7 @@ Exemplo:
 Um raciocino analogo é o do arquivo **head.jsx**, que, permite inclusões de *links*, *title*, *metas* e etcs, dentro de das pastas, rotas e subrotas.
 
 ### Chamada da API
-#### GET 
+#### Context API 
 Tendo em vista que a relação do sistema com a API Rest se dá atravez da chamada GET para carregar as informações do usuario na página, e nas chamandas POST, DELETE e UPDATE quando algum tipo de formulario é preeenchido, neste projeto, foi criado o context *Api.jsx* que básicamente configura a chamada API Rest padrão do sistema, ele está em um context para que possa ser acessado em varias partes do sistema. Seu uso e lógica está diretamente relacionada a Autenticação do sistema também
 ```JavaScript
 const instance = axios.create({
@@ -137,4 +137,67 @@ Ainda no *headers*, de inicio ele fica apenas assim como no sódigo acima, porem
 
 ```JavaScript
 instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+```
+### Autenticação
+O fluxo de autenticação possui varias partes, suas principais lógicas estão no context **Auth.jsx**.
+#### signIn()
+Seguindo o fluxo de autenticação, a primeira função é esta.
+- A primeria coisa que faz é set isLoading true, que é usado para fazer a animação de loading no botão de login quando o usuario clica nele, pois existe um tempo entre ele clicar e a requisição ser feita, então apra que ele não fique clicando e enviando requisições desnecessarias, quando o usuario clina no boatão ele é desabilitado e exibe a animação de login, que dura alguns segundos.
+- É utilizado o **instance**, configurado anteriormente, para passar a requisição, enviando o email e senha e recebendo o token de autenticação.
+- O token é setado no sistema e no navegador ( atravez do setCookie(), o nome do cookie no navegador é importante ).
+- Em seguida e chama a função verifyToken, passando o token coletado.
+- Caso a requisição der errado, é parado o loading do botão de login, esetado um erro que será exibido atravez do componente de alerta.
+```JavaScript
+async function signIn(email, password) {
+    
+    setIsLoading(true)
+
+    try {
+        const auth = await instance.post(`/login`, {
+            email: email,
+            password: password
+        })
+
+        setToken(auth.data.access_token)
+        
+        if (auth) {
+            setCookie(null, 'bikeMobiToken', auth.data.access_token, {
+                maxAge: 60 * 60 * 24 * 30 * 3, // 3 meses
+                path: '/'
+            })
+        }
+
+        verifyToken(auth.data.access_token)
+    } catch (error) {
+        setError({ message: 'Email ou Senha Incorretos' })
+        setIsLoading(false)
+    }
+}
+```
+
+#### verifyToken()
+A função verifyToken é chamada quando já possuimos o token, que pode ser o caso de termos acabado de logar o usuario, ou quando entramos na rota com o token já no navegador.
+- O primeiro passo vai ser adicionar o token existente ao *headers* do *instance*.
+- Em seguida é feita a requisição das informações do usuario, que é um passo importante, pois é delas (authData), que conseguimos saber qual é o tipo que usuarioq ue está logando no sistema, e a quais respectivas rotas ele possui acesso.
+- Em seguida, a requisição dando certo ou não, irá chamar a função userManagement, que é repsonsavel por gerneciar onde cada tipode usuario pode ou não ficar.
+```JavaScript
+async function verifyToken(token, typePage) {
+
+    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+    try {
+        await instance.get(`/user`).then(resp => {
+            setAuthData(resp.data)
+            userMenagement(token, resp.data, typePage)
+        })
+    } catch (error) {
+        userMenagement(token, false, typePage)
+    }
+}
+```
+
+#### userManagement()
+Caso tenha dado certo a requisição feita no verifyToken ira gerenciar para onde mandar e manter o usuario, para que um ciclista não consiga acessar as rotas do lojsita por exemplo. Caso a requisição tenha dado errado, o userManagement enviará o usuario de volta para a tela de login.
+```JavaScript
+
 ```
