@@ -1,9 +1,8 @@
 'use client'
 
-import EmailInput from '@/components/sistema/inputs/EmailInput'
+import EmailInputLogin from '@/components/sistema/inputs/EmailInputLogin'
 import LoginButton from '@/components/sistema/inputs/LoginButton'
-import PasswordInput from '@/components/sistema/inputs/PasswordInputs'
-import TextInput from '@/components/sistema/inputs/TextInput'
+import PasswordInputLogin from '@/components/sistema/inputs/PasswordInputsLogin'
 import { AuthContext } from '@/contexts/Auth'
 import React, { useContext, useState } from 'react'
 
@@ -46,8 +45,8 @@ const Login = () => {
                 </div>
 
                 <div className={`flex flex-col mt-6`}>
-                    <EmailInput name="E-mail" width="w-full" onChange={handleEmail} />
-                    <PasswordInput name="Senha" width="w-full" onChange={handleSenha} />
+                    <EmailInputLogin name="E-mail" width="w-full" onChange={handleEmail} />
+                    <PasswordInputLogin name="Senha" width="w-full" onChange={handleSenha} />
                 </div>    
                 
                 <LoginButton onClick={() => signIn(email, senha)} isLoading={isLoading} />
