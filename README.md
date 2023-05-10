@@ -212,29 +212,30 @@ function userMenagement(token, authData, typePage) {
     if (!token) {
         router.push('/autenticacao/login')
     } else {
+        if (authData.is_admin) {
+
+            setDirectory('admin')
+            routeDestiny = '/sistema/admin/dashboard' // rota inicial Admin
+            
+
+        } else if (type == 'Shopkeeper') {
+
+            setDirectory('loja')
+            routeDestiny = '/sistema/loja/dashboard' // rota inicial Lojista
+
+        } else if (type == 'Cyclist') {
+
+            setDirectory('ciclista')
+            routeDestiny = '/sistema/ciclista/dashboard' // rota inicial Ciclista
+            
+        }
+
         if (typePage != type) {
-            if (authData.is_admin) {
-
-                setDirectory('admin')
-                routeDestiny = // rota inicial Admin
-                router.push(routeDestiny)
-
-            } else if (type == 'Shopkeeper') {
-
-                setDirectory('loja')
-                routeDestiny = // rota inicial Lojista
-                router.push(routeDestiny)
-
-            } else if (type == 'Cyclist') {
-
-                setDirectory('ciclista')
-                routeDestiny = // rota inicial Ciclista
-                router.push(routeDestiny)
-        
-            }
+            router.push(routeDestiny)
         }
     }
-    if (routeDestiny == path) {
+
+    if (routeDestiny == path || typePage == type) {
         setValid(true)
     }
 }
