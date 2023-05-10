@@ -42,31 +42,38 @@ export function AuthProvider({ children }) {
         if (!token) {
             router.push('/autenticacao/login')
         } else {
+            console.log('oi')
+            console.log('chegou no typePage != type')
+            if (authData.is_admin) {
+
+                setDirectory('admin')
+                routeDestiny = '/sistema/admin/dashboard' // rota inicial Admin
+                
+
+            } else if (type == 'Shopkeeper') {
+
+                setDirectory('loja')
+                routeDestiny = '/sistema/loja/dashboard' // rota inicial Lojista
+
+            } else if (type == 'Cyclist') {
+                console.log('chegou')
+                setDirectory('ciclista')
+                routeDestiny = '/sistema/ciclista/dashboard' // rota inicial Ciclista
+                console.log('routeDestiny: ', routeDestiny)
+                
+            }
+
             if (typePage != type) {
-                if (authData.is_admin) {
-
-                    setDirectory('admin')
-                    routeDestiny = '/sistema/admin/dashboard' // rota inicial Admin
-                    router.push(routeDestiny)
-
-                } else if (type == 'Shopkeeper') {
-
-                    setDirectory('loja')
-                    routeDestiny = '/sistema/loja/dashboard' // rota inicial Lojista
-                    router.push(routeDestiny)
-
-                } else if (type == 'Cyclist') {
-
-                    setDirectory('ciclista')
-                    routeDestiny = '/sistema/ciclista/config-ciclista' // rota inicial Ciclista
-                    router.push(routeDestiny)
-                    
-                }
+                router.push(routeDestiny)
             }
         }
-        if (routeDestiny == path) {
+        console.log('type: ',type)
+        console.log('routeDestiny: ', routeDestiny)
+        console.log('path: ',path)
+        if (routeDestiny == path || typePage == type) {
             setValid(true)
         }
+        console.log('valid: ', valid)
     }
 
     async function signIn(email, password) {
