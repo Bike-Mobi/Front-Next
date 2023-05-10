@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
 import { createContext, useContext, useState } from "react";
 import { ApiContext } from "./Api";
+import { fakeApi } from "@/service/fakeApi";
 
 export const AuthContext = createContext()
 
@@ -25,10 +26,21 @@ export function AuthProvider({ children }) {
         instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
         try {
-            await instance.get(`/user`).then(resp => {
+
+            // -------------------------- Utilizando API Oficial --------------------
+            // await instance.get(`/user`).then(resp => {
+            //     setAuthData(resp.data)
+            //     userMenagement(token, resp.data, typePage)
+            // })
+            // -----------------------------------------------------------------------
+
+            // --------------------------- Utilizando fake API -----------------------
+            await fakeApi.getInfos(token).then(resp => {
                 setAuthData(resp.data)
                 userMenagement(token, resp.data, typePage)
             })
+            // -----------------------------------------------------------------------
+
         } catch (error) {
             return userMenagement(token, false, typePage)
         }
@@ -81,10 +93,17 @@ export function AuthProvider({ children }) {
         setIsLoading(true)
 
         try {
-            const auth = await instance.post(`/login`, {
-                email: email,
-                password: password
-            })
+
+            // -------------------------- Utilizando API Oficial --------------------
+            // const auth = await instance.post(`/login`, {
+            //     email: email,
+            //     password: password
+            // })
+            // -----------------------------------------------------------------------
+
+            // --------------------------- Utilizando fake API -----------------------
+            const auth = await fakeApi.logIn(email, password)
+            // -----------------------------------------------------------------------
             
             if (auth) {
                 setCookie(null, 'bikeMobiToken', auth.data.access_token, {
