@@ -279,3 +279,7 @@ const CiclistaLayout = ({ children }) => {
 
 export default CiclistaLayout
 ```
+### Utilizando fake API
+Para o desenvolvimento sem a utilizaçao do back-end, cria-se respostas "fakes" na pasta */service* em *fakeApi*, sendo assim, no Auth.jsx agora possui seções que indicam o que deve ser comentado para que funcione a API Oficial ou para a API fake.
+</br>
+Quando estiver utilizando as respostas fakes, o funcionamento funciona normal, porem deve-se olhar em */service* as informações de login e senha respectivas.
