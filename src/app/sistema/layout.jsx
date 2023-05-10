@@ -1,14 +1,19 @@
+'use client'
+
 import Header from '@/components/sistema/Header'
 import Sidebar from '@/components/sistema/Sidebar'
-import React from 'react'
+import { AuthContext } from '@/contexts/Auth'
+import React, { useContext } from 'react'
 
 const SitemaLayout = (props) => {
 
     /* Aqui nos Layouts devem estar funções de GET da API, e gerar o(s) array(s) como o de "user" */
 
+    const { authData } = useContext(AuthContext)
+
     const user = {
-        name: 'Ruan Azeredo dos Santos Gomes',
-        type: 'Ciclista',
+        name: authData?.name,
+        type: authData?.type,
         imgPerfil: 'perfilSquere.png',
         nNotificacoes: 4
     }

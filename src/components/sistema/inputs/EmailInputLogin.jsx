@@ -1,13 +1,8 @@
-import React from 'react'
+const EmailInputLogin = (props) => {
 
-const EmailInput = (props) => {
-
-    // width deve ser w-32, w-40, w-80 ...
-
-    let req, classReq
+    let req
     if(props.required) {
         req = true
-        classReq = "after:content-['*'] after:ml-0.5 after:text-error"
     } else {
         req = false
     }
@@ -15,17 +10,17 @@ const EmailInput = (props) => {
     return (
         <div className={`${props.ClassName} ${props.width}`}>
             <label className="label">
-                <span className={`label-text font-medium ${classReq}`}>{props.name}</span>
+                <span className={`label-text text-lg text-cinza`}>{props.name}</span>
             </label>
             <input type="email"
                 required={req}
                 placeholder={props.placeholder}
                 value={props.value}
                 onChange={props.onChange}
-                className={`input input-accent input-bordered ${props.width}`}
+                className={`input input-bordered border-cinza bg-transparent ${props.width}`}
             />
         </div>
     )
 }
 
-export default EmailInput
+export default EmailInputLogin

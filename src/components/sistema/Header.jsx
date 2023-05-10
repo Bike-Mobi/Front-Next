@@ -5,7 +5,11 @@ import React from 'react'
 
 const Header = (props) => {
 
-    const shortName = props.name?.split(" ")[0] + ' ' + props.name?.split(" ")[1]
+    let shortName
+    shortName = props.name?.split(" ")[0] + ' ' + props.name?.split(" ")[1]
+    if (props.name?.split(" ")[1] == undefined) {
+        shortName = props.name?.split(" ")[0]
+    }
 
     return (
         <div className='flex'>
@@ -22,16 +26,9 @@ const Header = (props) => {
                     <img src={props.imgPerfil} alt="Icone de Usuario" className='h-12 w-12 ml-3 rounded-full'/>
                 </div>
             </div>
-            <div className='tag'>
-                <div className='bg-cinza h-[1px] mt-16 mx-5'></div>
+            <div className='w-screen md:w-[calc(100vw-276px)]'>
+                <div className='bg-transparent md:bg-cinza h-[1px] mt-16 mx-5'></div>
             </div>
-            <style jsx>{`
-                @media(min-width: 500px){
-                    .tag{
-                        width: calc(100vw - 276px)
-                    }
-                }
-            `}</style>
         </div>
     )
 }

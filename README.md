@@ -112,8 +112,174 @@ Exemplo:
 Um raciocino analogo é o do arquivo **head.jsx**, que, permite inclusões de *links*, *title*, *metas* e etcs, dentro de das pastas, rotas e subrotas.
 
 ### Chamada da API
-#### GET 
-Tendo em vista que a relação do sistema com a API Rest se dá atravez da chamada GET para carregar as informações do usuario na página, e nas chamandas POST, DELETE e UPDATE quando algum tipo de formulario é preeenchido, neste projeto, as chamadas GET devem estar, no Layout.jsx da página, dentro de um useEffect(), tal qual no exemplo abaixo:
-
-```js
+#### Context API 
+Tendo em vista que a relação do sistema com a API Rest se dá atravez da chamada GET para carregar as informações do usuario na página, e nas chamandas POST, DELETE e UPDATE quando algum tipo de formulario é preeenchido, neste projeto, foi criado o context *Api.jsx* que básicamente configura a chamada API Rest padrão do sistema, ele está em um context para que possa ser acessado em varias partes do sistema. Seu uso e lógica está diretamente relacionada a Autenticação do sistema também
+```JavaScript
+const instance = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_BACK_END,
+    headers: {
+        Accept : "application/json",
+        "Content-Type": "application/json"
+    },
+});
 ```
+Basicamente aqui, definimos a baseURL, que será concatenada com toda url que for passada no *instance*, que por sinal, será passada da mesma forma com que se passa o axios. Optou-se por utilizar um .env para adicionar a url, e chama-la desta forma, a sintaxe no **.env.local** fica:
+```env
+NEXT_PUBLIC_API_BACK_END=http://127.0.0.1:8000/api
+```
+- Vale destacar, que o nome .env.local e a sintaxe *NEXT_PUBLIC* são padrões do Next.js, os quais sem eles não funciona. O NEXT_PUBLIC indica que o sistema consegue ter acesso a informação.
+
+O header definido na instancia também serve para garantir a comunicação adequada com a API, para que ela só procure as dependencias *.json* para fazer as requisições ( indicação do pessoal da Adapti que fez o Back-end ).
+</br>
+Ainda no *headers*, de inicio ele fica apenas assim como no sódigo acima, porem, depois de conseguir o token, para fazer as requisições JWT precisamos enviar o token no headers também, para isso, inserimos ele quando conseguimos o token da seguinte forma:
+
+- O *Bearer* é o padrão do Bask-end (JWT)
+
+```JavaScript
+instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+```
+### Autenticação
+O fluxo de autenticação possui varias partes, suas principais lógicas estão no context **Auth.jsx**.
+#### signIn()
+Seguindo o fluxo de autenticação, a primeira função é esta.
+- A primeria coisa que faz é set isLoading true, que é usado para fazer a animação de loading no botão de login quando o usuario clica nele, pois existe um tempo entre ele clicar e a requisição ser feita, então apra que ele não fique clicando e enviando requisições desnecessarias, quando o usuario clina no boatão ele é desabilitado e exibe a animação de login, que dura alguns segundos.
+- É utilizado o **instance**, configurado anteriormente, para passar a requisição, enviando o email e senha e recebendo o token de autenticação.
+- O token é setado no sistema e no navegador ( atravez do setCookie(), o nome do cookie no navegador é importante ).
+- Em seguida e chama a função verifyToken, passando o token coletado.
+- Caso a requisição der errado, é parado o loading do botão de login, esetado um erro que será exibido atravez do componente de alerta.
+```JavaScript
+async function signIn(email, password) {
+    
+    setIsLoading(true)
+
+    try {
+        const auth = await instance.post(`/login`, {
+            email: email,
+            password: password
+        })
+
+        setToken(auth.data.access_token)
+        
+        if (auth) {
+            setCookie(null, 'bikeMobiToken', auth.data.access_token, {
+                maxAge: 60 * 60 * 24 * 30 * 3, // 3 meses
+                path: '/'
+            })
+        }
+
+        verifyToken(auth.data.access_token)
+    } catch (error) {
+        setError({ message: 'Email ou Senha Incorretos' })
+        setIsLoading(false)
+    }
+}
+```
+
+#### verifyToken()
+A função verifyToken é chamada quando já possuimos o token, que pode ser o caso de termos acabado de logar o usuario, ou quando entramos na rota com o token já no navegador.
+- O primeiro passo vai ser adicionar o token existente ao *headers* do *instance*.
+- Em seguida é feita a requisição das informações do usuario, que é um passo importante, pois é delas (authData), que conseguimos saber qual é o tipo que usuarioq ue está logando no sistema, e a quais respectivas rotas ele possui acesso.
+- Em seguida, a requisição dando certo ou não, irá chamar a função userManagement, que é repsonsavel por gerneciar onde cada tipode usuario pode ou não ficar.
+```JavaScript
+async function verifyToken(token, typePage) {
+
+    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+    try {
+        await instance.get(`/user`).then(resp => {
+            setAuthData(resp.data)
+            userMenagement(token, resp.data, typePage)
+        })
+    } catch (error) {
+        userMenagement(token, false, typePage)
+    }
+}
+```
+
+#### userManagement()
+Caso tenha dado certo a requisição feita no verifyToken ira gerenciar para onde mandar e manter o usuario, para que um ciclista não consiga acessar as rotas do lojsita por exemplo. Caso a requisição tenha dado errado, o userManagement enviará o usuario de volta para a tela de login.
+- A função primeiro vai conferir o token, caso não o encontre, redireciona o usuario para a tela de login.
+- Caso encontre o token, agora irá analisar qual tipo de usuario é. Caso, seja um usuario admin ( no back-end o usuario ser admin e seu type não estão relacionados). ele é redirecionado a rota inicial de admin. É importante destacar que esse redirecionamente acontece toda vez que for atualizado o layout, ou seja, apenas caso o usuario coloque uma url que está fora do seu diretorio de acesso ou quando ele faz o login.
+- Em seguida, confere o type para ver se é do tipo lógista e depois se é do tipo ciclista. Com raciocino analogo.
+- Também seta-se o useState() directory, para utilizar esta variavel na sidebar, para que os ususarios sejam sempre redirecionados para os links dos seus diretorios correspondentes.
+- Vale ressaltar que é salvo o *routeDestiny*, que é o destino, para onde o *router* envia o usuario, ele serve para que possa verificar se a rota destino é igual a rota do navegador, para que apenas nesse caso, o *valid* seja verdadeiro e deixe o layput randerizar o conteúdo. Isso serve para que enquanto o usuario está sendo rediereciona, ele não tenha acesso a rota a qual ele não pode ver, mesmo que pr alguns segundos.
+```JavaScript
+function userMenagement(token, authData, typePage) {
+
+    const type = authData.type
+    let routeDestiny
+
+    if (!token) {
+        router.push('/autenticacao/login')
+    } else {
+        if (authData.is_admin) {
+
+            setDirectory('admin')
+            routeDestiny = '/sistema/admin/dashboard' // rota inicial Admin
+            
+
+        } else if (type == 'Shopkeeper') {
+
+            setDirectory('loja')
+            routeDestiny = '/sistema/loja/dashboard' // rota inicial Lojista
+
+        } else if (type == 'Cyclist') {
+
+            setDirectory('ciclista')
+            routeDestiny = '/sistema/ciclista/dashboard' // rota inicial Ciclista
+            
+        }
+
+        if (typePage != type) {
+            router.push(routeDestiny)
+        }
+    }
+
+    if (routeDestiny == path || typePage == type) {
+        setValid(true)
+    }
+}
+```
+
+#### signOut()
+A função signOut é simples, caso o usuario queira deslogar do sistema, ela apenas reseta as variaveis do sistema e apaga o token do usuario, para em seguida envia-lo para página de login.
+```JavaScript
+function signOut() {
+    destroyCookie(null, 'bikeMobiToken', {
+        path: '/'
+    })
+    setAuthData(undefined)
+    router.push('autenticacao/login')
+}
+```
+
+#### Layout
+Como já dito antes, as funções são chamadas nas páginas, e o layout vai sempre que for atualizado( roda o useEffect() ) conferir as rotas do usuario. Aqui possui um exemplo de layout:
+- É importante ressaltar o **valid** que só permite mostras as informações de dentro do diretorio quando for validado na função *userManagement*
+```JavaScript
+const CiclistaLayout = ({ children }) => {
+
+    const { verifyToken, valid } = useContext(AuthContext)
+
+    const { ['bikeMobiToken']: token } = nookies.get()
+
+    useEffect(() => {
+        async function verify() {
+            await verifyToken(token, 'Cyclist')
+        }
+        verify()
+    }, [])
+    
+    return (
+        <div>
+            {valid ? children : <LoadingComponent />}
+        </div>
+    )
+}
+
+export default CiclistaLayout
+```
+### Utilizando fake API
+Para o desenvolvimento sem a utilizaçao do back-end, cria-se respostas "fakes" na pasta */service* em *fakeApi*, sendo assim, no Auth.jsx agora possui seções que indicam o que deve ser comentado para que funcione a API Oficial ou para a API fake.
+</br>
+Quando estiver utilizando as respostas fakes, o funcionamento funciona normal, porem deve-se olhar em */service* as informações de login e senha respectivas.

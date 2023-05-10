@@ -1,21 +1,24 @@
 'use client'
 
+import { AuthContext } from '@/contexts/Auth'
 import { ArrowRightOnRectangleIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, HeartIcon, NewspaperIcon, UserIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 const Sidebar = (props) => {
 
+    const {signOut, directory} = useContext(AuthContext)
+
     const items = [
-        { link: '/sistema/dashboard', name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-        { link: '/sistema/lojas', name: 'Lojas', icon: <BuildingStorefrontIcon /> },
-        { link: '/sistema/anuncios', name: 'Anúncios', icon: <NewspaperIcon /> },
-        { link: 'sistema/meusanuncios', name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-        { link: 'sistema/manutencoes', name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-        { link: 'sistema/perfil', name: 'Perfil', icon: <UserIcon /> },
-        { link: 'sistema/sejapremium', name: 'Seja Premium', icon: <StarIcon/> }
+        { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+        { link: `/sistema/${directory}/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
+        { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+        { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+        { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+        { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
+        { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
         
     ]
 
@@ -52,10 +55,10 @@ const Sidebar = (props) => {
                                 </Link>
                             )
                         })}
-                        <div className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                        <button onClick={signOut} className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
                             <div className={`w-7`}><ArrowRightOnRectangleIcon/></div>
                             <div className='text-base font-medium'>Logout</div>
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <div className='hidden md:block bg-white w-4 h-full rounded-l-2xl'></div>
@@ -80,10 +83,10 @@ const Sidebar = (props) => {
                             </Link>
                         )
                     })}
-                    <div className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                    <button onClick={signOut} className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
                         <div className={`w-7`}><ArrowRightOnRectangleIcon/></div>
                         <div className='text-base font-medium'>Logout</div>
-                    </div>
+                    </button>
             </div>
             <button className='block md:hidden absolute right-4 top-4' onClick={handleNav}>
                 {nav ?

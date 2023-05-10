@@ -1,14 +1,17 @@
 'use client'
 
 import DateInput from '@/components/sistema/inputs/DateInput'
+import FileInput from '@/components/sistema/inputs/FileInput'
 import NumberInput from '@/components/sistema/inputs/NumberInput'
 import RadioInput from '@/components/sistema/inputs/RadioInput'
 import TextInput from '@/components/sistema/inputs/TextInput'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import EmailInput from '../inputs/EmailInput'
+import PasswordInput from '../inputs/PasswordInput'
 
-const configCiclista = () => {
-    
+const FormInfos = () => {
+
     const [date, setDate] = useState()
     const [name, setName] = useState()
     const [cpf, setCpf] = useState()
@@ -22,6 +25,11 @@ const configCiclista = () => {
     const [cidade, setCidade] = useState()
     const [estado, setEstado] = useState()
 
+    const [photo, setPhoto] = useState()
+    const handlePhoto = (file) => {
+        setPhoto(file)
+        console.log("photo: ",photo)
+    }
     useEffect(() => {
         axios.get(`https://viacep.com.br/ws/${cep}/json/`)
             .then(resp => {
@@ -48,6 +56,32 @@ const configCiclista = () => {
 
     return (
         <form className='mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit'>
+            <div  className='flex'>
+                <div>
+                    <EmailInput name="E-mail"
+                        required
+                        width="w-80 md:w-[520px]"
+                    />
+                    <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
+                        <PasswordInput name="Senha"
+                            required
+                            width="w-60"
+                        />
+                        <PasswordInput name="Confirme sua Senha"
+                            required
+                            width="w-60"
+                        />
+                    </div>
+                </div>
+                <div className='ml-auto'>
+                    <FileInput name="Foto de Perfil"
+                        text="Upload"
+                        description="SVG, PNG ou JPG "
+                        onChange={handlePhoto}
+                    />
+                </div>
+            </div>
+            <div className='divider'></div>
             <div className='flex flex-col md:flex-row gap-8 md:gap-16'>
                 <div className='w-fit'>
                     <TextInput name="Nome"
@@ -61,13 +95,28 @@ const configCiclista = () => {
                             onChange={handleDate}
                             className="w-60"
                         />
+                        <TextInput name="Celular"
+                            mask="(99) 99999-9999"
+                            required
+                            width="w-60"
+                            onChange={handleCelular}
+                        />
+                        
+                    </div>
+                    
+                    <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
+                        <TextInput name="RG"
+                            mask="9.999.999"
+                            required
+                            width="w-60"
+                        />
                         <TextInput name="CPF"
                             mask="999.999.999-99"
                             required
                             width="w-60"
-                            onChange={handleCpf} />
+                            onChange={handleCpf}
+                        />
                     </div>
-                    
                     <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
                         <RadioInput name="Sexo"
                             onChange={handleSexo}
@@ -75,12 +124,6 @@ const configCiclista = () => {
                                 { name: 'Masculino' },
                                 { name: 'Feminino' }
                             ]}
-                        />
-                        <TextInput name="Celular"
-                            mask="(99) 99999-9999"
-                            required
-                            width="w-60"
-                            onChange={handleCelular}
                         />
                     </div>
                 </div>
@@ -152,4 +195,4 @@ const configCiclista = () => {
     )
 }
 
-export default configCiclista
+export default FormInfos
