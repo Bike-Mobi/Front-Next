@@ -34,7 +34,7 @@ const ClassificadosScreen = (props) => {
             })
         } else {
             return (
-                <div className="flex justify-center items-center flex-col" >
+                <div className="flex justify-center items-center flex-col absolute text-center" >
                     <p className="font-dmsans font-bold text-2xl text-tomEscuro">Nenhum anúncio encontrado</p>
                     <p className="font-dmsans font-normal text-lg text-tomEscuro">Tente novamente com outra palavra-chave</p>
                 </div>
