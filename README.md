@@ -279,6 +279,29 @@ const CiclistaLayout = ({ children }) => {
 
 export default CiclistaLayout
 ```
+
+### defineType()
+Está função segue a seguinte lógica: Ao registrar um novo usuario, este deve preencher um formulario de cadastro, e este respectivo formulario muda dependendo do tipo de conta que se deseja criar, sendo assim, criou-se uma rota de **pre-cadastro** onde o usuario diz qual tipo de conta ele deseja criar. Este *type* é setado globalmente no *Auth.jsx* e é chamado na page de cadastro, e de acordo com o *type* escolhido mostra um formulario diferente para que o usuario o preencha.
+```JavaScript
+function defineType(selected) {
+    if (selected == 'Ciclista') {
+        setTypeRegister('Cyclist')
+        router.push('/autenticacao/cadastro')
+    } else if (selected == 'Lojista') {
+        setTypeRegister('Shopkeeper')
+        router.push('/autenticacao/cadastro')
+    } else {
+        setError({ message: 'Selecione um dos Tipos abaixo' })
+    }
+}
+```
+
+### newUser()
+A função newUser basicamente vai receber as informações definidas no formulario e vai envia-las para o back-end, caso este fluxo seja efetuado corretamente, será exibido um modal de confirmação de criação da conta, caso contrario um modal de aviso de algum erro na criação desta.
+```JavaScript
+
+```
+
 ### Utilizando fake API
 Para o desenvolvimento sem a utilizaçao do back-end, cria-se respostas "fakes" na pasta */service* em *fakeApi*, sendo assim, no Auth.jsx agora possui seções que indicam o que deve ser comentado para que funcione a API Oficial ou para a API fake.
 </br>
