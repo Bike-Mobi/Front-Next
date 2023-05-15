@@ -20,6 +20,7 @@ const NumberInput = (props) => {
                 required={req}
                 placeholder={props.placeholder}
                 value={props.value}
+                defaultValue={props.defaultValue}
                 onChange={props.onChange}
                 mask={props.mask}
                 className={`input input-accent input-bordered ${props.width}`}

@@ -6,16 +6,19 @@ import NumberInput from '../inputs/NumberInput';
 import ButtonModalComponent from '../screens/ButtonModalComponent';
 import TitleModalComponent from '../screens/TitleModalComponent';
 
-const ModalComponent = (params) => {
+const ModalComponent = (props) => {
+
+    console.log(props.data)
+    const data = props.data
 
     const router = useRouter()
 
     function buttonOpenModal(){
 
-        if(params.action == "delete"){
+        if(props.action == "delete"){
             return <TrashIcon className='12 w-9 h-9 hover:opacity-60 bg-error p-1 rounded-md'/>
         }
-        else if(params.action == "edit"){
+        else if(props.action == "edit"){
             return <PencilSquareIcon className='w-9 h-9 hover:opacity-60 bg-azul p-1 rounded-md'/>
         }
         else{
@@ -26,31 +29,59 @@ const ModalComponent = (params) => {
     return (
         <div className="modal-container h-[41px] items-center flex">
 
-            <label htmlFor={`my-modal${params.id}`}  className=' text-white p-0 h-full cursor-pointer'>{buttonOpenModal()}</label>
-            <input type={`${params.path == "/classificados" ? null : "checkbox" }`} id={`my-modal${params.id}`} className="modal-toggle" onClick={params.path == "/classificados" ? () => router.push('/autenticacao/login') : null }/>
+            <label htmlFor={`my-modal${props.id}`} className=' text-white p-0 h-full cursor-pointer'>
+                {buttonOpenModal()}
+            </label>
+            <input
+                type={`${props.path == "/classificados" ? null : "checkbox"}`}
+                id={`my-modal${props.id}`}
+                className="modal-toggle"
+                onClick={props.path == "/classificados" ? () => router.push('/autenticacao/login') : null}
+            />
 
-            <label htmlFor={`my-modal${params.id}`} className="modal cursor-pointer">
+            <label htmlFor={`my-modal${props.id}`} className="modal cursor-pointer">
                 <label className="rounded-lg modal-box relative" htmlFor="">
-                    <label htmlFor={`my-modal${params.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <label htmlFor={`my-modal${props.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto">
 
-                        <TitleModalComponent title={params.action}/>
+                        <TitleModalComponent title={props.action}/>
 
-                        {params.action != 'delete' ?
+                        {props.action != 'delete' ?
                             <div className='w-full'>
-                                <TextInput name="Titulo" width="w-full" className="disabled disabled:opacity-75" required></TextInput>
-                                <TextInput name="Descrição" width="w-full"  required></TextInput>
-                                <NumberInput name="Valor" width="w-full" required></NumberInput>
-                                <FileInput name="Imagem" width="w-full" text="Upload" description="SVG, PNG ou JPG" required></FileInput>
+
+                                <TextInput name="Titulo"
+                                    defaultValue={data?.title}
+                                    width="w-full"
+                                    className="disabled disabled:opacity-75"
+                                    required
+                                />
+                                <TextInput name="Descrição"
+                                    defaultValue={data?.description}
+                                    width="w-full"
+                                    required
+                                />
+                                <NumberInput name="Valor"
+                                    defaultValue={data?.price}
+                                    width="w-full"
+                                    required
+                                />
+                                <FileInput name="Imagem"
+                                    width="w-full"
+                                    text="Upload"
+                                    description="SVG, PNG ou JPG"
+                                    required
+                                />
                             </div>
                         :
                             <div>
-                                <h2 className='font-bold text-lg text-neutral-600 mt-6'>Tem certeza que deseja deletar esse anúncio?</h2>
+                                <h2 className='font-bold text-lg text-neutral-600 mt-6'>
+                                    Tem certeza que deseja deletar esse anúncio?
+                                </h2>
                             </div>
                         }
 
                         <div className='relative w-full mt-16'>
-                            <ButtonModalComponent title={params.action}/>
+                            <ButtonModalComponent title={props.action}/>
                         </div>
 
                     </div>

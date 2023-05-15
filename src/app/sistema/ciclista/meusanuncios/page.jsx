@@ -20,7 +20,7 @@ const meusanuncios = () => {
 ]
 
 return (
-    <div className='pt-20'>
+    <div className='pt-0'>
         <ClassificadosScreen produtos={ produtos } />
     </div>
 )
