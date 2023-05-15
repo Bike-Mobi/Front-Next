@@ -9,7 +9,7 @@ const PerfilCiclista = () => {
     const { authData } = useContext(AuthContext)
     console.log(authData)
     
-    // return <FormInfos/>
+    return <FormInfos/>
     return (
         <div>perfil</div>
     )

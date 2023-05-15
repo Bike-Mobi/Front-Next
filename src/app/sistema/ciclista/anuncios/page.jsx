@@ -1,8 +1,7 @@
-'use client'
 import ClassificadosScreen from '@/components/sistema/screens/ClassificadosScreen'
 import React from 'react'
 
-const Classificados = () => {
+const anuncios = () => {
 
     const produtos = [
         {
@@ -20,7 +19,7 @@ const Classificados = () => {
             photo: 'https://www.flashbike.com.br/site/carrega?_tp=img5&_img=008326001.jpg'
         }
     ]
-
+    
     return (
         <div className='pt-20'>
             <ClassificadosScreen produtos={ produtos } />
@@ -28,4 +27,5 @@ const Classificados = () => {
     )
 }
 
-export default Classificados
+
+export default anuncios
