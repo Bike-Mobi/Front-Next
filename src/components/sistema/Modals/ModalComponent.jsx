@@ -8,7 +8,6 @@ import TitleModalComponent from '../screens/TitleModalComponent';
 
 const ModalComponent = (props) => {
 
-    console.log(props.data)
     const data = props.data
 
     const router = useRouter()
@@ -24,6 +23,18 @@ const ModalComponent = (props) => {
         else{
             return <span className="bg-tomEscuro text-white lg:px-4 rounded-md font-medium flex items-center justify-center py-1 lg:py-0 w-[190px] lg:w-[220px] h-full text-sm lg:text-base lg:ml-4">+ Adicionar um Anúncio</span>
         }
+    }
+
+    function preco(){
+        const precoString = data?.price.toString().replace(/[.,]/g, "")
+
+        const precoNumero = ((parseInt(precoString)/100).toFixed(2))
+        const valorFormatado = precoNumero.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+
+        return valorFormatado
     }
 
     return (
@@ -61,7 +72,7 @@ const ModalComponent = (props) => {
                                     required
                                 />
                                 <NumberInput name="Valor"
-                                    defaultValue={data?.price}
+                                    defaultValue={preco()}
                                     width="w-full"
                                     required
                                 />
