@@ -10,11 +10,26 @@ import React, { useEffect, useState } from 'react'
 import EmailInput from '../inputs/EmailInput'
 import PasswordInput from '../inputs/PasswordInput'
 
-const FormInfos = () => {
+const FormCiclista = (props) => {
 
+    const data = props.data
+
+    let hidePass, submit
+    if (props.register) {
+        hidePass = 'flex'
+        submit = 'Criar Conta'
+    } else {
+        hidePass = 'hidden'
+        submit = 'Atualizar'
+    }
+
+    const [nome, setNome] = useState()
+    const [email, setEmail] = useState()
+    const [senha, setSenha] = useState()
+    const [confirmaSenha, setConfirmaSenha] = useState()
     const [date, setDate] = useState()
-    const [name, setName] = useState()
     const [cpf, setCpf] = useState()
+    const [rg, setRg] = useState()
     const [sangue, setSangue] = useState()
     const [celular, setCelular] = useState()
     const [sexo, setSexo] = useState()
@@ -26,10 +41,12 @@ const FormInfos = () => {
     const [estado, setEstado] = useState()
 
     const [photo, setPhoto] = useState()
+
     const handlePhoto = (file) => {
         setPhoto(file)
         console.log("photo: ",photo)
     }
+
     useEffect(() => {
         axios.get(`https://viacep.com.br/ws/${cep}/json/`)
             .then(resp => {
@@ -41,9 +58,13 @@ const FormInfos = () => {
             .catch(error => console.log(error))
     }, [cep])
 
+    const handleNome = (e) => setNome(e.target.value)
+    const handleEmail = (e) => setEmail(e.target.value)
+    const handleSenha = (e) => setSenha(e.target.value)
+    const handleConfirmaSenha = (e) => setConfirmaSenha(e.target.value)
     const handleDate = (e) => setDate(e.target.value)
-    const handleName = (e) => setName(e.target.value)
     const handleCpf = (e) => setCpf(e.target.value)
+    const handleRg = (e) => setRg(e.target.value)
     const handleSangue = (e) => setSangue(e.target.value)
     const handleCelular = (e) => setCelular(e.target.value)
     const handleSexo = (e) => setSexo(e.target.value)
@@ -54,26 +75,52 @@ const FormInfos = () => {
     const handleCidade = (e) => setCidade(e.target.value)
     const handleEstado = (e) => setEstado(e.target.value)
 
+    let newData = {
+        name: nome,
+        email: email,
+        password: senha,
+        password_confirmation: confirmaSenha,
+        cpf: cpf,
+        rg: rg,
+        birthday: date,
+        phone: celular,
+        blood: sangue,
+        sexo: sexo,
+        type: props?.type,
+        address: {
+            street: rua,
+            number: numero,
+            neighborhood: bairro,
+            city: cidade,
+            state: estado,
+            cep: cep
+        }
+    }
+
     return (
         <form className='mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit'>
-            <div  className='flex'>
-                <div>
+            <div  className='flex md:flex-row flex-col'>
+                <div className='grid items-center'>
                     <EmailInput name="E-mail"
                         required
                         width="w-80 md:w-[520px]"
+                        value={data?.email}
+                        onChange={handleEmail}
                     />
-                    <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
+                    <div className={`${hidePass} flex-col md:flex-row gap-8 mt-8 justify-between`}>
                         <PasswordInput name="Senha"
                             required
                             width="w-60"
+                            onChange={handleSenha}
                         />
                         <PasswordInput name="Confirme sua Senha"
                             required
                             width="w-60"
+                            onChange={handleConfirmaSenha}
                         />
                     </div>
                 </div>
-                <div className='ml-auto'>
+                <div className='md:ml-auto mr-auto md:mr-0 mt-4 md:mt-0'>
                     <FileInput name="Foto de Perfil"
                         text="Upload"
                         description="SVG, PNG ou JPG "
@@ -87,19 +134,22 @@ const FormInfos = () => {
                     <TextInput name="Nome"
                         required
                         width="w-80 md:w-[520px]"
-                        onChange={handleName}
+                        onChange={handleNome}
+                        value={data?.name}
                     />
 
                     <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
                         <DateInput name="Nascimento"
                             onChange={handleDate}
                             className="w-60"
+                            value={data?.birthday}
                         />
                         <TextInput name="Celular"
                             mask="(99) 99999-9999"
                             required
                             width="w-60"
                             onChange={handleCelular}
+                            value={data?.phone}
                         />
                         
                     </div>
@@ -109,12 +159,15 @@ const FormInfos = () => {
                             mask="9.999.999"
                             required
                             width="w-60"
+                            value={data?.rg}
+                            onChange={handleRg}
                         />
                         <TextInput name="CPF"
                             mask="999.999.999-99"
                             required
                             width="w-60"
                             onChange={handleCpf}
+                            value={data?.cpf}
                         />
                     </div>
                     <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
@@ -124,6 +177,7 @@ const FormInfos = () => {
                                 { name: 'Masculino' },
                                 { name: 'Feminino' }
                             ]}
+                            value={data?.sexo}
                         />
                     </div>
                 </div>
@@ -141,6 +195,7 @@ const FormInfos = () => {
                                 { name: 'O+' },
                                 { name: 'O-' },
                             ]}
+                            value={data?.blood}
                         />
                     </div>
                 </div>
@@ -153,22 +208,24 @@ const FormInfos = () => {
                         required
                         width="w-60"
                         onChange={handleCep}
+                        value={data?.address.cep}
                     />
                     <TextInput name="Bairro"
                         width="w-60"
-                        value={bairro}
+                        value={bairro ? bairro : data?.address.neighborhood}
                         onChange={handleBairro}
                     />
                     <NumberInput name="Número"
                         width="w-40"
                         onChange={handleNumero}
+                        value={data?.address.number}
                     />
                 </div>
 
                 <div className='flex flex-col md:flex-row gap-10 justify-between mt-8'>
                     <TextInput name="Rua"
                         width="w-80 md:w-[520px]"
-                        value={rua}
+                        value={rua ? rua : data?.address.street}
                         onChange={handleRua}
                     />
                     
@@ -176,7 +233,7 @@ const FormInfos = () => {
                         mask="aa"
                         required
                         width="w-40"
-                        value={estado}
+                        value={estado ? estado : data?.address.state}
                         onChange={handleEstado}
                     />
                 </div>
@@ -185,14 +242,14 @@ const FormInfos = () => {
                     <TextInput name="Cidade"
                         width="w-60"
                         required
-                        value={cidade}
+                        value={cidade ? cidade : data?.address.city}
                         onChange={handleCidade}
                     />
                 </div>
             </div>
-            <button className='btn mt-11'>Submit</button>
+            <button className='btn mt-11' onClick={() => props.onClick(newData)}>{submit}</button>
         </form>
     )
 }
 
-export default FormInfos
+export default FormCiclista
