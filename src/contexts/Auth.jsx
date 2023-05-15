@@ -150,8 +150,37 @@ export function AuthProvider({ children }) {
         }
     }
 
+    async function newUser(data) {
+        try {
+            // await instance.post(`/register`, {
+            //     name: data.nome,
+            //     email: data.email,
+            //     password: data.senha,
+            //     password_confirmation: data.confirmaSenha,
+            //     cpf: data.cpf,
+            //     rg: data.rg,
+            //     birthday: data.date,
+            //     phone: data.celular,
+            //     blood: data.sangue,
+            //     sexo: data.sexo,
+            //     type: data.props?.type,
+            //     address: {
+            //         street: data.address.rua,
+            //         number: data.address.numero,
+            //         neighborhood: data.address.bairro,
+            //         city: data.address.cidade,
+            //         state: data.address.estado,
+            //         cep: data.address.cep
+            //     }
+            // })
+            return await fakeApi.register(data)
+        } catch (error) {
+            setError(error)
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, typeRegister, setIsLoading, signIn, signOut, verifyToken, userMenagement, defineType }}>
+        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, typeRegister, setError,setIsLoading, signIn, signOut, verifyToken, userMenagement, defineType, newUser }}>
             {children}
         </AuthContext.Provider>
     )
