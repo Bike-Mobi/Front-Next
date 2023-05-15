@@ -74,8 +74,10 @@ async function getInfos(token) {
                         email: "ciclista@adapti.info",
                         cpf: "21339780119",
                         rg: "047894938",
-                        birthday: "1972-01-16T00:00:00.000000Z",
+                        birthday: "1972-01-16",
                         phone: "(96) 94045-7063",
+                        sexo: 'Masculino',
+                        blood:'A-',
                         is_admin: false,
                         type: "Cyclist",
                         email_verified_at: "2023-05-03T18:23:58.000000Z",
@@ -88,7 +90,7 @@ async function getInfos(token) {
                             number: "8833",
                             neighborhood: "do Leste",
                             city: "Santiago do Leste",
-                            state: "Pará",
+                            state: "PR",
                             complement: null,
                             cep: "15959-175",
                             created_at: "2023-05-03 18:23:58",
@@ -133,4 +135,27 @@ async function getInfos(token) {
     })
 }
 
-export const fakeApi = {logIn, getInfos}
+async function register(data) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (data.name) {
+                resolve(data)
+            } else {
+                reject(new Error(
+                    "The password confirmation does not match. (and 2 more errors)",
+                    {
+                        "password": [
+                            "The password confirmation does not match.",
+                            "The password must be at least 8 characters."
+                        ],
+                        rg: [
+                            "The rg field is required."
+                        ]
+                    }
+                ))
+            }
+        }, 500)
+    })
+}
+
+export const fakeApi = {logIn, getInfos, register}
