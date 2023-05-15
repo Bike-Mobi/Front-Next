@@ -25,7 +25,7 @@ const ModalComponent = (props) => {
         }
     }
 
-    function prrice(){
+    function preco(){
         const precoString = data?.price.toString().replace(/[.,]/g, "")
 
         const precoNumero = ((parseInt(precoString)/100).toFixed(2))
@@ -72,7 +72,7 @@ const ModalComponent = (props) => {
                                     required
                                 />
                                 <NumberInput name="Valor"
-                                    defaultValue={price()}
+                                    defaultValue={preco()}
                                     width="w-full"
                                     required
                                 />
