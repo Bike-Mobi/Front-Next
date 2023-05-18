@@ -13,6 +13,7 @@ import PasswordInput from '../inputs/PasswordInput'
 const FormCiclista = (props) => {
 
     const data = props.data
+    console.log(data)
 
     let hidePass, submit
     if (props.register) {
@@ -86,7 +87,7 @@ const FormCiclista = (props) => {
         phone: celular,
         blood: sangue,
         sexo: sexo,
-        type: props?.type,
+        type: 'Cyclist',
         address: {
             street: rua,
             number: numero,
@@ -98,7 +99,7 @@ const FormCiclista = (props) => {
     }
 
     return (
-        <form className='mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit'>
+        <div className='mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit'>
             <div  className='flex md:flex-row flex-col'>
                 <div className='grid items-center'>
                     <EmailInput name="E-mail"
@@ -248,7 +249,7 @@ const FormCiclista = (props) => {
                 </div>
             </div>
             <button className='btn mt-11' onClick={() => props.onClick(newData)}>{submit}</button>
-        </form>
+        </div>
     )
 }
 
