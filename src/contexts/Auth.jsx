@@ -28,6 +28,7 @@ export function AuthProvider({ children }) {
     // para não exibir contedos antes de verificar se a rota é valida para tal usuario
 
     const [typeRegister, setTypeRegister] = useState()
+    const [hook, setHook] = useState()
 
     const router = useRouter() 
     const path = usePathname()
@@ -151,31 +152,37 @@ export function AuthProvider({ children }) {
     }
 
     async function newUser(data) {
+        
+        console.log('data newUser: ',data)
         try {
-            // await instance.post(`/register`, {
-            //     name: data.nome,
-            //     email: data.email,
-            //     password: data.senha,
-            //     password_confirmation: data.confirmaSenha,
-            //     cpf: data.cpf,
-            //     rg: data.rg,
-            //     birthday: data.date,
-            //     phone: data.celular,
-            //     blood: data.sangue,
-            //     sexo: data.sexo,
-            //     type: data.props?.type,
-            //     address: {
-            //         street: data.address.rua,
-            //         number: data.address.numero,
-            //         neighborhood: data.address.bairro,
-            //         city: data.address.cidade,
-            //         state: data.address.estado,
-            //         cep: data.address.cep
-            //     }
-            // })
-            return await fakeApi.register(data)
+            await instance.post(`/register`, {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                password_confirmation: data.password_confirmation,
+                cpf: data.cpf,
+                rg: data.rg,
+                birthday: data.birthday,
+                phone: data.phone,
+                blood: data.blood,
+                sexo: data.sexo,
+                type: data.type,
+                
+                street: data.address.street,
+                number: data.address.number,
+                neighborhood: data.address.neighborhood,
+                city: data.address.city,
+                state: data.address.state,
+                cep: data.address.cep
+            }).then(resp => {
+                console.log('resp newUser: ', resp)
+                setHook(resp)
+            })
+            return true
+            // return await fakeApi.register(data)
         } catch (error) {
             setError(error)
+            console.log('deu errrrro: ', error)
         }
     }
 
