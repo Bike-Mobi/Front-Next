@@ -25,7 +25,8 @@ const Cadastro = () => {
     }, [])
 
     const createAcount = async (data) => {
-            const recive = await newUser(data)
+        const recive = await newUser(data)
+        console.log(recive)
             if (recive) {
                 setShowModal(true)
 
@@ -48,7 +49,10 @@ const Cadastro = () => {
                         <XCircleIcon className='text-error w-32'/>
                         <p className='text-center font-medium'>Parece que a sua tentativa de Registro não funcionou, confira suas credenciais</p>
                         <div className="modal-action">
-                            <button className="btn" onClick={() => setShowModal(false)}>Tente Novamente</button>
+                            <button className="btn" onClick={() => {
+                                setShowModal(false)
+                                setModalContent(undefined)
+                            }}>Tente Novamente</button>
                         </div>
                     </div>
                 )
