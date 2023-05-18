@@ -16,7 +16,7 @@ const Nav = () => {
     nav ? transition = 'left-0' :  transition = 'left-[-100%]'
 
     return (
-        <div className='flex font-dmsans fixed'>
+        <div className='flex font-dmsans fixed z-50'>
             <div className='bg-white h-20 w-screen shadow-lg flex justify-end '>
                 <Link className='md:block hidden text-tomEscuro font-bold px-8 py-2 h-fit my-auto mr-14' href='/classificados'>
                     Classificados
