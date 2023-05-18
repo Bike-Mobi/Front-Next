@@ -59,11 +59,30 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
         |- /site
         |- /sistema
             |- /inputs
+            |- /modals
+            |- /screens
+            |- /utils
 ```
 
 - */public* possui as dependencias de imagens estaticas do sistema
 - */app* possui e define as rotas
 - */components* possui os componentes do sistema, e os divide entre componentes/sections do site e do sistema
+
+### Estrutura de /componentes
+Para organizar os diversos arquivos de componentes existentes, utilizou está arquitetura para a pasta de components. Vamos dar maior enfoque no sistema, que demanda organização mais complexa.
+```bash
+- /components
+    |- /site
+    |- /sistema
+        |- /inputs
+        |- /modals
+        |- /screens
+        |- /utils
+```
+- */inputs* possui os inputs padrões do sistema, como de File, de texto, tipo radio e etc
+- */modals* possui os modais dos CRUDs do sistema, devem seguir determinado padrão
+- */screens* possui as telas que existem em mais de uma page (rota), faz sentido uma vez que existem muitas rotas (de ciclista, admin e lojista) que devem ter os mesmos conteúdos
+- */utils* possui componentes especificos e utilitarios presentes em outros componentes e que não são principais o suficiente para estarem em */components*
 
 ### Estilização
 Como o padrão de estilização deste projeto é feito com tailwind, os temas de cores do projeto estão no arquivo **tailwind.config.js**.
