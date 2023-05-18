@@ -15,18 +15,19 @@ const FileInput = (props) => {
     const getFile = (e) => {
         setFile(URL.createObjectURL(e.target.files[0]))
         let formData = new FormData()
-        formData.append('cover', e.target.files[0])
+        formData.append('cover', e.target.files[0]) //!!!!!
         console.log(file)
         setDataFile(formData)
         props.onChange(dataFile)
+        console.log('dataFile: ', dataFile)
     }
 
     let bg
 
-    if (file) {
+    if (file || props.defaultValue) {
         bg = (
             <label for="dropzone-file" className="flex flex-col items-center w-full max-w-lg mx-auto text-center bg-white border-2 border-cinza border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
-                <img src={file} alt="" className='w-32 h-32 object-cover rounded-xl'/> 
+                <img src={props.defaultValue ? props.defaultValue : file} alt="" className=' object-cover rounded-xl'/>
                 <input id="dropzone-file" onChange={getFile} type="file" className="hidden" />
             </label>
         )
