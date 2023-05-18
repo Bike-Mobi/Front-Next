@@ -12,11 +12,22 @@ export function AuthProvider({ children }) {
 
     const { instance } = useContext(ApiContext)
 
-    const [authData, setAuthData] = useState(undefined) // para setar infos globais (do header component)
-    const [error, setError] = useState() // para mostrar error no alerta
-    const [isLoading, setIsLoading] = useState() // para gerar loading do LoginButton
-    const [directory, setDirectory] = useState() // para definir o diretorio das rotas da sidebar
-    const [valid, setValid] = useState(false) // para não 
+    const [authData, setAuthData] = useState(undefined)
+    // para setar infos globais (do header component)
+
+    const [error, setError] = useState()
+    // para mostrar error no alerta
+
+    const [isLoading, setIsLoading] = useState()
+    // para gerar loading do LoginButton
+
+    const [directory, setDirectory] = useState()
+    // para definir o diretorio das rotas da sidebar
+
+    const [valid, setValid] = useState(false)
+    // para não exibir contedos antes de verificar se a rota é valida para tal usuario
+
+    const [typeRegister, setTypeRegister] = useState()
 
     const router = useRouter() 
     const path = usePathname()
@@ -127,8 +138,49 @@ export function AuthProvider({ children }) {
         router.push('autenticacao/login')
     }
 
+    function defineType(selected) {
+        if (selected == 'Ciclista') {
+            setTypeRegister('Cyclist')
+            router.push('/autenticacao/cadastro')
+        } else if (selected == 'Lojista') {
+            setTypeRegister('Shopkeeper')
+            router.push('/autenticacao/cadastro')
+        } else {
+            setError({ message: 'Selecione um dos Tipos abaixo' })
+        }
+    }
+
+    async function newUser(data) {
+        try {
+            // await instance.post(`/register`, {
+            //     name: data.nome,
+            //     email: data.email,
+            //     password: data.senha,
+            //     password_confirmation: data.confirmaSenha,
+            //     cpf: data.cpf,
+            //     rg: data.rg,
+            //     birthday: data.date,
+            //     phone: data.celular,
+            //     blood: data.sangue,
+            //     sexo: data.sexo,
+            //     type: data.props?.type,
+            //     address: {
+            //         street: data.address.rua,
+            //         number: data.address.numero,
+            //         neighborhood: data.address.bairro,
+            //         city: data.address.cidade,
+            //         state: data.address.estado,
+            //         cep: data.address.cep
+            //     }
+            // })
+            return await fakeApi.register(data)
+        } catch (error) {
+            setError(error)
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, setIsLoading, signIn, signOut, verifyToken, userMenagement }}>
+        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, typeRegister, setError,setIsLoading, signIn, signOut, verifyToken, userMenagement, defineType, newUser }}>
             {children}
         </AuthContext.Provider>
     )

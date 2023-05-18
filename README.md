@@ -279,7 +279,111 @@ const CiclistaLayout = ({ children }) => {
 
 export default CiclistaLayout
 ```
+
+### defineType()
+Está função segue a seguinte lógica: Ao registrar um novo usuario, este deve preencher um formulario de cadastro, e este respectivo formulario muda dependendo do tipo de conta que se deseja criar, sendo assim, criou-se uma rota de **pre-cadastro** onde o usuario diz qual tipo de conta ele deseja criar. Este *type* é setado globalmente no *Auth.jsx* e é chamado na page de cadastro, e de acordo com o *type* escolhido mostra um formulario diferente para que o usuario o preencha.
+```JavaScript
+function defineType(selected) {
+    if (selected == 'Ciclista') {
+        setTypeRegister('Cyclist')
+        router.push('/autenticacao/cadastro')
+    } else if (selected == 'Lojista') {
+        setTypeRegister('Shopkeeper')
+        router.push('/autenticacao/cadastro')
+    } else {
+        setError({ message: 'Selecione um dos Tipos abaixo' })
+    }
+}
+```
+
+### newUser()
+A função newUser basicamente vai receber as informações definidas no formulario e vai envia-las para o back-end, caso este fluxo seja efetuado corretamente, será exibido um modal de confirmação de criação da conta, caso contrario um modal de aviso de algum erro na criação desta.
+```JavaScript
+
+```
+
 ### Utilizando fake API
 Para o desenvolvimento sem a utilizaçao do back-end, cria-se respostas "fakes" na pasta */service* em *fakeApi*, sendo assim, no Auth.jsx agora possui seções que indicam o que deve ser comentado para que funcione a API Oficial ou para a API fake.
 </br>
 Quando estiver utilizando as respostas fakes, o funcionamento funciona normal, porem deve-se olhar em */service* as informações de login e senha respectivas.
+
+### Formulario (Form Perfil)
+Referente aos formulario, eles devem seguir a estrutura já explicitada acima referente a parete *inputs*, Porem aqui será axplicado mais detalhadamente algumas lógicas presentes no Formulario De Perfil do Ciclista como um exemplo. Vale lembrar que este e outros tipos de form, neste sistema, foram feitos pensando em sua utilização tanto para os métodos CREATE, quanto para UPDATE e READ (neste exemplo especifico, o READ que deveria implicar no form com os inputs desabilitados não existe, por conta da natureza deste formulario).
+
+```JavaScript
+<FormCiclista register={} data={} onClick={} />
+```
+
+#### Data
+Este compononent deve receber o atravez do *props* o data, que é são as informações do elemento, e que devem serem utilizados para preencher os inputs. Importante tratar nos inputs utilizando o **data?.** para que caso não exista o **data** não dê erro. A estrutura fica desta forma:
+```JavaScript
+const data = props.data
+
+<TextInput name="Nome"
+    value={data?.name}
+/>
+```
+
+#### HidePass & Submit
+Estas variaveis são setadas de acordo com o tipo do formulario, onde o formulario se locatiza(neste caso, ou em *registre-se* ou em *perfil*).
+- Caso ese componente de form esteja no **registre-se**, não deve mostrar os campos de senha (hidePass) e o botão deve possuir conteúdos diferentes:
+```JavaScript
+let hidePass, submit
+if (props.register) {
+    hidePass = 'flex'
+    submit = 'Criar Conta'
+} else {
+    hidePass = 'hidden'
+    submit = 'Atualizar'
+}
+```
+
+#### AutoComplete via Cep (API)
+Neste formulario está presente a feature de auto-completar as informações de endereço do usuario atravez do **cep** digitado. Para tal é utilizado a api **viaCep**, que passa o cep na *url* e responde algumas informações.
+</br>
+Essas informações são setadas e são passadas como value em alguns inputs. Caso o data seja passado, não tem por que este autocomplete funcionar.
+
+```JavaScript
+useEffect(() => {
+    axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(resp => {
+            setBairro(resp.data.bairro)
+            setRua(resp.data.logradouro)
+            setCidade(resp.data.localidade)
+            setEstado(resp.data.uf)
+        })
+        .catch(error => console.log(error))
+}, [cep])
+
+<TextInput name="Rua"
+    value={rua ? rua : data?.address.street}
+/>
+```
+
+#### Submit
+Para o button de submit, é passado a propriedade *onClick* dentro do proprio onClick, passando o array de informações coletadas. Desta forma, a função passada as props da função, que deve receber os dados e fazer a requisição a API é chamada no clique do botão e executa a requisição. No componente de formulario fica desta forma:
+```JavaScript
+let newData = {
+    name: nome,
+    email: email,
+    password: senha,
+    password_confirmation: confirmaSenha,
+    cpf: cpf,
+    rg: rg,
+    birthday: date,
+    phone: celular,
+    blood: sangue,
+    sexo: sexo,
+    type: props?.type,
+    address: {
+        street: rua,
+        number: numero,
+        neighborhood: bairro,
+        city: cidade,
+        state: estado,
+        cep: cep
+    }
+}
+
+<button onClick={() => props.onClick(newData)}>{submit}</button>
+```
