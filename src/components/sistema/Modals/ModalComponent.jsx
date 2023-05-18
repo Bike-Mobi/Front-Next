@@ -3,8 +3,8 @@ import TextInput from '../inputs/TextInput'
 import { useRouter } from "next/navigation";
 import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import NumberInput from '../inputs/NumberInput';
-import ButtonModalComponent from '../screens/ButtonModalComponent';
-import TitleModalComponent from '../screens/TitleModalComponent';
+import ButtonModalComponent from '../utils/ButtonModalComponent';
+import TitleModalComponent from '../utils/TitleModalComponent';
 
 const ModalComponent = (props) => {
 
@@ -77,6 +77,7 @@ const ModalComponent = (props) => {
                                     required
                                 />
                                 <FileInput name="Imagem"
+                                    defaultValue={data?.photo}
                                     width="w-full"
                                     text="Upload"
                                     description="SVG, PNG ou JPG"

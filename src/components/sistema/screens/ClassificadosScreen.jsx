@@ -4,7 +4,7 @@ import CardClassificados from '@/components/site/custom/CardClassificados'
 import Link from 'next/link';
 import { usePathname, useRouter } from "next/navigation";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import ModalComponent from "../Modals/ModalComponent";
+import ModalComponent from "../modals/ModalComponent";
 
 
 const ClassificadosScreen = (props) => {
