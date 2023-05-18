@@ -1,8 +1,7 @@
-'use client'
 import ClassificadosScreen from '@/components/sistema/screens/ClassificadosScreen'
 import React from 'react'
 
-const Classificados = () => {
+const anuncios = () => {
 
     const produtos = [
         {
@@ -34,12 +33,13 @@ const Classificados = () => {
             photo: 'https://img.olhardigital.com.br/wp-content/uploads/2020/09/20200915035100-1024x651.jpg'
         }
     ]
-
+    
     return (
-        <div className='pt-20'>
+        <div className='pt-0'>
             <ClassificadosScreen produtos={ produtos } />
         </div>
     )
 }
 
-export default Classificados
+
+export default anuncios
