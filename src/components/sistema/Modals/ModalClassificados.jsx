@@ -101,7 +101,7 @@ const ModalClassificados = (props) => {
                     </div>
                 </label>
             </label>
-            <style jsx>{ `
+            {/* <style jsx>{ `
                 ::-webkit-scrollbar-track {
                     background: transparent;
                 }
@@ -112,7 +112,7 @@ const ModalClassificados = (props) => {
                     background: #dad7d7;
                     border-radius: 0px 10px 10px 0px;
                 }`
-            }</style>
+            }</style> */}
         </div>
     )
 }
