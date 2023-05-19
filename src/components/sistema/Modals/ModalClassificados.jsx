@@ -1,3 +1,5 @@
+'use client'
+
 import FileInput from '../inputs/FileInput'
 import TextInput from '../inputs/TextInput'
 import { useRouter } from "next/navigation";
