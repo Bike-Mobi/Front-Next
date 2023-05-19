@@ -1,6 +1,6 @@
 import ModalCardClassificados from './ModalCardClassificados'
 import { usePathname } from "next/navigation";
-import ModalComponent from '@/components/sistema/modals/ModalComponent';
+import ModalComponent from '../../sistema/modals/ModalComponent';
 
 const CardClassificados = (props) => {
 
