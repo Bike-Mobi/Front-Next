@@ -6,7 +6,7 @@ import NumberInput from '../inputs/NumberInput';
 import ButtonModalComponent from '../utils/ButtonModalComponent';
 import TitleModalComponent from '../utils/TitleModalComponent';
 
-const ModalComponent = (props) => {
+const ModalClassificados = (props) => {
 
     const data = props.data
 
@@ -115,4 +115,4 @@ const ModalComponent = (props) => {
     )
 }
 
-export default ModalComponent
+export default ModalClassificados
