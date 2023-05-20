@@ -7,7 +7,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import React, { useContext, useState } from 'react'
 
-const preCadastro = () => {
+const PreCadastro = () => {
 
     const { defineType, error } = useContext(AuthContext)
 
@@ -48,4 +48,4 @@ const preCadastro = () => {
     )
 }
 
-export default preCadastro
+export default PreCadastro

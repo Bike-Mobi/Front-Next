@@ -5,7 +5,7 @@ import { AuthContext } from '@/contexts/Auth'
 import React, { useContext, useEffect, useState } from 'react'
 import LoadingComponent from "@/components/sistema/loadingComponent"
 
-const layout = ({ children }) => {
+const AdminLayout = ({ children }) => {
 
     const { verifyToken, valid } = useContext(AuthContext)
 
@@ -25,4 +25,4 @@ const layout = ({ children }) => {
     )
 }
 
-export default layout
+export default AdminLayout

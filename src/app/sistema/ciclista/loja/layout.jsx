@@ -1,6 +1,6 @@
 import React from 'react'
 
-const lojaLayout = (props) => {
+const LojaLayout = (props) => {
     return (
         <div>
             <div className='font-dmsans text-xl text-tomEscuro font-medium absolute left-5 md:left-[280px] top-5'>Lojas</div>
@@ -9,4 +9,4 @@ const lojaLayout = (props) => {
     )
 }
 
-export default lojaLayout
+export default LojaLayout
