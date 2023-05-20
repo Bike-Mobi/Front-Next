@@ -40,7 +40,7 @@ const Sidebar = (props) => {
         <div className=''>
             <div className='flex bg-azul h-screen w-fit font-dmsans sticky top-0 max-h-screen'>
                 <div className='hidden md:flex flex-col'>
-                    <div className='font-bold text-white text-3xl my-7 mb-10 flex justify-center'>Bike Mobi</div>
+                    <Link href={'/'} className='font-bold text-white text-3xl my-7 mb-10 flex justify-center'>Bike Mobi</Link>
                     <div>
                         {items.map((item, index) => {
                             route == item.link ? selected = "bg-white text-azul" : selected = "text-white"
