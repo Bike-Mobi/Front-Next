@@ -1,5 +1,3 @@
-'use client'
-
 import ModalCardClassificados from './ModalCardClassificados'
 import { usePathname } from "next/navigation";
 import ModalClassificados from '@/components/sistema/modals/ModalClassificados';
