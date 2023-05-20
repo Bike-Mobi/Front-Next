@@ -1,5 +1,3 @@
-'use client'
-
 import { AuthProvider } from '@/contexts/Auth'
 import './globals.css'
 import { ApiProvider } from '@/contexts/Api'
