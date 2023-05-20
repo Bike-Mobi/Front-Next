@@ -2,6 +2,7 @@
 
 import Alert from '@/components/sistema/Alert'
 import FormCiclista from '@/components/sistema/screens/FormCiclista'
+import FormLojista from '@/components/sistema/screens/FormLojista'
 import { AuthContext } from '@/contexts/Auth'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { ArrowLeftIcon } from '@heroicons/react/24/solid'
@@ -84,7 +85,7 @@ const Cadastro = () => {
             {typeRegister == 'Cyclist' ? (
                 <FormCiclista register={true} onClick={createAcount} />
             ): (
-                null
+                <FormLojista register={true} onClick={createAcount} />
             )}
         </div>
     )
