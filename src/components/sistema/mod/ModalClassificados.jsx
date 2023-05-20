@@ -14,36 +14,36 @@ const ModalClassificados = (props) => {
 
     const router = useRouter()
 
-    // function buttonOpenModal(){
+    function buttonOpenModal(){
 
-    //     if(props.action == "delete"){
-    //         return <TrashIcon className='12 w-9 h-9 hover:opacity-60 bg-error p-1 rounded-md'/>
-    //     }
-    //     else if(props.action == "edit"){
-    //         return <PencilSquareIcon className='w-9 h-9 hover:opacity-60 bg-azul p-1 rounded-md'/>
-    //     }
-    //     else{
-    //         return <span className="bg-tomEscuro text-white lg:px-4 rounded-md font-medium flex items-center justify-center py-1 lg:py-0 w-[190px] lg:w-[220px] h-full text-sm lg:text-base lg:ml-4">+ Adicionar um Anúncio</span>
-    //     }
-    // }
+        if(props.action == "delete"){
+            return <TrashIcon className='12 w-9 h-9 hover:opacity-60 bg-error p-1 rounded-md'/>
+        }
+        else if(props.action == "edit"){
+            return <PencilSquareIcon className='w-9 h-9 hover:opacity-60 bg-azul p-1 rounded-md'/>
+        }
+        else{
+            return <span className="bg-tomEscuro text-white lg:px-4 rounded-md font-medium flex items-center justify-center py-1 lg:py-0 w-[190px] lg:w-[220px] h-full text-sm lg:text-base lg:ml-4">+ Adicionar um Anúncio</span>
+        }
+    }
 
-    // function preco(){
-    //     const precoString = data?.price.toString().replace(/[.,]/g, "")
+    function preco(){
+        const precoString = data?.price.toString().replace(/[.,]/g, "")
 
-    //     const precoNumero = ((parseInt(precoString)/100).toFixed(2))
-    //     const valorFormatado = precoNumero.toLocaleString('pt-BR', {
-    //         minimumFractionDigits: 2,
-    //         maximumFractionDigits: 2,
-    //     });
+        const precoNumero = ((parseInt(precoString)/100).toFixed(2))
+        const valorFormatado = precoNumero.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
 
-    //     return valorFormatado
-    // }
+        return valorFormatado
+    }
 
     return (
         <div className="modal-container h-[41px] items-center flex">
 
             <label htmlFor={`my-modal${props.id}`} className=' text-white p-0 h-full cursor-pointer'>
-                {/* {buttonOpenModal()} */} button
+                {buttonOpenModal()}
             </label>
             <input
                 type={`${props.path == "/classificados" ? null : "checkbox"}`}
@@ -74,7 +74,7 @@ const ModalClassificados = (props) => {
                                     required
                                 />
                                 <NumberInput name="Valor"
-                                    defaultValue="123"
+                                    defaultValue={preco()}
                                     width="w-full"
                                     required
                                 />
