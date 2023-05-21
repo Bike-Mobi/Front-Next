@@ -125,7 +125,7 @@ const FormLojista = (props) => {
     }
 
     return (
-        <div className='mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit'>
+        <div className={`mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 lg:border-cinzaClaro rounded-lg w-fit ${!props.register ? 'w-20 xl:border-2' : 'lg:border-2'}`}>
             <div  className='flex flex-col lg:flex-row'>
                 <div className='grid items-center'>
                     <EmailInput name="E-mail"
@@ -147,7 +147,8 @@ const FormLojista = (props) => {
                         />
                     </div>
                 </div>
-                <div className='md:w-auto md:ml-auto mr-auto mt-4'>
+                {/* md:w-auto md:ml-auto mr-auto mt-4 */}
+                <div className='ml-0 mr-auto mt-4 md:mx-auto lg:ml-auto lg:mt-0 lg:mr-0'>
                     <FileInput name="Foto de Perfil"
                         text="Upload"
                         description="SVG, PNG ou JPG "
@@ -161,7 +162,7 @@ const FormLojista = (props) => {
                 <div className='w-full'>
                     <TextInput name="Nome"
                         required
-                        width={`w-full ${!props.register ? '' : 'md:w-[500px]'}`}
+                        width={`w-full`}
                         onChange={handleNome}
                         value={data?.name}
                     />
@@ -209,13 +210,10 @@ const FormLojista = (props) => {
                     </div>
 
                 </div>
-                <div>
-
-                </div>
             </div>
             <div className='divider'></div>
             <div>
-                <div className={`flex flex-col lg:flex-row ${!props.register ? 'gap-0' : 'gap-8'}  justify-between`}>
+                <div className={`flex flex-col lg:flex-row gap-8 ${!props.register ? 'lg:gap-0' : ''} justify-between`}>
                     <TextInput name="CEP"
                         mask="99999-999"
                         required
@@ -265,7 +263,7 @@ const FormLojista = (props) => {
 
                     <div className='' >
                     <CheckBoxInput
-                        className={`w-full ${!props.register ? '' : 'md:w-[584px] lg:w-[700px]'} `}
+                        className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-start ${!props.register ? '' : 'md:w-[584px] lg:w-[700px]'} `}
                         items={[
                             {name: 'Manutenção', toogle: handleManutencao, value: manutencao},
                             {name: 'Venda de bike', toogle: handleVendabike, value: vendabike},
