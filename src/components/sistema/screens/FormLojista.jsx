@@ -39,15 +39,15 @@ const FormLojista = (props) => {
     const [cidade, setCidade] = useState()
     const [estado, setEstado] = useState()
     const [descricao, setDescricao] = useState()
-    const [manutencao, setManutencao] = useState(true)
-    const [vendabike, setVendabike] = useState(true)
-    const [hospedagem, setHospedagem] = useState(true)
-    const [vendapeca, setVendapeca] = useState(true)
-    const [alimentacao, setAlimentacao] = useState(true)
-    const [eventos, setEventos] = useState(true)
-    const [transporte, setTransporte] = useState(true)
-    const [acessorios, setAcessorios] = useState(true)
-    const [guia, setGuia] = useState(true)
+    const [manutencao, setManutencao] = useState(data?.services.maintenance)
+    const [vendabike, setVendabike] = useState(data?.services.bikeSale)
+    const [hospedagem, setHospedagem] = useState(data?.services.hosting)
+    const [vendapeca, setVendapeca] = useState(data?.services.partsSale)
+    const [alimentacao, setAlimentacao] = useState(data?.services.food)
+    const [eventos, setEventos] = useState(data?.services.events)
+    const [transporte, setTransporte] = useState(data?.services.transport)
+    const [acessorios, setAcessorios] = useState(data?.services.accessories)
+    const [guia, setGuia] = useState(data?.services.guide)
 
 
     const [photo, setPhoto] = useState()
@@ -82,15 +82,15 @@ const FormLojista = (props) => {
     const handleCidade = (e) => setCidade(e.target.value)
     const handleEstado = (e) => setEstado(e.target.value)
     const handleDescricao = (e) => setDescricao(e.target.value)
-    const handleManutencao = (e) => {setManutencao((!manutencao), [manutencao]); console.log(manutencao)}
-    const handleVendabike = (e) => setVendabike((!vendabike), [vendabike])
-    const handleHospedagem = (e) => setHospedagem((!hospedagem), [hospedagem])
-    const handleVendapeca = (e) => setVendapeca((!vendapeca), [vendapeca])
-    const handleAlimentacao = (e) => setAlimentacao((!alimentacao), [alimentacao])
-    const handleEventos = (e) => setEventos((!eventos), [eventos])
-    const handleTransporte = (e) => setTransporte((!transporte), [transporte])
-    const handleAcessorios = (e) => setAcessorios((!acessorios), [acessorios])
-    const handleGuia = (e) => setGuia((!guia), [guia])
+    const handleManutencao = (e) => setManutencao( prev => !prev)
+    const handleVendabike = (e) => setVendabike(prev => !prev)
+    const handleHospedagem = (e) => setHospedagem(prev => !prev)
+    const handleVendapeca = (e) => setVendapeca(prev => !prev)
+    const handleAlimentacao = (e) => setAlimentacao(prev => !prev)
+    const handleEventos = (e) => setEventos(prev => !prev)
+    const handleTransporte = (e) => setTransporte(prev => !prev)
+    const handleAcessorios = (e) => setAcessorios(prev => !prev)
+    const handleGuia = (e) => setGuia(prev => !prev)
 
     let newData = {
         name: nome,
@@ -241,7 +241,6 @@ const FormLojista = (props) => {
                         value={rua ? rua : data?.address.street}
                         onChange={handleRua}
                     />
-                    
                     <TextInput name="Estado"
                         mask="aa"
                         required
@@ -268,15 +267,15 @@ const FormLojista = (props) => {
                     <CheckBoxInput
                         className={`w-full ${!props.register ? '' : 'md:w-[584px] lg:w-[700px]'} `}
                         items={[
-                            {name: 'Manutenção', toogle: handleManutencao, value: data?.services.maintenance},
-                            {name: 'Venda de bike', toogle: handleVendabike, value: data?.services.bikeSale},
-                            {name: 'Hospedagem', toogle: handleHospedagem, value: data?.services.hosting},
-                            {name: 'Transporte', toogle: handleTransporte, value: data?.services.transport},
-                            {name: 'Venda de peça', toogle: handleVendapeca, value: data?.services.partsSale},
-                            {name: 'Venda de acessorio', toogle: handleAcessorios, value: data?.services.accessories},
-                            {name: 'Alimentação', toogle: handleAlimentacao, value: data?.services.food},
-                            {name: 'Guia Turistico', toogle: handleGuia, value: data?.services.guide},
-                            {name: 'Promotor de Eventos Esportivos', toogle: handleEventos, value: data?.services.events},
+                            {name: 'Manutenção', toogle: handleManutencao, value: manutencao},
+                            {name: 'Venda de bike', toogle: handleVendabike, value: vendabike},
+                            {name: 'Hospedagem', toogle: handleHospedagem, value: hospedagem},
+                            {name: 'Transporte', toogle: handleTransporte, value: transporte},
+                            {name: 'Venda de peça', toogle: handleVendapeca, value: vendapeca},
+                            {name: 'Venda de acessorio', toogle: handleAcessorios, value: acessorios},
+                            {name: 'Alimentação', toogle: handleAlimentacao, value: alimentacao},
+                            {name: 'Guia Turistico', toogle: handleGuia, value: guia},
+                            {name: 'Promotor de Eventos Esportivos', toogle: handleEventos, value: eventos},
                         ]}
                         />
                     </div>
