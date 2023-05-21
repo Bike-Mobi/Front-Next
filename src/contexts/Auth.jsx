@@ -76,7 +76,7 @@ export function AuthProvider({ children }) {
 
             } else if (type == 'Shopkeeper') {
 
-                setDirectory('loja')
+                setDirectory('lojista')
                 routeDestiny = '/sistema/loja/dashboard' // rota inicial Lojista
 
             } else if (type == 'Cyclist') {
