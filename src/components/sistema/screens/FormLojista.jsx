@@ -125,12 +125,12 @@ const FormLojista = (props) => {
     }
 
     return (
-        <div className={`mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 lg:border-cinzaClaro rounded-lg w-fit ${!props.register ? 'w-20 xl:border-2' : 'lg:border-2'}`}>
+        <div className={`mx-auto xl:px-28 xl:py-10 xl:my-10 lg:border-cinzaClaro rounded-lg w-fit ${!props.register ? 'p-0 py-10 xl:border-2' : 'p-10 lg:border-2'}`}>
             <div  className='flex flex-col lg:flex-row'>
                 <div className='grid items-center'>
                     <EmailInput name="E-mail"
                         required
-                        width={`w-full ${!props.register ? 'lg:w-[500px]' : ''} `}
+                        width={` ${!props.register ? 'w-72 sm:w-full lg:w-[500px]' : 'w-full'} `}
                         value={data?.email}
                         onChange={handleEmail}
                     />
