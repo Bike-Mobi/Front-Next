@@ -102,17 +102,31 @@ async function getInfos(token) {
                 resolve({
                     data: {
                         id: 1,
-                        name: "Ruan Az",
+                        name: "Ruan Az2",
                         email: "lojista@adapti.info",
+                        cnpj: "99999999999999",
                         cpf: "21339780119",
                         rg: "047894938",
                         birthday: "1972-01-16T00:00:00.000000Z",
                         phone: "(96) 94045-7063",
+                        telephone: "(96) 53835-12834",
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, eget aliquam ni",
                         is_admin: false,
                         type: "Shopkeeper",
                         email_verified_at: "2023-05-03T18:23:58.000000Z",
                         created_at: "2023-05-03 18:23:58",
                         updated_at: "2023-05-03 18:23:58",
+                        services: {
+                            maintenance: true,
+                            bikeSale: false,
+                            hosting: false,
+                            partsSale: true,
+                            food: false,
+                            events: false,
+                            transport: false,
+                            accessories: true,
+                            guide: false
+                        },
                         address: {
                             id: 1,
                             users_id: 1,

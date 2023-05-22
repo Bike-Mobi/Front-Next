@@ -99,12 +99,12 @@ const FormCiclista = (props) => {
     }
 
     return (
-        <div className='mx-auto xl:px-28 p-10 xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit'>
-            <div  className='flex md:flex-row flex-col'>
+        <div className={`mx-auto xl:px-28 ${!props.register ? 'px-0 py-10' : 'p-10'} xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit`}>
+            <div  className={`flex flex-col ${!props.register ? 'xl:flex-row' : 'md:flex-row'}`}>
                 <div className='grid items-center'>
                     <EmailInput name="E-mail"
                         required
-                        width="w-80 md:w-[520px]"
+                        width={`${!props.register ? 'w-72 md:w-[420px] lg:w-[520px]' : 'w-80 md:w-[520px]'}`}
                         value={data?.email}
                         onChange={handleEmail}
                     />
@@ -121,7 +121,7 @@ const FormCiclista = (props) => {
                         />
                     </div>
                 </div>
-                <div className='md:ml-auto mr-auto md:mr-0 mt-4 md:mt-0'>
+                <div className={`md:ml-auto mr-auto ${!props.register ? 'xl:mt-0 xl:mr-0' : 'md:mr-0 md:mt-0'} mt-8`}>
                     <FileInput name="Foto de Perfil"
                         text="Upload"
                         description="SVG, PNG ou JPG "
@@ -130,16 +130,16 @@ const FormCiclista = (props) => {
                 </div>
             </div>
             <div className='divider'></div>
-            <div className='flex flex-col md:flex-row gap-8 md:gap-16'>
+            <div className={`flex flex-col ${!props.register ? 'xl:flex-row' : 'md:flex-row'} gap-8 md:gap-16`}>
                 <div className='w-fit'>
                     <TextInput name="Nome"
                         required
-                        width="w-80 md:w-[520px]"
+                        width={`${!props.register ? 'w-72 md:w-[420px] lg:w-[520px]' : 'w-80 md:w-[520px]'}`}
                         onChange={handleNome}
                         value={data?.name}
                     />
 
-                    <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
+                    <div className={`flex flex-col ${!props.register ? 'lg:flex-row' : 'md:flex-row'} gap-8 mt-8 justify-between`}>
                         <DateInput name="Nascimento"
                             onChange={handleDate}
                             className="w-60"
@@ -154,8 +154,8 @@ const FormCiclista = (props) => {
                         />
                         
                     </div>
-                    
-                    <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
+
+                    <div className={`flex flex-col ${!props.register ? 'lg:flex-row' : 'md:flex-row'} gap-8 mt-8 justify-between`}>
                         <TextInput name="RG"
                             mask="9.999.999"
                             required
@@ -203,7 +203,7 @@ const FormCiclista = (props) => {
             </div>
             <div className='divider'></div>
             <div>
-                <div className='flex flex-col md:flex-row gap-8 justify-between'>
+                <div className={`flex flex-col ${!props.register ? 'xl:flex-row' : 'md:flex-row'} gap-8 justify-between`}>
                     <TextInput name="CEP"
                         mask="99999-999"
                         required
@@ -223,13 +223,12 @@ const FormCiclista = (props) => {
                     />
                 </div>
 
-                <div className='flex flex-col md:flex-row gap-10 justify-between mt-8'>
+                <div className={`flex flex-col ${!props.register ? 'xl:flex-row' : 'md:flex-row'} gap-10 justify-between mt-8`}>
                     <TextInput name="Rua"
-                        width="w-80 md:w-[520px]"
+                        width={`${!props.register ? 'w-72 md:w-[420px] lg:w-[520px]' : 'w-80 md:w-[520px]'}`}
                         value={rua ? rua : data?.address.street}
                         onChange={handleRua}
                     />
-                    
                     <TextInput name="Estado"
                         mask="aa"
                         required
