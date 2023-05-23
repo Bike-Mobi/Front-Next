@@ -13,6 +13,8 @@ const ModalClassificados = (props) => {
     const data = props.data
 
     const router = useRouter()
+    const [Price, setPrice] = useState(data?.price)
+    const handlePrice = (e) => preco(e.target.value)
 
     function buttonOpenModal(){
 
@@ -27,16 +29,20 @@ const ModalClassificados = (props) => {
         }
     }
 
-    function preco(){
-        const precoString = data?.price.toString().replace(/[.,]/g, "")
+    function preco(e){
+        const precoString = Price?.toString().replace(/[.,]/g, "")
 
-        const precoNumero = ((parseInt(precoString)/100).toFixed(2))
+        const precoNumero = ((parseInt(precoString)/100))
         const valorFormatado = precoNumero.toLocaleString('pt-BR', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
-
-        return valorFormatado
+        if(e == 'defaultValue'){
+            return precoNumero.toFixed(2)
+        }
+        else{
+            return setPrice(valorFormatado)
+        }
     }
 
     return (
@@ -74,9 +80,10 @@ const ModalClassificados = (props) => {
                                     required
                                 />
                                 <NumberInput name="Valor"
-                                    defaultValue={preco()}
+                                    defaultValue={preco('defaultValue')}
                                     width="w-full"
                                     required
+                                    onChange={handlePrice}
                                 />
                                 <FileInput name="Imagem"
                                     defaultValue={data?.photo}
