@@ -8,7 +8,7 @@ const CardBicicleta = (props) => {
   return (
     <div className={`flex flex-col w-[300px] h-[150px] p-4 border border-cinza rounded-lg justify-between`}>
       <div className={`flex`}>
-        <img src={data?.photo} alt="image" className={` w-14 h-14 rounded-md mr-4 object-cover`}/>
+        <img src={data?.photo ? data?.photo : '/Bike.jpg'} alt="image" className={` w-14 h-14 rounded-md mr-4 object-cover`}/>
         <div className={`flex flex-col`}>
           <span className={`font-semibold text-xl text-tomEscuro max-w-[194px] max-h-10 overflow-hidden break-all leading-none mt-[-1px]`}>{data?.name}</span>
           <span className={`text-md text-cinza max-h-6 overflow-hidden break-all mt-1`}>{data?.brand}</span>

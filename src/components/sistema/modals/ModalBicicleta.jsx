@@ -264,7 +264,7 @@ const ModalBicicleta = (props) => {
                                 {data?.name}
                             </span>
 
-                            <img src={data?.photo} alt="image" className='rounded-xl'/>
+                            <img src={data?.photo ? data?.photo : '/Bike.jpg'} alt="image" className='rounded-xl'/>
 
                             <div className='grid grid-cols-1 justify-items-start mt-8 text-cinza text-md font-medium'>
                                 <table className='w-full'>
