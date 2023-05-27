@@ -8,7 +8,7 @@ const TitleModalComponent = (props) => {
         else if(title == "edit"){
             return "Editar Anúncio"
         }
-        else{
+        else if(title == "create"){
             return "Adicionar Anúncio"
         }
     }
