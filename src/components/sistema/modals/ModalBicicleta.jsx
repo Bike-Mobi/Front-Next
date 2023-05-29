@@ -61,9 +61,10 @@ const ModalBicicleta = (props) => {
         }, 100);
     }, [showModal]);
 
-    let hidePassDetalhe, hidePassDelete, hidePassCriar, submit
-    if (props.action === 'Detalhes') {
+    let hidePassDetalhe, hidePassDelete, hidePassCriar, des, submit
+    if (props.action === 'detail') {
         hidePassDetalhe = 'hidden'
+        des = true
     }
     else if (props.action === 'delete'){
         hidePassDelete = 'hidden'
@@ -108,7 +109,7 @@ const ModalBicicleta = (props) => {
     }
 
     function buttonCard(){
-        if(props.action == 'Detalhes'){
+        if(props.action == 'detail'){
             return(
                 <button
                     className={`bg-info p-1 rounded-md text-white hover:bg-opacity-80`}
@@ -153,13 +154,15 @@ const ModalBicicleta = (props) => {
                         <TitleModalComponent title={props.action}/>
 
                         {/* Criar/Editar */}
-                        <div className={`w-full mt-8  ${hidePassDetalhe} ${hidePassDelete}`}>
+                        <div className={`w-full mt-8 ${hidePassDelete}`}>
                             <form action="">
                                 <TextInput name="Número de série do quadro"
                                     width={`w-full`}
                                     onChange={handleSerie}
                                     defaultValue={data?.serie}
                                     required
+                                    disabled={des}
+                                    
                                 />
 
                                 <RadioInput name="Tipo de bicicleta"
@@ -171,6 +174,7 @@ const ModalBicicleta = (props) => {
                                     ]}
                                     value={data?.type}
                                     required
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Nome"
@@ -178,6 +182,7 @@ const ModalBicicleta = (props) => {
                                     onChange={handleNome}
                                     defaultValue={data?.name}
                                     required
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Marca"
@@ -185,66 +190,77 @@ const ModalBicicleta = (props) => {
                                     onChange={handleMarca}
                                     defaultValue={data?.brand}
                                     required
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Cor predominante"
                                     width={`w-full`}
                                     onChange={handleCor}
                                     defaultValue={data?.color}
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Câmbio dianteiro"
                                     width={`w-full`}
                                     onChange={handleCambioDianteiro}
                                     defaultValue={data?.frontDerailleur}
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Câmbio traseiro"
                                     width={`w-full`}
                                     onChange={handleCambioTraseiro}
                                     defaultValue={data?.rearDerailleur}
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Tipo de suspensão traseira"
                                     width={`w-full`}
                                     onChange={handleSuspencaoTraseira}
                                     defaultValue={data?.rearSuspensionType}
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Tamanho do aro"
                                     width={`w-full`}
                                     onChange={handleTamanhoAro}
                                     defaultValue={data?.wheelSize}
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Tipo de freios"
                                     width={`w-full`}
                                     onChange={handleTipoFreio}
                                     defaultValue={data?.brakesType}
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Tipo de quadro"
                                     width={`w-full`}
                                     onChange={handleTipoQuadro}
                                     defaultValue={data?.frameType}
+                                    disabled={des}
                                 />
 
-                                <TextInput name="Peneu dianteiro"
+                                <TextInput name="Pneu dianteiro"
                                     width={`w-full`}
                                     onChange={handlePeneuDianteiro}
                                     defaultValue={data?.frontTire}
+                                    disabled={des}
                                 />
 
-                                <TextInput name="Peneu traseiro"
+                                <TextInput name="Pneu traseiro"
                                     width={`w-full`}
                                     onChange={handlePeneuTraseiro}
                                     defaultValue={data?.rearTire}
+                                    disabled={des}
                                 />
 
                                 <TextInput name="Observações"
                                     width={`w-full`}
                                     onChange={handleObservacao}
                                     defaultValue={data?.Comments}
+                                    disabled={des}
                                 />
 
                                 <FileInput name="Imagem"
@@ -252,13 +268,14 @@ const ModalBicicleta = (props) => {
                                     description="SVG, PNG ou JPG"
                                     onChange={handlePhoto}
                                     defaultValue={data?.photo}
+                                    disabled={des}
                                 />
                             </form>
 
                         </div>
 
                         {/* Detalhes */}
-                        <div className={`${hidePassDelete} ${hidePassCriar} flex flex-col`}>
+                        {/* <div className={`${hidePassDelete} ${hidePassCriar} flex flex-col`}>
 
                             <span className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all">
                                 {data?.name}
@@ -277,12 +294,12 @@ const ModalBicicleta = (props) => {
                                 </table>
                             </div>
 
-                        </div>
+                        </div> */}
 
                         {/* Delete */}
                         <div className={`Delete ${hidePassDetalhe} ${hidePassCriar}`}>
                             <h2 className='font-bold text-lg text-neutral-600 mt-8'>
-                                Tem certeza que deseja deletar esse anúncio?
+                                Tem certeza que deseja deletar essa Bike?
                             </h2>
                         </div>
 

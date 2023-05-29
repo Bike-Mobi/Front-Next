@@ -27,16 +27,16 @@ const ManutencaoScreen = (props) => {
     console.log(data)
 
       return (
-        <div className={`m-10 my-20`}>
+        <div className={`m-10 my-10`}>
             
-            <div className={`my-20 ml-0 md:ml-[13px] py-2 px-0 flex justify-center md:justify-start`}>
+            <div className={`my-10 ml-0 md:ml-[13px] py-2 px-0 flex justify-center md:justify-start`}>
               <ModalBicicleta
                 action="create"
                 data={data}
               />
             </div>
     
-            <div className={`grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-4 justify-items-center`}>
+            <div className={`grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-8 xl:gap-8 justify-items-center`}>
               {data?.map((produto) => (
                 <CardBicicleta
                 key={produto.id}
