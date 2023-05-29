@@ -26,6 +26,7 @@ const TextInput = (props) => {
                 onChange={props.onChange}
                 mask={props.mask}
                 className={`input input-accent input-bordered ${props.width}`}
+                disabled={props.disabled}
             />
         </div>
     )
