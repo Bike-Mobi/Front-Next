@@ -39,7 +39,7 @@ const ButtonModalComponent = (props) => {
     }
 
     return (
-        <button onClick={click()} className={`${style()} absolute right-0 bottom-0 p-2 text-lg`}>
+        <button onClick={props.onClick} className={`${style()} absolute right-0 bottom-0 p-2 text-lg leading-none`}>
             {name()}
         </button>
     )

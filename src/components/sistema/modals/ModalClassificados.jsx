@@ -7,6 +7,7 @@ import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import NumberInput from '../inputs/NumberInput';
 import ButtonModalComponent from '../utils/ButtonModalComponent';
 import TitleModalComponent from '../utils/TitleModalComponent';
+import React, { useEffect, useState }  from 'react';
 
 const ModalClassificados = (props) => {
 
@@ -15,6 +16,13 @@ const ModalClassificados = (props) => {
     const router = useRouter()
     const [Price, setPrice] = useState(data?.price)
     const handlePrice = (e) => preco(e.target.value)
+
+    const [photo, setPhoto] = useState()
+
+    const handlePhoto = (file) => {
+        setPhoto(file)
+        console.log("photo: ",photo)
+    }
 
     function buttonOpenModal(){
 
@@ -90,6 +98,7 @@ const ModalClassificados = (props) => {
                                     width="w-full"
                                     text="Upload"
                                     description="SVG, PNG ou JPG"
+                                    onChange={handlePhoto}
                                     required
                                 />
                             </div>

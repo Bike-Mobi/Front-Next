@@ -18,6 +18,7 @@ const RadioInput = (props) => {
                             onChange={props.onChange}
                             className="radio radio-primary border-cinza"
                             checked={props.value == item.name ? true : null}
+                            disabled={props.disabled}
                         />
                         <label htmlFor="push-everything" className="block text-sm leading-6">
                         {item.name}

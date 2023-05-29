@@ -172,4 +172,30 @@ async function register(data) {
     })
 }
 
-export const fakeApi = {logIn, getInfos, register}
+async function bicicleta() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({
+                    id: 1,
+                    serie: 'serie-123',
+                    type: 'mountain',
+                    name: 'Bicicleta de montanha',
+                    brand: 'Caloi',
+                    color: 'Vermelho',
+                    frontDerailleur: 'Shimano',
+                    rearDerailleur: 'Shimano',
+                    rearSuspensionType: 'Hardtail',
+                    wheelSize: '29',
+                    brakesType: 'Disco',
+                    frameType: 'Alumínio',
+                    frontTire: '29x2.10',
+                    rearTire: '29x2.10',
+                    Comments: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco colmer consequat aute irure sint amet.',
+                    photo: 'https://semexe.com/blog/wp-content/uploads/2022/03/Scalpel-personalizada-por-Black-tiger-74.jpg'
+                }
+            )
+        }, 500)
+    })
+}
+
+export const fakeApi = {logIn, getInfos, register, bicicleta}

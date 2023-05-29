@@ -27,8 +27,8 @@ const FileInput = (props) => {
     if (file || props.defaultValue) {
         bg = (
             <label htmlFor="dropzone-file" className="flex flex-col items-center w-full max-w-lg mx-auto text-center bg-white border-2 border-cinza border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
-                <img src={props.defaultValue ? props.defaultValue : file} alt="" className={`object-cover rounded-xl ${props.className}`}/>
-                <input id="dropzone-file" onChange={getFile} type="file" className="hidden" />
+                <img src={file ? file : props.defaultValue} alt="" className={`object-cover rounded-xl ${props.className}`}/>
+                <input id="dropzone-file" onChange={getFile} type="file" className="hidden" disabled={props.disabled}/>
             </label>
         )
     } else {
@@ -42,7 +42,7 @@ const FileInput = (props) => {
 
                 <p className="mt-2 text-xs tracking-wide text-tomEscuro dark:text-gray-400">{props.description}</p>
 
-                <input id="dropzone-file" onChange={getFile} type="file" className="hidden" />
+                <input id="dropzone-file" onChange={getFile} type="file" className="hidden" disabled={props.disabled}/>
             </label>
         )
     }
