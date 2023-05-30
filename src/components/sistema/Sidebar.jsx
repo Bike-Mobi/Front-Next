@@ -6,6 +6,7 @@ import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useContext, useState } from 'react'
+import { IconBike } from './utils/icons'
 
 const Sidebar = (props) => {
 
@@ -17,6 +18,7 @@ const Sidebar = (props) => {
         { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
         { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
         { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+        { link: `/sistema/${directory}/bikes`, name: 'Bikes', icon: <IconBike/> },
         { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
         { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
         
@@ -40,7 +42,7 @@ const Sidebar = (props) => {
         <div className=''>
             <div className='flex bg-azul h-screen w-fit font-dmsans sticky top-0 max-h-screen'>
                 <div className='hidden md:flex flex-col'>
-                    <Link href={'/'} className='font-bold text-white text-3xl my-7 mb-10 flex justify-center'>Bike Mobi</Link>
+                    <Link href={'/'} className='font-bold text-white text-3xl my-4 mb-2 flex justify-center'>Bike Mobi</Link>
                     <div>
                         {items.map((item, index) => {
                             route == item.link ? selected = "bg-white text-azul" : selected = "text-white"
