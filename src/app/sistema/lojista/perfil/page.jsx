@@ -11,7 +11,6 @@ const PerfilLojista = () => {
     
     return (
         <div>
-            <h1>perfil</h1>
             <FormLojista register={false} data={authData} onClick={console.log} />
         </div>
     )
