@@ -1,20 +1,20 @@
 import React from 'react'
 
 const TitleModalComponent = (props) => {
-    function title(title){
-        if(title == "delete"){
-            return "Deletar Anúncio"
+    function title(action, title){
+        if(action == "delete"){
+            return "Deletar " + title
         }
-        else if(title == "edit"){
-            return "Editar Anúncio"
+        else if(action == "edit"){
+            return "Editar " + title
         }
-        else if(title == "create"){
-            return "Adicionar Anúncio"
+        else if(action == "create"){
+            return "Adicionar " + title
         }
     }
 
     return (
-        <h1 className='font-bold text-xl'>{title(props.title)}</h1>
+        <h1 className='font-bold text-xl'>{title(props.action, props.title)}</h1>
     )
 }
 
