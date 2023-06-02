@@ -1,5 +1,5 @@
 'use client'
-import { TrashIcon, PencilSquareIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import React, { useEffect, useState } from "react";
 import FileInput from "../inputs/FileInput";
@@ -121,17 +121,17 @@ const ModalBicicleta = (props) => {
         }
         else if(props.action == 'edit'){
             return(
-                <PencilSquareIcon className='mr-2 w-7 h-7 hover:opacity-60 bg-azul p-1 rounded-md text-white'/>
+                <PencilSquareIcon className='mr-2 w-8 h-8 hover:opacity-60 bg-azul p-1 rounded-md text-white'/>
             )
         }
         else if(props.action == 'delete'){
             return(
-                <TrashIcon className=' w-7 h-7 hover:opacity-60 bg-error p-1 rounded-md text-white'/>
+                <TrashIcon className=' w-8 h-8 hover:opacity-60 bg-error p-1 rounded-md text-white'/>
             )
         }
         else if(props.action == 'create'){
             return(
-                <span className={`bg-tomEscuro text-white p-2 rounded-md cursor-pointer`}>+ Adicionar Bicicleta</span>
+                <span className={`bg-tomEscuro text-white rounded-md cursor-pointer btn hover:opacity-90 hover:bg-tomEscuro`}>+ Adicionar Bicicleta</span>
             )
         }
     }
@@ -151,7 +151,7 @@ const ModalBicicleta = (props) => {
                         
                         <XCircleIcon className='absolute cursor-pointer top-2 right-2 w-12 h-12 hover:opacity-60 p-1 rounded-md text-neutral-800' onClick={()=> setShowModal(false)}/>
                         
-                        <TitleModalComponent title={props.action}/>
+                        <TitleModalComponent action={props.action} title={'Bike'}/>
 
                         {/* Criar/Editar */}
                         <div className={`w-full mt-8 ${hidePassDelete}`}>
