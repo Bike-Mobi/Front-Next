@@ -1,5 +1,5 @@
 
-import ManutencaoScreen from '@/components/sistema/screens/ManutencaoScreen'
+import BikesScreen from '@/components/sistema/screens/BikesScreen'
 import React from "react";
 
 
@@ -87,7 +87,7 @@ const page = () => {
 ]
 
   return (
-        <ManutencaoScreen produtos={produtos}/>
+        <BikesScreen produtos={produtos}/>
   )
 }
 
