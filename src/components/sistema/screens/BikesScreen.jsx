@@ -4,7 +4,7 @@ import ModalBicicleta from '@/components/sistema/modals/ModalBicicleta'
 import { fakeApi } from "@/service/fakeApi";
 import React, { useState } from "react";
 
-const ManutencaoScreen = (props) => {
+const BikesScreen = (props) => {
 
   // const [carlos, setCarlos] = useState({})
 
@@ -29,7 +29,7 @@ const ManutencaoScreen = (props) => {
       return (
         <div className={`m-10 my-10`}>
             
-            <div className={`my-10 ml-0 md:ml-[13px] py-2 px-0 flex justify-center md:justify-start`}>
+            <div className={`my-10 mb-16 ml-0 md:ml-[13px]  px-0 flex justify-center md:justify-start`}>
               <ModalBicicleta
                 action="create"
                 data={data}
@@ -48,4 +48,4 @@ const ManutencaoScreen = (props) => {
       )
     }
 
-export default ManutencaoScreen
+export default BikesScreen
