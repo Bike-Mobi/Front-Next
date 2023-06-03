@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import NumberInput from '../inputs/NumberInput';
 import RadioInput from '../inputs/RadioInput';
 import TextInput from '../inputs/TextInput';
@@ -9,28 +9,40 @@ import TitleModalComponent from '../utils/TitleModalComponent';
 const ModalManutencoes = (props) => {
     const data = props.data
 
-    const [user, setUser] = useState(data?.user)
     const [value, setValue] = useState(data?.value)
     const [type, setType] = useState(data?.type)
     const [description, setDescription] = useState(data?.description)
     const [search, setSearch] = useState('')
-    const [content, setContent] = useState('CPF')
+    const [content, setContent] = useState()
+    const [isOpen, setIsOpen] = useState(false)
+    const inputSearch = useRef(null);
 
     const handleContent = (e) => {
         setContent(e.target.textContent)
-        
-    
+
+        setTimeout(() => {
+            handleDropdown()
+            setSearch('')
+        }, 100);
     }
+
     const handleValue = (e) => setValue(e.target.value)
     const handleType = (e) => setType(e.target.value)
     const handleDescription = (e) => setDescription(e.target.value)
+    const handleSearch = (e) => setSearch(e.target.value)
+    const handleDropdown = () => {
+        setIsOpen(!isOpen)
+        setTimeout(() => {
+            inputSearch.current.focus()
+        }, 200);
+    }
 
     const ciclistasFiltrados = props.ciclistas?.filter((ciclista) => {
-        return ciclista.name.toLowerCase().includes(search.toLowerCase())
+        return ciclista.cpf.toLowerCase().includes(search.toLowerCase())
     })
 
     
-    let detailsOn, editOn , deleteOn, createOn, submit, styleButton, des;
+    let editOn , deleteOn, createOn, submit, styleButton, des;
     if(data?.id+'e' == props?.idModal){
         editOn = 'hidden'
         submit = 'edit'
@@ -40,10 +52,6 @@ const ModalManutencoes = (props) => {
         deleteOn = 'hidden'
         submit = 'delete'
         styleButton = 'bg-error'
-    }
-    else if(data?.id+'d' == props?.idModal){
-        detailsOn = 'hidden'
-        des=true
     }else{
         createOn = 'hidden'
         submit = 'create'
@@ -55,6 +63,7 @@ const ModalManutencoes = (props) => {
         value: value,
         description: description,
         type: type,
+        content: content
     }
 
     return (
@@ -70,32 +79,37 @@ const ModalManutencoes = (props) => {
                         {/* Criar/Editar */}
                         <div className={`${deleteOn} flex flex-col w-full`}>
 
+                            <div className="dropdown-menu relative">
 
-                            <span className={`mt-6 label-text font-medium px-1 py-2`}>Ciclista</span>
-                            <div className="dropdown">
-                                <p tabIndex={0} type="text" className='border rounded-md border-cinza w-full p-[11px] cursor-text text-cinza'>{content}</p>
-                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow rounded-box w-full bg-cinzaClaro block max-h-[250px] overflow-auto">
-                                    <li><input className='w-full border rounded-md cursor-text' type="text" placeholder="Search.." id="myInput" onChange={(e) => setSearch(e.target.value)}/></li>
+                                <TextInput name="Ciclista"
+                                    width={`w-full`}
+                                    defaultValue={data?.title ? data?.title: null}
+                                    value={(content && !des) ? content : data?.title}
+                                    required
+                                    onClick={handleDropdown}
+                                    placeholder={'cpf'}
+                                />
+                                {isOpen && (
+                                    <ul className={`absolute p-2 shadow rounded-box w-full bg-cinzaClaro block max-h-[250px] overflow-auto`}>
+                                        <li><input ref={inputSearch} className='w-full border rounded-md cursor-text p-1' type="text" placeholder="Digite um cpf" id="myInput" onChange={handleSearch}/></li>
 
-                                    {ciclistasFiltrados?.map((ciclista, index) => (
-                                        <li key={index} value={ciclista.name} className={`text-neutral-900`} onClick={handleContent}><a>{ciclista.name}</a></li>
-                                    ))}
-                                </ul>
+                                        {ciclistasFiltrados?.map((ciclista, index) => (
+                                            <li key={index} value={ciclista.name} className={`text-neutral-800 p-2 cursor-pointer`} onClick={handleContent}><a>{ciclista.name} - {ciclista.cpf}</a></li>
+                                        ))}
+                                    </ul>
+                                )}
                             </div>
-
 
                             <NumberInput name="Valor MDO"
                                 width={`w-full`}
                                 defaultValue={data?.value}
-                                disabled={des}
                                 onChange={handleValue}
                             />
                             <TextInput name="Descrição"
                                 width={`w-full`}
                                 defaultValue={data?.description}
-                                required
-                                disabled={des}
                                 onChange={handleDescription}
+                                required
                             />
                             <RadioInput name="Buscar e entregar a bicicleta?"
                                 items={[
@@ -103,19 +117,18 @@ const ModalManutencoes = (props) => {
                                     { name: 'não'},
                                 ]}
                                 value={data?.type}
-                                required
-                                disabled={des}
                                 onChange={handleType}
+                                required
                             />
 
                         </div>
 
                         {/* Deletar */}
-                        <div className={`${editOn} ${detailsOn} ${createOn} flex flex-col items-center`}>
+                        <div className={`${editOn} ${createOn} flex flex-col items-center`}>
                             <span className={`mt-6 font-bold text-lg text-neutral-600`}>Tem certeza que deseja deletar essa manutenção?</span>
                         </div>
 
-                        <div className={`relative w-full mt-16 ${detailsOn} ${styleButton}`}>
+                        <div className={`relative w-full mt-16 ${styleButton}`}>
                             <ButtonModalComponent title={submit} onClick={() => (null)}/>
                         </div>
                     </div>
