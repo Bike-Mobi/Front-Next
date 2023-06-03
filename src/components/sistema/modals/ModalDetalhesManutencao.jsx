@@ -56,9 +56,6 @@ const ModalDetalhesManutencao = (props) => {
                     background: #dad7d7;
                     border-radius: 0px 10px 10px 0px;
                 }
-                .table :where(th, td) {
-                    padding: 0.5rem!important;
-                }
                 `
             }</style>
         </div>
