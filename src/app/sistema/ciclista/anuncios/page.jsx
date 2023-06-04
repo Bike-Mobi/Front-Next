@@ -35,7 +35,7 @@ const anuncios = () => {
     ]
     
     return (
-        <div className='pt-0'>
+        <div className=''>
             <ClassificadosScreen produtos={ produtos } />
         </div>
     )
