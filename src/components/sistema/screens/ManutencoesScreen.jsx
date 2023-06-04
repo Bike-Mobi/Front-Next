@@ -87,8 +87,8 @@ const ManutencoesScreen = (props) => {
         <table className="table table-zebra w-full my-20 text-xs md:text-sm lg:text-base">
 
           <thead>
-            <tr className='p-0'>
-              <th>Título</th>
+            <tr >
+              <th className='z-0'>Título</th>
               <th>Data</th>
               <th>Valor</th>
               <th>Ações</th>
@@ -98,7 +98,7 @@ const ManutencoesScreen = (props) => {
           <tbody>
             {manutencoesFiltradas?.map((manutencao, index) => {
               return(
-              <tr key={index} className='p-0'>
+              <tr key={index}>
                 <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
                 <td>{ windowWidth <= 457 ? manutencao.updated_at.slice(0, 10) : manutencao.updated_at}</td>
                 <td>{manutencao.value}</td>

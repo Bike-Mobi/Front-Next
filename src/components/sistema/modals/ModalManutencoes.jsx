@@ -5,6 +5,7 @@ import RadioInput from '../inputs/RadioInput';
 import TextInput from '../inputs/TextInput';
 import ButtonModalComponent from '../utils/ButtonModalComponent';
 import TitleModalComponent from '../utils/TitleModalComponent';
+import axios from 'axios'
 
 const ModalManutencoes = (props) => {
     const data = props.data
@@ -17,7 +18,9 @@ const ModalManutencoes = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     const inputSearch = useRef(null);
 
+
     const handleContent = (e) => {
+        setCiclistaID(e.target.getAttribute('value'))
         setContent(e.target.textContent)
 
         setTimeout(() => {
@@ -34,7 +37,7 @@ const ModalManutencoes = (props) => {
         setIsOpen(!isOpen)
         setTimeout(() => {
             inputSearch.current.focus()
-        }, 200);
+        }, 100);
     }
 
     const ciclistasFiltrados = props.ciclistas?.filter((ciclista) => {
@@ -66,6 +69,19 @@ const ModalManutencoes = (props) => {
         content: content
     }
 
+    const [buscaBike, setBuscaBike] = useState()
+    const [ciclistaID, setCiclistaID] = useState(null)
+
+    useEffect(() => {
+      axios.get("http://localhost:8000/api/bikes")
+      .then((response) => setBuscaBike(response.data.data))
+    }, [])
+  
+    const bikeCiclista = buscaBike?.filter((item) => {
+      return item.cyclist_id == ciclistaID
+    })
+    console.log(bikeCiclista?.length)
+
     return (
         <div className="">
             <input type="checkbox" id={`my-modal-${props?.idModal}`} className="modal-toggle" />
@@ -94,11 +110,32 @@ const ModalManutencoes = (props) => {
                                         <li><input ref={inputSearch} className='w-full border rounded-md cursor-text p-1' type="text" placeholder="Digite um cpf" id="myInput" onChange={handleSearch}/></li>
 
                                         {ciclistasFiltrados?.map((ciclista, index) => (
-                                            <li key={index} value={ciclista.name} className={`text-neutral-800 p-2 cursor-pointer`} onClick={handleContent}><a>{ciclista.name} - {ciclista.cpf}</a></li>
+                                            <li key={index} className={`text-neutral-800 p-2 cursor-pointer`}><a value={ciclista.id} onClick={handleContent}>{ciclista.name} - {ciclista.cpf}</a></li>
                                         ))}
                                     </ul>
                                 )}
                             </div>
+
+                           { ciclistaID ?
+                                (
+                                    bikeCiclista?.length > 0 ?
+                                        <div className={`flex flex-col`}>
+                                        <span className={` label-text font-medium px-1 py-2`}>Bicicleta</span>
+                                        <select name="" id="" className='border w-1/2 rounded-md p-2 border-cinza focus:outline-cinza '>
+                                            <option value="">Selecione uma bicicleta</option>
+                                            {bikeCiclista?.map((item, index) => (
+                                                <option key={index} value={item.id}>{item.name}</option>
+                                            ))}
+                                        </select>
+
+                                    </div>
+                                : 
+                                    <div className={`flex flex-col`}>
+                                        <span className={`label-text font-normal px-4 py-2 italic`}>Este Ciclista não possui bicicletas cadastradas</span>
+                                    </div>
+                                )
+                            : null
+                            }
 
                             <NumberInput name="Valor MDO"
                                 width={`w-full`}

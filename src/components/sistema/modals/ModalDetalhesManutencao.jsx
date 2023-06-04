@@ -15,7 +15,7 @@ const ModalDetalhesManutencao = (props) => {
                 <label className="rounded-lg modal-box relative" htmlFor="">
                     <label htmlFor={`my-modal-${data.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto text-neutral-900">
-                            <TextInput name="Ciclista"
+                            <TextInput name="Manutenção"
                                 width={`w-full`}
                                 defaultValue={data?.title}
                                 disabled={true}
@@ -33,7 +33,7 @@ const ModalDetalhesManutencao = (props) => {
                                 disabled={true}
                                 required
                             />
-                            <RadioInput name="Buscar e entregar a bicicleta?"
+                            {/* <RadioInput name="Buscar e entregar a bicicleta?"
                                 items={[
                                     { name: 'sim'},
                                     { name: 'não'},
@@ -41,7 +41,7 @@ const ModalDetalhesManutencao = (props) => {
                                 value={data?.type}
                                 disabled={true}
                                 required
-                            />
+                            /> */}
                     </div>
                 </label>
             </label>
