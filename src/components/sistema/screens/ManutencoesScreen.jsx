@@ -12,6 +12,7 @@ const ManutencoesScreen = (props) => {
   const [search, setSearch] = useState('')
   const [date1, setDate1] = useState('')
   const [date2, setDate2] = useState('')
+  const windowWidth = window.innerWidth;
 
   const handleDateChange1 = (event) => setDate1( event.target.value)
   const handleDateChange2 = (event) => setDate2( event.target.value)
@@ -86,7 +87,7 @@ const ManutencoesScreen = (props) => {
         <table className="table table-zebra w-full my-20 text-xs md:text-sm lg:text-base">
 
           <thead>
-            <tr>
+            <tr className='p-0'>
               <th>Título</th>
               <th>Data</th>
               <th>Valor</th>
@@ -97,15 +98,15 @@ const ManutencoesScreen = (props) => {
           <tbody>
             {manutencoesFiltradas?.map((manutencao, index) => {
               return(
-              <tr key={index}>
+              <tr key={index} className='p-0'>
                 <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
-                <td>{manutencao.updated_at}</td>
+                <td>{ windowWidth <= 457 ? manutencao.updated_at.slice(0, 10) : manutencao.updated_at}</td>
                 <td>{manutencao.value}</td>
-                <td className={`flex text-white`}>
+                <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row`}>
                   {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
                   <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao>
-                  <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
-                  <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
+                  <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
+                  <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
                 </td>
               </tr>
               )
