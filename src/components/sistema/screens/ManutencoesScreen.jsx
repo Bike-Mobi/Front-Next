@@ -1,13 +1,15 @@
 'use client'
-import React, {useEffect, useState } from 'react'
+import React, {useEffect, useState, useContext } from 'react'
 import { TrashIcon, PencilSquareIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import ModalManutencoes from '../modals/ModalManutencoes';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import axios from 'axios'
 import ModalDetalhesManutencao from '../modals/ModalDetalhesManutencao';
+import { ApiContext } from '@/contexts/Api';
 
 const ManutencoesScreen = (props) => {
 
+  const {instance} = useContext(ApiContext)
   const [idModal, setIdModal] = useState('')
   const [search, setSearch] = useState('')
   const [date1, setDate1] = useState('')
@@ -20,10 +22,14 @@ const ManutencoesScreen = (props) => {
 
 
   const [buscaCiclista, setBuscaCiclista] = useState()
+  const [buscaManutencao, setBuscaManutencao] = useState()
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/users")
+    instance.get("/users")
     .then((response) => setBuscaCiclista(response.data))
+
+    instance.get("/maintence")
+    .then((response) => setBuscaManutencao(response.data.data))
   }, [])
 
   const ciclistas = buscaCiclista?.data.filter((item) => {
@@ -31,12 +37,6 @@ const ManutencoesScreen = (props) => {
   }
   )
 
-  const [buscaManutencao, setBuscaManutencao] = useState()
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/maintence")
-    .then((response) => setBuscaManutencao(response.data.data))
-  }, [])
 
   let manutencoesFiltradas = buscaManutencao?.filter((item) => {
     return item.title.toLowerCase().includes(search.toLowerCase())
@@ -89,6 +89,7 @@ const ManutencoesScreen = (props) => {
           <thead>
             <tr >
               <th className='z-0'>Título</th>
+              {/* <th>Ciclista</th> */}
               <th>Data</th>
               <th>Valor</th>
               <th>Ações</th>
@@ -100,7 +101,7 @@ const ManutencoesScreen = (props) => {
               return(
               <tr key={index}>
                 <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
-                <td>{ windowWidth <= 457 ? manutencao.updated_at.slice(0, 10) : manutencao.updated_at}</td>
+                <td>{ windowWidth <= 457 ? manutencao.updated_at.slice(0, 10) : manutencao.updated_at.slice(0, 10)}</td>
                 <td>{manutencao.value}</td>
                 <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row`}>
                   {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
@@ -114,10 +115,9 @@ const ManutencoesScreen = (props) => {
           </tbody>
         </table>
       </div>
-      
-      
+
       {buscaManutencao?.map((manutencao, index) => (
-        manutencao.id == idModal?.slice(0, 1) ?(
+        manutencao.id == idModal?.replace(/\D/g, '') ?(
           <div key={index}>
             <ModalManutencoes
               data={manutencao}

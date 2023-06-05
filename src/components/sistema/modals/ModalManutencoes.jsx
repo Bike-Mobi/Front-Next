@@ -14,19 +14,23 @@ const ModalManutencoes = (props) => {
     const [type, setType] = useState(data?.type)
     const [description, setDescription] = useState(data?.description)
     const [search, setSearch] = useState('')
-    const [content, setContent] = useState()
+    const [content, setContent] = useState('')
     const [isOpen, setIsOpen] = useState(false)
     const inputSearch = useRef(null);
 
 
-    const handleContent = (e) => {
-        setCiclistaID(e.target.getAttribute('value'))
-        setContent(e.target.textContent)
+    // const handleContent = (e) => {
+    //     setCiclistaID(e.target.getAttribute('value'))
+    //     setContent(e.target.textContent)
 
-        setTimeout(() => {
-            handleDropdown()
-            setSearch('')
-        }, 100);
+    //     setTimeout(() => {
+    //         handleDropdown()
+    //         setSearch('')
+    //     }, 100);
+    // }
+
+    const handleContent = (e) => {
+        setContent(e.target.value)
     }
 
     const handleValue = (e) => setValue(e.target.value)
@@ -62,11 +66,12 @@ const ModalManutencoes = (props) => {
     }
 
     let newData = {
-        ciclista: content,
-        value: value,
+        id: data?.id,
+        title: content,
         description: description,
-        type: type,
-        content: content
+        value: value,
+        start_at: '2023-01-01',
+        end_at: '2023-01-01',
     }
 
     const [buscaBike, setBuscaBike] = useState()
@@ -80,10 +85,9 @@ const ModalManutencoes = (props) => {
     const bikeCiclista = buscaBike?.filter((item) => {
       return item.cyclist_id == ciclistaID
     })
-    console.log(bikeCiclista?.length)
 
     return (
-        <div className="">
+        <div>
             <input type="checkbox" id={`my-modal-${props?.idModal}`} className="modal-toggle" />
             <label htmlFor={`my-modal-${props?.idModal}`} className="modal cursor-pointer">
                 <label className="rounded-lg modal-box relative" htmlFor="">
@@ -95,12 +99,12 @@ const ModalManutencoes = (props) => {
                         {/* Criar/Editar */}
                         <div className={`${deleteOn} flex flex-col w-full`}>
 
-                            <div className="dropdown-menu relative">
+                            {/* <div className="dropdown-menu relative">
 
                                 <TextInput name="Ciclista"
                                     width={`w-full`}
-                                    defaultValue={data?.title ? data?.title: null}
-                                    value={(content && !des) ? content : data?.title}
+                                    defaultValue={data?.title ? data?.title: null} //erro aqui
+                                    value={(content && !des) ? content : data?.title}// erro aqui
                                     required
                                     onClick={handleDropdown}
                                     placeholder={'cpf'}
@@ -135,7 +139,14 @@ const ModalManutencoes = (props) => {
                                     </div>
                                 )
                             : null
-                            }
+                            } */}
+
+                            <TextInput name="Título"
+                                width={`w-full`}
+                                defaultValue={data?.title}
+                                onChange={handleContent}
+                                required
+                            />
 
                             <NumberInput name="Valor MDO"
                                 width={`w-full`}
@@ -148,7 +159,7 @@ const ModalManutencoes = (props) => {
                                 onChange={handleDescription}
                                 required
                             />
-                            <RadioInput name="Buscar e entregar a bicicleta?"
+                            {/* <RadioInput name="Buscar e entregar a bicicleta?"
                                 items={[
                                     { name: 'sim'},
                                     { name: 'não'},
@@ -156,7 +167,7 @@ const ModalManutencoes = (props) => {
                                 value={data?.type}
                                 onChange={handleType}
                                 required
-                            />
+                            /> */}
 
                         </div>
 
@@ -166,7 +177,7 @@ const ModalManutencoes = (props) => {
                         </div>
 
                         <div className={`relative w-full mt-16 ${styleButton}`}>
-                            <ButtonModalComponent title={submit} onClick={() => (null)}/>
+                            <ButtonModalComponent title={submit} data={data} newData={newData} url={'maintence'}/>
                         </div>
                     </div>
                     
