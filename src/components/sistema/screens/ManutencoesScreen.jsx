@@ -14,7 +14,6 @@ const ManutencoesScreen = (props) => {
   const [search, setSearch] = useState('')
   const [date1, setDate1] = useState('')
   const [date2, setDate2] = useState('')
-  const windowWidth = window.innerWidth;
 
   const handleDateChange1 = (event) => setDate1( event.target.value)
   const handleDateChange2 = (event) => setDate2( event.target.value)
@@ -53,10 +52,10 @@ const ManutencoesScreen = (props) => {
 
 
   return ( 
-    <div className={`mt-16 xl:mt-9 px-10 lg:px-14`}>
+    <div className={`mt-16 xl:mt-9 px-5 sm:px-10 lg:px-14 =`}>
 
-      <div className={`relative w-full flex flex-col xl:justify-end`}>
-        <label htmlFor={`my-modal-${idModal}`} onClick={() => setIdModal(null)} className="btn bg-tomEscuro hover:opacity-90 hover:bg-tomEscuro text-white left-0 absolute">Adicionar Manutenção</label>
+      <div className={`w-full flex flex-col-reverse xl:flex-row xl:justify-between xl:items-end`}>
+        <label htmlFor={`my-modal-${idModal}`} onClick={() => setIdModal(null)} className="btn bg-tomEscuro hover:opacity-90 hover:bg-tomEscuro text-white w-60">+ Adicionar Manutenção</label>
         {/* <button onClick={() => setIdModal('-1')} className="btn btn-primary text-white right-0 absolute">Adicionar Manutenção</button> */}
         {idModal == null ? (
           <ModalManutencoes
@@ -66,12 +65,12 @@ const ManutencoesScreen = (props) => {
           />
         ):(null)}
 
-        <div className={`flex flex-col lg:flex-row ml-0 xl:ml-60 xl:justify-around mt-24 xl:mt-0 `}>
-          <div className='flex flex-col mr-4 xl:mr-0 w-40 mb-4 lg:mb-0'>
+        <div className={`flex flex-col lg:flex-row ml-0 xl:ml-2 mb-10 xl:mb-0 xl:justify-around`}>
+          <div className='flex flex-col mr-4 xl:mr-2 w-40 mb-4 lg:mb-0'>
             <label className='mb-1' htmlFor="initial-date">Data Inicial</label>
             <input id='initial-date' name='initial-date' className='border rounded-md border-cinza p-[10px] focus:outline-none' type="date" onChange={handleDateChange1}/>
           </div>
-          <div className='flex flex-col mr-4 xl:mr-0 w-40 mb-4 lg:mb-0'>
+          <div className='flex flex-col mr-4 xl:mr-2 w-40 mb-4 lg:mb-0'>
             <label className='mb-1' htmlFor="initial-date">Data Final</label>
             <input className='border rounded-md border-cinza p-[10px] focus:outline-none' type="date" onChange={handleDateChange2}/>
           </div>
@@ -91,7 +90,7 @@ const ManutencoesScreen = (props) => {
               <th className='z-0'>Título</th>
               {/* <th>Ciclista</th> */}
               <th>Data</th>
-              <th>Valor</th>
+              <th className='hidden md:table-cell'>Valor</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -101,8 +100,9 @@ const ManutencoesScreen = (props) => {
               return(
               <tr key={index}>
                 <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
-                <td>{ windowWidth <= 457 ? manutencao.updated_at.slice(0, 10) : manutencao.updated_at.slice(0, 10)}</td>
-                <td>{manutencao.value}</td>
+                {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
+                <td>{manutencao.updated_at.slice(0, 10)}</td>
+                <td className='hidden md:table-cell'>{manutencao.value}</td>
                 <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row`}>
                   {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
                   <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao>
