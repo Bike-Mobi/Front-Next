@@ -71,7 +71,7 @@ const ModalClassificados = (props) => {
                     <label htmlFor={`my-modal${props.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto">
 
-                        <TitleModalComponent title={props.action}/>
+                        <TitleModalComponent action={props.action} title={'Anúncio'}/>
 
                         {props.action != 'delete' ?
                             <div className='w-full'>

@@ -27,6 +27,7 @@ const TextInput = (props) => {
                 mask={props.mask}
                 className={`input input-accent input-bordered ${props.width}`}
                 disabled={props.disabled}
+                onClick={props.onClick}
             />
         </div>
     )
