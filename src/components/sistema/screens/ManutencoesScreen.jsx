@@ -102,7 +102,7 @@ const ManutencoesScreen = (props) => {
                 <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
                 {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
                 <td>{manutencao.updated_at.slice(0, 10)}</td>
-                <td className='hidden md:table-cell'>{manutencao.value}</td>
+                <td className='hidden md:table-cell'>R$ { (manutencao.value).toFixed(2).replace(/\./, ',') } </td>
                 <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row`}>
                   {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
                   <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao>
