@@ -73,22 +73,6 @@ const ModalBicicleta = (props) => {
         hidePassCriar = 'hidden'
     }
 
-    const itens = [
-        {title: 'Numero de série: ', value: data?.serie},
-        {title: 'Tipo de bicicleta: ', value: data?.type},
-        {title: 'Nome: ', value: data?.name},
-        {title: 'Marca: ', value: data?.brand},
-        {title: 'Cor: ', value: data?.color},
-        {title: 'Câmbio dianteiro: ', value: data?.frontDerailleur},
-        {title: 'Câmbio traseiro: ', value: data?.rearDerailleur},
-        {title: 'Tipo de suspensão traseira: ', value: data?.rearSuspensionType},
-        {title: 'Tamanho do aro: ', value: data?.wheelSize},
-        {title: 'Tipo de freio: ', value: data?.brakesType},
-        {title: 'Tipo de quadro: ', value: data?.frameType},
-        {title: 'Peneu dianteiro: ', value: data?.frontTire},
-        {title: 'Peneu traseiro: ', value: data?.rearTire},
-        {title: 'Observação: ', value: data?.Comments},
-    ]
 
     let newData = {
         serie: serie,
@@ -165,7 +149,7 @@ const ModalBicicleta = (props) => {
                                     
                                 />
 
-                                <RadioInput name="Tipo de bicicleta"
+                                {/* <RadioInput name="Tipo de bicicleta"
                                     items={[
                                         { name: 'MTB'},
                                         { name: 'Speed'},
@@ -175,7 +159,7 @@ const ModalBicicleta = (props) => {
                                     value={data?.type}
                                     required
                                     disabled={des}
-                                />
+                                /> */}
 
                                 <TextInput name="Nome"
                                     width={`w-full`}
@@ -274,28 +258,6 @@ const ModalBicicleta = (props) => {
 
                         </div>
 
-                        {/* Detalhes */}
-                        {/* <div className={`${hidePassDelete} ${hidePassCriar} flex flex-col`}>
-
-                            <span className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all">
-                                {data?.name}
-                            </span>
-
-                            <img src={data?.photo ? data?.photo : '/Bike.jpg'} alt="image" className='rounded-xl'/>
-
-                            <div className='grid grid-cols-1 justify-items-start mt-8 text-cinza text-md font-medium'>
-                                <table className='w-full'>
-                                    {itens.map((item, index) => (
-                                        <tr key={index} className='odd:bg-cinzaClaro'>
-                                            <td className='text-neutral-700 w-1/3'>{item.title}</td>
-                                            <td className='pl-10'>{item.value}</td>
-                                        </tr>
-                                ))}
-                                </table>
-                            </div>
-
-                        </div> */}
-
                         {/* Delete */}
                         <div className={`Delete ${hidePassDetalhe} ${hidePassCriar}`}>
                             <h2 className='font-bold text-lg text-neutral-600 mt-8'>
@@ -304,7 +266,7 @@ const ModalBicicleta = (props) => {
                         </div>
 
                         <div className={`relative w-full mt-16 ${hidePassDetalhe}`}>
-                            <ButtonModalComponent title={props.action} onClick={() => (null)}/>
+                            <ButtonModalComponent title={props.action} data={data} newData={newData} url={'bikes'}/>
                         </div>
 
                         <style
