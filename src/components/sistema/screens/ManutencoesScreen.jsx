@@ -6,6 +6,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import axios from 'axios'
 import ModalDetalhesManutencao from '../modals/ModalDetalhesManutencao';
 import { ApiContext } from '@/contexts/Api';
+import LoadingComponent from '../loadingComponent';
 
 const ManutencoesScreen = (props) => {
 
@@ -83,37 +84,41 @@ const ManutencoesScreen = (props) => {
 
 
         <div className="overflow-x-auto "> {/* flex justify-center */}
-        <table className="table table-zebra w-full my-20 text-xs md:text-sm lg:text-base">
+        { !buscaManutencao ?
+            <LoadingComponent/>
+          :
+            <table className="table table-zebra w-full my-20 text-xs md:text-sm lg:text-base">
 
-          <thead>
-            <tr >
-              <th className='z-0'>Título</th>
-              {/* <th>Ciclista</th> */}
-              <th>Data</th>
-              <th className='hidden md:table-cell'>Valor</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
+              <thead>
+                <tr >
+                  <th className='z-0'>Título</th>
+                  {/* <th>Ciclista</th> */}
+                  <th>Data</th>
+                  <th className='hidden md:table-cell'>Valor</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
 
-          <tbody>
-            {manutencoesFiltradas?.map((manutencao, index) => {
-              return(
-              <tr key={index}>
-                <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
-                {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
-                <td>{manutencao.updated_at.slice(0, 10)}</td>
-                <td className='hidden md:table-cell'>R$ { (manutencao.value).toFixed(2).replace(/\./, ',') } </td>
-                <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row`}>
-                  {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
-                  <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao>
-                  <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
-                  <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
-                </td>
-              </tr>
-              )
-            })}
-          </tbody>
-        </table>
+              <tbody>
+                {manutencoesFiltradas?.map((manutencao, index) => {
+                  return(
+                  <tr key={index}>
+                    <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
+                    {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
+                    <td>{manutencao.updated_at.slice(0, 10)}</td>
+                    <td className='hidden md:table-cell'>R$ { (manutencao.value).toFixed(2).replace(/\./g, ',') } </td>
+                    <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row`}>
+                      {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
+                      <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao>
+                      <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
+                      <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
+                    </td>
+                  </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+        }
       </div>
 
       {buscaManutencao?.map((manutencao, index) => (
