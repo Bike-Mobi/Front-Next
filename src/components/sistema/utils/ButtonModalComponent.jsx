@@ -1,28 +1,41 @@
-import React from 'react'
-import creates from '../functions/creates';
-import deletes from '../functions/deletes'
-import updates from '../functions/updates';
+'use client'
+import { ApiContext } from '@/contexts/Api'
+import React, { useContext, useState } from 'react'
 
 const ButtonModalComponent = (props) => {
 
+    const {instance} = useContext(ApiContext)
+    const [confirmation, setConfirmation] = useState(false)
     const url = props.url
-    let acao, data;
 
     function name(){
         if(props.title == "delete"){
-            acao = deletes
-            data = props.data
             return "Deletar"
         }
         else if(props.title == "edit"){
-            acao = updates
-            data = props.newData
             return "Editar"
         }
         else{
-            acao = creates
-            data = props.newData
             return "Adicionar"
+        }
+    }
+
+    if(confirmation){
+        if(props.title == "delete"){
+            instance.delete(`/${url}/${props.data.id}`)
+            .then(() => document.location.reload())
+        }
+        else if(props.title == "edit"){
+            instance.put(`/${url}/${props.data.id}`,
+                props.newData
+            )
+            .then(() => document.location.reload())
+        }
+        else{
+            instance.post(`/${url}`,
+                props.newData
+            )
+            .then(() => document.location.reload())
         }
     }
 
@@ -39,7 +52,7 @@ const ButtonModalComponent = (props) => {
     }
 
     return (
-        <button onClick={() => acao(data, url)} className={`${style()} absolute right-0 bottom-0 p-2 text-lg leading-none`}>
+        <button onClick={() => setConfirmation(true)} className={`${style()} absolute right-0 bottom-0 p-2 text-lg leading-none`}>
             {name()}
         </button>
     )
