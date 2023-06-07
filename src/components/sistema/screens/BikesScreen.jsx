@@ -6,23 +6,6 @@ import React, { useState } from "react";
 
 const BikesScreen = (props) => {
 
-  // const [carlos, setCarlos] = useState({})
-
-  // fakeApi.bicicleta().then(
-  //     (response) => {
-  //         setCarlos(response)
-  //     }
-  // ).catch(
-  //     (error) => {
-  //         console.log("error", error)
-  //     }
-  // )
-
-  // console.log('tteste1', carlos)
-
-  // const teste = fakeApi.bicicleta();
-  // console.log('tteste2', teste)
-
     const data = props.produtos
     console.log(data)
 
