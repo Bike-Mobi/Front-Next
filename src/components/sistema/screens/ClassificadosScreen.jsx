@@ -18,7 +18,7 @@ const ClassificadosScreen = (props) => {
     const router = useRouter()
 
     const produtosFiltrados = props.produtos?.filter((item) => {
-        return item.name.toLowerCase().includes(search.toLowerCase())
+        return item?.name?.toLowerCase().includes(search.toLowerCase())
     })
 
     function renderCards() {

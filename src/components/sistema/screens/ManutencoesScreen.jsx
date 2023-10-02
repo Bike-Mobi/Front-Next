@@ -45,7 +45,7 @@ const ManutencoesScreen = (props) => {
 
   // console.log('all bicicletas:', allBicicletas)
   let manutencoesFiltradas = buscaManutencao?.filter((item) => {
-    return item.description.toLowerCase().includes(search.toLowerCase())
+    return item?.description?.toLowerCase().includes(search.toLowerCase())
   })
   // let manutencoesFiltradas = buscaManutencao
 
