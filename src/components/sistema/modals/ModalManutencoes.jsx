@@ -175,7 +175,7 @@ const ModalManutencoes = (props) => {
                                 ) :
                                     bike ? (
                                         <div className='flex p-2 m-2 mt-3 bg-cinzaClaro rounded-lg'>
-                                            <img src={`${p'https://bikemobi.com.br/api'}/bicicletaFoto/${bike.photo_1}`} className='w-14 h-14 object-cover rounded-lg mr-4' alt="" />
+                                            <img src={`${'https://bikemobi.com.br/api'}/bicicletaFoto/${bike.photo_1}`} className='w-14 h-14 object-cover rounded-lg mr-4' alt="" />
                                             <div className='flex flex-col gap-1'>
                                                 <div className='font-semibold text-tomEscuro text-lg'>{bike.nameBike}</div>
                                                 <div className='text-accent'>{bike.brand}</div>
