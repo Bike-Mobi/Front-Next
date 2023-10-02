@@ -4,7 +4,7 @@ import ManutencoesScreen from '@/components/sistema/screens/ManutencoesScreen'
 import { AuthContext } from '@/contexts/Auth'
 import React, { useContext } from 'react'
 
-const page = () => {
+const Manutencoes = () => {
 
   const { authData } = useContext(AuthContext)
 
@@ -15,4 +15,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Manutencoes
