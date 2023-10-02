@@ -4,7 +4,7 @@ import ClassificadosScreen from '@/components/sistema/screens/ClassificadosScree
 import { ApiContext } from '@/contexts/Api'
 import React, { useContext, useEffect, useState } from 'react'
 
-const anuncios = () => {
+const Anuncios = () => {
 
     const { instance } = useContext(ApiContext)
 
@@ -22,4 +22,4 @@ const anuncios = () => {
     )
 }
 
-export default anuncios
+export default Anuncios

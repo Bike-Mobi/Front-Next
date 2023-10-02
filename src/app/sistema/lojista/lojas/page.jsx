@@ -4,7 +4,7 @@ import LojasScreen from '@/components/sistema/screens/LojasScreen'
 import { ApiContext } from '@/contexts/Api'
 import React, { useContext, useEffect, useState } from 'react'
 
-const page = () => {
+const Lojas = () => {
 
   const { instance } = useContext(ApiContext)
 
@@ -20,4 +20,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Lojas

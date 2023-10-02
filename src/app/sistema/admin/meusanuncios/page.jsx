@@ -5,7 +5,7 @@ import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
 import React, { useContext, useEffect, useState } from 'react'
 
-const meusanuncios = () => {
+const Meusanuncios = () => {
 
     const { instance } = useContext(ApiContext)
     const { authData } = useContext(AuthContext)
@@ -24,4 +24,4 @@ const meusanuncios = () => {
     )
 }
 
-export default meusanuncios
+export default Meusanuncios

@@ -7,7 +7,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 
 
-const page = () => {
+const Bikes = () => {
   const { authData } = useContext(AuthContext)
   const { instance } = useContext(ApiContext)
   
@@ -26,4 +26,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Bikes
