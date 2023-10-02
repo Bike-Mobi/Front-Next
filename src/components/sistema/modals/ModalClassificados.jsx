@@ -78,7 +78,7 @@ const ModalClassificados = (props) => {
     return (
         <div className="modal-container h-[41px] items-center flex">
 
-            <label htmlFor={`my-modal${props.id}`} className=' text-white p-0 h-full cursor-pointer'>
+            <label htmlFor={`my-modal${props?.id}`} className=' text-white p-0 h-full cursor-pointer'>
                 {buttonOpenModal()}
             </label>
             <input
@@ -88,7 +88,7 @@ const ModalClassificados = (props) => {
                 onClick={props.path == "/classificados" ? () => router.push('/autenticacao/login') : null}
             />
 
-            <label htmlFor={`my-modal${props.id}`} className="modal cursor-pointer">
+            <label htmlFor={`my-modal${props?.id}`} className="modal cursor-pointer">
                 <label className="rounded-lg modal-box relative" htmlFor="">
                     <label htmlFor={`my-modal${props?.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto">
