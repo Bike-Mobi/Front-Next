@@ -106,7 +106,7 @@ const Dashboard = () => {
                     {!stravaStatusUser ? (
                         <button onClick={getStravaToken} className='btn bg-strava text-white border-strava hover:opacity-80 hover:bg-strava hover:border-strava m-10'>Sincronize com o Strava</button>
                     ) : null}
-                    <div className='fixed bottom-6 right-6'>
+                    {/* <div className='fixed bottom-6 right-6'>
                         <div className='mt-auto flex flex-col gap-2 py-2 bg-azul w-[400px] rounded-xl'>
                             <div className='text-center w-full text-white font-bold'>Promoções</div>
                             <div className='rounded-md bg-white flex mx-2 h-32'>
@@ -134,7 +134,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
