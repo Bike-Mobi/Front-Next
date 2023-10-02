@@ -8,7 +8,7 @@ export const ApiContext = createContext()
 export function ApiProvider({ children }) {
 
     let instance = axios.create({
-        baseURL: process.env.NEXT_PUBLIC_API_BACK_END,
+        baseURL: process.env.https://bikemobi.com.br/api,
         headers: {
             'Content-Type': 'multipart/form-data',
             Accept: "application/json",
