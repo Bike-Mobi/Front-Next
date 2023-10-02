@@ -5,7 +5,7 @@ import ModalClassificados from '@/components/sistema/modals/ModalClassificados';
 const CardClassificados = (props) => {
 
     const path = usePathname()
-    console.log('userId: ', props.userId)
+    console.log('userId: ', props?.userId)
 
     return (
         <div className={`border border-cinza rounded-2xl font-dmsans ${ path == "/classificados" ? "md:w-[450px] xl:w-[550px] h-[450px] md:h-[220px] md:flex-row" : ""} w-[250px] h-[450px] flex flex-col p-3 justify-between mb-6`}>

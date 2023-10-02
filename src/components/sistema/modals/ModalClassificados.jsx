@@ -83,14 +83,14 @@ const ModalClassificados = (props) => {
             </label>
             <input
                 type={`${props.path == "/classificados" ? null : "checkbox"}`}
-                id={`my-modal${props.id}`}
+                id={`my-modal${props?.id}`}
                 className="modal-toggle"
                 onClick={props.path == "/classificados" ? () => router.push('/autenticacao/login') : null}
             />
 
             <label htmlFor={`my-modal${props.id}`} className="modal cursor-pointer">
                 <label className="rounded-lg modal-box relative" htmlFor="">
-                    <label htmlFor={`my-modal${props.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <label htmlFor={`my-modal${props?.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto">
 
                         <TitleModalComponent action={props.action} title={'Anúncio'}/>
