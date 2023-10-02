@@ -63,7 +63,7 @@ const ModalClassificados = (props) => {
     //         return setPrice(valorFormatado)
     //     }
     // }
-    console.log('userId: ', props.userId)
+    console.log('userId: ', props?.userId)
 
     let newData = {
         name: title,
@@ -82,7 +82,7 @@ const ModalClassificados = (props) => {
                 {buttonOpenModal()}
             </label>
             <input
-                type={`${props.path == "/classificados" ? null : "checkbox"}`}
+                type={`${props?.path == "/classificados" ? null : "checkbox"}`}
                 id={`my-modal${props?.id}`}
                 className="modal-toggle"
                 onClick={props.path == "/classificados" ? () => router.push('/autenticacao/login') : null}
@@ -93,9 +93,9 @@ const ModalClassificados = (props) => {
                     <label htmlFor={`my-modal${props?.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto">
 
-                        <TitleModalComponent action={props.action} title={'Anúncio'}/>
+                        <TitleModalComponent action={props?.action} title={'Anúncio'}/>
 
-                        {props.action != 'delete' ?
+                        {props?.action != 'delete' ?
                             <div className='w-full'>
 
                                 <TextInput name="Titulo"
@@ -157,7 +157,7 @@ const ModalClassificados = (props) => {
 
                         <div className='relative w-full mt-16'>
                             <ButtonModalComponent
-                                title={props.action}
+                                title={props?.action}
                                 data={data}
                                 newData={newData}
                                 baseUrl='classificado'
