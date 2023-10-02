@@ -2,11 +2,11 @@
 
 import ManutencoesScreen from '@/components/sistema/screens/ManutencoesScreen'
 import { AuthContext } from '@/contexts/Auth'
-import React, { useCallback } from 'react'
+import React, { useContext } from 'react'
 
 const page = () => {
 
-  const { authData } = useCallback(AuthContext)
+  const { authData } = useContext(AuthContext)
 
   return (
     <div className=''>
