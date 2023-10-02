@@ -26,14 +26,14 @@ const ClassificadosScreen = (props) => {
             return produtosFiltrados.map((item) => {
                 return (
                     <CardClassificados
-                        key={item.id}
+                        key={item?.id}
                         // title={item.title}
                         // photo={item.photo}
                         // description={item.description}
                         // price={item.price}
                         // id={item.id}
                         data={item}
-                        userId={authData.user.id}
+                        userId={authData.user?.id}
                     ></CardClassificados>
                 )
             })

@@ -10,8 +10,8 @@ const CardClassificados = (props) => {
     return (
         <div className={`border border-cinza rounded-2xl font-dmsans ${ path == "/classificados" ? "md:w-[450px] xl:w-[550px] h-[450px] md:h-[220px] md:flex-row" : ""} w-[250px] h-[450px] flex flex-col p-3 justify-between mb-6`}>
             <div className={`${ path == "/classificados" || path.slice(-9) == "/anuncios"  ? "hidden" : "block"} flex gap-2 mb-2`}>
-                <ModalClassificados action="delete" id={`${props.id}d`} data={props.data} userId={props.userId}/>
-                <ModalClassificados action="edit" id={`${props.id}e`} data={props.data} userId={props.userId}/>
+                <ModalClassificados action="delete" id={`${props?.id}d`} data={props.data} userId={props?.userId}/>
+                <ModalClassificados action="edit" id={`${props?.id}e`} data={props.data} userId={props?.userId}/>
             </div>
             <div className={`flex w-56 justify-center ${ path == "/classificados" ? " md:w-[176px] xl:w-56" : ""}`}>
                 <img src={`${process.env.NEXT_PUBLIC_API_BACK_END}/classificadoFoto/${props.data.photo}`} alt="Foto da mercadoria" className='rounded-2xl object-cover h-[195px]'/>
