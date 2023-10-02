@@ -7,10 +7,13 @@ import axios from 'axios'
 import ModalDetalhesManutencao from '../modals/ModalDetalhesManutencao';
 import { ApiContext } from '@/contexts/Api';
 import LoadingComponent from '../loadingComponent';
+import { AuthContext } from '@/contexts/Auth';
 
 const ManutencoesScreen = (props) => {
 
-  const {instance} = useContext(ApiContext)
+  const { authData } = useContext(AuthContext)
+  const { instance } = useContext(ApiContext)
+
   const [idModal, setIdModal] = useState('')
   const [search, setSearch] = useState('')
   const [date1, setDate1] = useState('')
@@ -21,26 +24,30 @@ const ManutencoesScreen = (props) => {
   const handleSearchChange = (event) => setSearch( event.target.value)
 
 
-  const [buscaCiclista, setBuscaCiclista] = useState()
+  // const [allBicicletas, setAllBicicletas] = useState()
   const [buscaManutencao, setBuscaManutencao] = useState()
 
   useEffect(() => {
-    instance.get("/users")
-    .then((response) => setBuscaCiclista(response.data))
+    let url
+    authData.user.type == 'Cyclist' ? url = 'Cyclist' : url = 'Loja'
 
-    instance.get("/maintence")
-    .then((response) => setBuscaManutencao(response.data.data))
+    // instance.get("/allBicicletas/C84s6942")
+    // .then((response) => setAllBicicletas(response.data))
+
+    instance.get(`/manutencaoFrom${url}/${authData.type.id}`)
+    .then((response) => setBuscaManutencao(response.data))
   }, [])
 
-  const ciclistas = buscaCiclista?.data.filter((item) => {
-      return item.type == "Cyclist"
-  }
-  )
+  // const ciclistas = buscaCiclista?.filter((item) => {
+  //     return item.type == "Cyclist"
+  // }
+  // )
 
-
+  // console.log('all bicicletas:', allBicicletas)
   let manutencoesFiltradas = buscaManutencao?.filter((item) => {
-    return item.title.toLowerCase().includes(search.toLowerCase())
+    return item.description.toLowerCase().includes(search.toLowerCase())
   })
+  // let manutencoesFiltradas = buscaManutencao
 
   manutencoesFiltradas = manutencoesFiltradas?.filter((item) => {
     if(date1 == '' || date2 == ''){
@@ -51,18 +58,26 @@ const ManutencoesScreen = (props) => {
     }
   })
 
+  const dateFormat = (date) => {
+    const dia = date.slice(8, 10)
+    const mes = date.slice(5, 7)
+    const ano = date.slice(0, 4)
+    return dia + '/' + mes + '/' + ano
+  }
 
   return ( 
     <div className={`mt-16 xl:mt-9 px-5 sm:px-10 lg:px-14 =`}>
 
       <div className={`w-full flex flex-col-reverse xl:flex-row xl:justify-between xl:items-end`}>
-        <label htmlFor={`my-modal-${idModal}`} onClick={() => setIdModal(null)} className="btn bg-tomEscuro hover:opacity-90 hover:bg-tomEscuro text-white w-60">+ Adicionar Manutenção</label>
+        {props.create ? (
+          <label htmlFor={`my-modal-${idModal}`} onClick={() => setIdModal(null)} className="btn bg-tomEscuro hover:opacity-90 hover:bg-tomEscuro text-white w-60">+ Adicionar Manutenção</label>
+        ) : null}
         {/* <button onClick={() => setIdModal('-1')} className="btn btn-primary text-white right-0 absolute">Adicionar Manutenção</button> */}
-        {idModal == null ? (
+        {idModal == null && props.create ? (
           <ModalManutencoes
             data={null}
             idModal={idModal}
-            ciclistas={ciclistas}
+            lojaId={authData.type.id ? authData.type.id : null}
           />
         ):(null)}
 
@@ -91,11 +106,16 @@ const ManutencoesScreen = (props) => {
 
               <thead>
                 <tr >
-                  <th className='z-0'>Título</th>
+                  <th className='z-0'>Descrição</th>
                   {/* <th>Ciclista</th> */}
+                  <th>Fotos</th>
                   <th>Data</th>
                   <th className='hidden md:table-cell'>Valor</th>
+                {props.create ? (
                   <th>Ações</th>
+                ) : (
+                  <th>Detalhes</th>
+                )}
                 </tr>
               </thead>
 
@@ -103,16 +123,37 @@ const ManutencoesScreen = (props) => {
                 {manutencoesFiltradas?.map((manutencao, index) => {
                   return(
                   <tr key={index}>
-                    <td className='max-w-[174px] overflow-hidden'>{manutencao.title}</td>
+                      <td className='max-w-[174px] overflow-hidden'><p className='break-all'>{manutencao.description}</p></td>
+                      <td>
+                        <div className='flex gap-4'>
+                        {manutencao.photo_1 ? (
+                            <img src={`${process.env.NEXT_PUBLIC_API_BACK_END}/manutencaoFoto/${manutencao.photo_1}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                          ) : null}
+                          {manutencao.photo_2 ? (
+                            <img src={`${process.env.NEXT_PUBLIC_API_BACK_END}/manutencaoFoto/${manutencao.photo_2}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                          ) : null}
+                          {manutencao.photo_3 ? (
+                            <img src={`${process.env.NEXT_PUBLIC_API_BACK_END}/manutencaoFoto/${manutencao.photo_3}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                          ) : null}
+                        </div>
+                      </td>
                     {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
-                    <td>{manutencao.updated_at.slice(0, 10)}</td>
-                    <td className='hidden md:table-cell'>R$ { (manutencao.value).toFixed(2).replace(/\./g, ',') } </td>
-                    <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row`}>
-                      {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
-                      <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao>
-                      <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
-                      <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
-                    </td>
+                    
+                    <td>{dateFormat(manutencao.created_at)}</td>
+                    <td className='hidden md:table-cell'>R$ {manutencao.valor_mdo} </td>
+                      {props.create ? (
+                        <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row py-8`}>
+                          {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
+                          {/* <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao> */}
+                          <label htmlFor={`my-modal-${manutencao.id}det`} onClick={() => setIdModal(manutencao.id+'det')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><DocumentTextIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-success p-1 mx-1 rounded-md'/></label>
+                          <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
+                          <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
+                        </td>
+                      ) : (
+                        <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row py-8`}>
+                          <label htmlFor={`my-modal-${manutencao.id}det`} onClick={() => setIdModal(manutencao.id+'det')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><DocumentTextIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-success p-1 mx-1 rounded-md'/></label>
+                        </td>
+                    )}
                   </tr>
                   )
                 })}
@@ -127,7 +168,7 @@ const ManutencoesScreen = (props) => {
             <ModalManutencoes
               data={manutencao}
               idModal={idModal}
-              ciclistas={ciclistas}
+              // ciclistas={ciclistas}
             />
           </div>
         ):(null)

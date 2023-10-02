@@ -14,7 +14,8 @@ module.exports = {
       'white': '#fff',
       'tomEscuro': '#170F49',
       'cinza': '#979797',
-      'cinzaClaro': '#EFF0F6'
+      'cinzaClaro': '#EFF0F6',
+      'strava': '#f87d2b'
     },
     fontFamily: {
       'dmsans': ['DM Sans', 'sans-serif'],

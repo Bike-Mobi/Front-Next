@@ -2,6 +2,7 @@
 import { ApiContext } from '@/contexts/Api'
 import React, { useContext, useEffect, useState } from 'react'
 import CardLoja from '../modals/CardLoja'
+import { useRouter } from 'next/navigation'
 
 const LojasScreen = (props) => {
 
@@ -16,18 +17,29 @@ const LojasScreen = (props) => {
 // const lojas = buscaLojas.data?.filter((item) => {
 //     return item.type == "Shopkeeper"
 // })
+    
+    // useEffect(() => {
+    //     axios.get('https://www.strava.com/api/v3/athlete/activities', {
+    //         headers: {
+    //             Authorization: `Bearer 5cd3226e0459c73d5bdbaac5c05f6e2f6486ddad`
+    //         }
+    //     }).then(resp => console.log(resp)).catch(error => console.error(error))
+    // }, [])
 
-return(
-    <div className={`mt-16 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2`}>
-        {props.lojas.map((item, index) => {
-            return (
-                <div key={index} className={`flex justify-center items-center`}>
-                    <CardLoja data={item}/>
-                </div>
-            )
-        })}
-    </div>
-)
+    const router = useRouter()
+
+    return(
+        <div className={`mt-16 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2`}>
+            {/* <button onClick={() => router.push(`${process.env.NEXT_PUBLIC_API_BACK_END}/auth/strava`)}>Press here</button> */}
+            {props.lojas.map((item, index) => {
+                return (
+                    <div key={index} className={`flex justify-center items-center`}>
+                        <CardLoja data={item}/>
+                    </div>
+                )
+            })}
+        </div>
+    )
 }
 
 export default LojasScreen

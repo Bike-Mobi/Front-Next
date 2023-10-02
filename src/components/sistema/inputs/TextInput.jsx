@@ -13,22 +13,30 @@ const TextInput = (props) => {
         req = false
     }
 
+    console.log('dafault value: ',props.defaultValue)
     return (
         <div className={`${props.ClassName} ${props.width}`}>
             <label className="label">
                 <span className={`label-text font-medium ${classReq}`}>{props.name}</span>
             </label>
-            <ReactInputMask type="text"
-                required={req}
-                placeholder={props.placeholder}
-                value={props.value}
-                defaultValue={props.defaultValue}
-                onChange={props.onChange}
-                mask={props.mask}
-                className={`input input-accent input-bordered ${props.width}`}
-                disabled={props.disabled}
-                onClick={props.onClick}
-            />
+            <div className='flex'>
+                {props.price ? (
+                    <div className='flex m-1 text-accent text-xl font-bold text-center p-2'>
+                        R$
+                    </div>
+                ) : null}
+                <ReactInputMask type="text"
+                    required={req}
+                    placeholder={props.placeholder}
+                    value={props.value}
+                    defaultValue={props.defaultValue}
+                    onChange={props.onChange}
+                    mask={props.mask}
+                    className={`input input-accent input-bordered ${props.width}`}
+                    disabled={props.disabled}
+                    onClick={props.onClick}
+                />
+            </div>
         </div>
     )
 }

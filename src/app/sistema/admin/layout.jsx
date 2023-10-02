@@ -7,7 +7,7 @@ import LoadingComponent from "@/components/sistema/loadingComponent"
 
 const AdminLayout = ({ children }) => {
 
-    const { verifyToken, valid } = useContext(AuthContext)
+    const { verifyToken, valid, authData } = useContext(AuthContext)
 
     const { ['bikeMobiToken']: token } = nookies.get()
     
@@ -16,7 +16,7 @@ const AdminLayout = ({ children }) => {
             await verifyToken(token, null)
         }
         verify()
-    }, [])
+    }, [authData])
     
     return (
         <div>

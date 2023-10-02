@@ -29,13 +29,13 @@ const ModalDetalhesLojas = (props) => {
                 <label className="rounded-lg modal-box relative text-cinza" htmlFor="">
                     <label htmlFor={`my-modal-${data.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-start overflow-auto text-start leading-10">
-                        <h3 className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all self-center">{data.name}</h3>
-                        <img src={data.photo} alt="Foto da mercadoria" className=' rounded-2xl object-cover'/>
+                        <h3 className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all self-center">{data?.name}</h3>
+                        <img src={data?.photo ? `${process.env.NEXT_PUBLIC_API_BACK_END}/lojaFoto/${data?.photo}` : '/manutencaoBg.jpeg'} alt="Foto da mercadoria" className=' rounded-2xl object-cover'/>
                         <span className='font-normal text-lg break-all overflow-hidden my-10'>{data.description}</span>
-                        <span>email: {data.email}</span>
-                        <span>telefone: {data.telephone}</span>
-                        <span>celular: {data.phone}</span>
-                        <span className=''>Serviços prestados:
+                        {/* <span>email: {data.email}</span> */}
+                        <span className='bg-tomEscuro rounded-md text-white px-3'>Contato: {data.tel_fixo}</span>
+                        {/* <span>celular: {data.phone}</span> */}
+                        {/* <span className=''>Serviços prestados:
                             {data.services.maintenance ? ' Manunteção, ' : ''}
                             {data.services.bikeSale ? ' Venda de bikes, ' : ''}
                             {data.services.hosting ? ' Hospedagem, ' : ''}
@@ -45,15 +45,15 @@ const ModalDetalhesLojas = (props) => {
                             {data.services.transport ? ' Transporte, ' : ''}
                             {data.services.accessories ? ' Venda de Acessórios, ' : ''}
                             {data.services.guide ? ' Guia turístico, ' : ''}
-                        </span>
+                        </span> */}
                         <div className={`w-full flex flex-col mt-4`}>
-                            <span>Endereço:</span>
-                            <span>Cidade: {data.address.city} / {data.address.state}</span>
-                            <span>Rua: {data.address.street}</span>
-                            <span>Numero: {data.address.number}</span>
-                            <span>Bairro: {data.address.neighborhood}</span>
-                            <span>{data.address.complement ?'Complemento:' + data.address.complement : ''}</span>
-                            <span>CEP: {data.address.cep}</span>
+                            {/* <span>Endereço:</span> */}
+                            <span>Cidade: {data.city} / {data.state}</span>
+                            <span>Rua: {data.street}</span>
+                            <span>Numero: {data.number}</span>
+                            <span>Bairro: {data.neighborhood}</span>
+                            {/* <span>{data.address.complement ?'Complemento:' + data.address.complement : ''}</span> */}
+                            <span>CEP: {data.cep}</span>
                         </div>
                     </div>
                 </label>

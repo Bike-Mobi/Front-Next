@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { CheckBoxInput } from '../inputs/CheckBoxInput'
 import EmailInput from '../inputs/EmailInput'
 import PasswordInput from '../inputs/PasswordInput'
+import TextareaInput from '../inputs/TextareaInput'
 
 const FormLojista = (props) => {
 
@@ -39,15 +40,15 @@ const FormLojista = (props) => {
     const [cidade, setCidade] = useState()
     const [estado, setEstado] = useState()
     const [descricao, setDescricao] = useState()
-    const [manutencao, setManutencao] = useState(data?.services.maintenance)
-    const [vendabike, setVendabike] = useState(data?.services.bikeSale)
-    const [hospedagem, setHospedagem] = useState(data?.services.hosting)
-    const [vendapeca, setVendapeca] = useState(data?.services.partsSale)
-    const [alimentacao, setAlimentacao] = useState(data?.services.food)
-    const [eventos, setEventos] = useState(data?.services.events)
-    const [transporte, setTransporte] = useState(data?.services.transport)
-    const [acessorios, setAcessorios] = useState(data?.services.accessories)
-    const [guia, setGuia] = useState(data?.services.guide)
+    // const [manutencao, setManutencao] = useState(data?.services.maintenance)
+    // const [vendabike, setVendabike] = useState(data?.services.bikeSale)
+    // const [hospedagem, setHospedagem] = useState(data?.services.hosting)
+    // const [vendapeca, setVendapeca] = useState(data?.services.partsSale)
+    // const [alimentacao, setAlimentacao] = useState(data?.services.food)
+    // const [eventos, setEventos] = useState(data?.services.events)
+    // const [transporte, setTransporte] = useState(data?.services.transport)
+    // const [acessorios, setAcessorios] = useState(data?.services.accessories)
+    // const [guia, setGuia] = useState(data?.services.guide)
 
 
     const [photo, setPhoto] = useState()
@@ -82,45 +83,48 @@ const FormLojista = (props) => {
     const handleCidade = (e) => setCidade(e.target.value)
     const handleEstado = (e) => setEstado(e.target.value)
     const handleDescricao = (e) => setDescricao(e.target.value)
-    const handleManutencao = (e) => setManutencao( prev => !prev)
-    const handleVendabike = (e) => setVendabike(prev => !prev)
-    const handleHospedagem = (e) => setHospedagem(prev => !prev)
-    const handleVendapeca = (e) => setVendapeca(prev => !prev)
-    const handleAlimentacao = (e) => setAlimentacao(prev => !prev)
-    const handleEventos = (e) => setEventos(prev => !prev)
-    const handleTransporte = (e) => setTransporte(prev => !prev)
-    const handleAcessorios = (e) => setAcessorios(prev => !prev)
-    const handleGuia = (e) => setGuia(prev => !prev)
+    // const handleManutencao = (e) => setManutencao( prev => !prev)
+    // const handleVendabike = (e) => setVendabike(prev => !prev)
+    // const handleHospedagem = (e) => setHospedagem(prev => !prev)
+    // const handleVendapeca = (e) => setVendapeca(prev => !prev)
+    // const handleAlimentacao = (e) => setAlimentacao(prev => !prev)
+    // const handleEventos = (e) => setEventos(prev => !prev)
+    // const handleTransporte = (e) => setTransporte(prev => !prev)
+    // const handleAcessorios = (e) => setAcessorios(prev => !prev)
+    // const handleGuia = (e) => setGuia(prev => !prev)
 
     let newData = {
-        name: nome,
-        email: email,
-        password: senha,
-        password_confirmation: confirmaSenha,
-        cnpj: cnpj,
-        cpf: cpf,
-        phone: celular,
-        telephone: telefone,
-        description: descricao,
-        type: 'Shopkeeper',
-        services: {
-            maintenance: manutencao,
-            bikeSale: vendabike,
-            hosting: hospedagem,
-            partsSale: vendapeca,
-            food: alimentacao,
-            events: eventos,
-            transport: transporte,
-            accessories: acessorios,
-            guide: guia
+        user: {
+            name: nome,
+            email: email,
+            password: senha,
+            password_confirmation: confirmaSenha,
+            phone: celular,
+            city: cidade,
+            state: estado,
+            premium: null,
+            dateExpiracao: null,
+            inactivated_at: null,
+            store_id: null,
+            cpf: cpf,
+            cnpj: cnpj,
+            birthday: null,
+            email_verified_at: null,
         },
-        address: {
+        type: {
+            name: nome,
+            photo: photo,
+            tel_fixo: telefone,
+            cnpj: cnpj,
+            cpf: cpf,
+            observer: null,
             street: rua,
             number: numero,
             neighborhood: bairro,
             city: cidade,
             state: estado,
-            cep: cep
+            cep: cep,
+            description: descricao,
         }
     }
 
@@ -131,7 +135,7 @@ const FormLojista = (props) => {
                     <EmailInput name="E-mail"
                         required
                         width={` ${!props.register ? 'w-72 sm:w-full lg:w-[500px]' : 'w-full'} `}
-                        value={data?.email}
+                        defaultValue={data?.user?.email}
                         onChange={handleEmail}
                     />
                     <div className={`${hidePass} flex-col md:flex-row gap-8 mt-8 justify-between`}>
@@ -153,7 +157,11 @@ const FormLojista = (props) => {
                         text="Upload"
                         description="SVG, PNG ou JPG "
                         onChange={handlePhoto}
-                        className={`w-[150px] h-[150px] object-cover`}
+                        size='h-36 w-36'
+                        defaultValue={data?.type?.photo}
+                        typeImgURL='lojaFoto'
+                        
+                        // className={`w-[150px] h-[150px] object-cover`}
                     />
                 </div>
             </div>
@@ -164,7 +172,7 @@ const FormLojista = (props) => {
                         required
                         width={`w-full`}
                         onChange={handleNome}
-                        value={data?.name}
+                        defaultValue={data?.user?.name}
                     />
 
                     <div className={`flex flex-col ${!props.register ? 'lg:flex-row' : 'md:flex-row'} justify-between`}>
@@ -172,18 +180,18 @@ const FormLojista = (props) => {
                             <TextInput name="Telefone"
                                 mask="(99) 99999-9999"
                                 required
-                                width="w-60"
+                                width="w-80"
                                 onChange={handleTelefone}
-                                value={data?.telephone}
+                                defaultValue={data?.type?.tel_fixo}
                             />
                         </div>
                         <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
                             <TextInput name="Celular"
                                 mask="(99) 99999-9999"
                                 required
-                                width="w-60"
+                                width="w-80"
                                 onChange={handleCelular}
-                                value={data?.phone}
+                                defaultValue={data?.user?.phone}
                             />
                         </div>
                     </div>
@@ -193,18 +201,18 @@ const FormLojista = (props) => {
                             <TextInput name="CNPJ"
                                 mask="99.999.999/9999-99"
                                 required
-                                width="w-60"
+                                width="w-80"
                                 onChange={handleCnpj}
-                                value={data?.cnpj}
+                                defaultValue={data?.type?.cnpj}
                             />
                         </div>
                         <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
                             <TextInput name="CPF"
                                 mask="999.999.999-99"
                                 required
-                                width="w-60"
+                                width="w-80"
                                 onChange={handleCpf}
-                                value={data?.cpf}
+                                defaultValue={data?.type?.cpf}
                             />
                         </div>
                     </div>
@@ -219,31 +227,31 @@ const FormLojista = (props) => {
                         required
                         width="w-60"
                         onChange={handleCep}
-                        value={data?.address.cep}
+                        defaultValue={data?.type?.cep}
                     />
                     <TextInput name="Bairro"
                         width="w-60"
-                        value={bairro ? bairro : data?.address.neighborhood}
+                        defaultValue={bairro ? bairro : data?.type?.neighborhood}
                         onChange={handleBairro}
                     />
                     <NumberInput name="Número"
                         width="w-40"
                         onChange={handleNumero}
-                        value={data?.address.number}
+                        value={data?.type?.number}
                     />
                 </div>
 
                 <div className={`flex flex-col ${!props.register ? '' : 'md:flex-row'} gap-10 justify-between mt-8`}>
                     <TextInput name="Rua"
                         width="w-full"
-                        value={rua ? rua : data?.address.street}
+                        defaultValue={rua ? rua : data?.type?.street}
                         onChange={handleRua}
                     />
                     <TextInput name="Estado"
                         mask="aa"
                         required
                         width="w-40"
-                        value={estado ? estado : data?.address.state}
+                        defaultValue={estado ? estado : data?.user?.state}
                         onChange={handleEstado}
                     />
                 </div>
@@ -252,12 +260,12 @@ const FormLojista = (props) => {
                     <TextInput name="Cidade"
                         width="w-60"
                         required
-                        value={cidade ? cidade : data?.address.city}
+                        defaultValue={cidade ? cidade : data?.user?.city}
                         onChange={handleCidade}
                     />
                 </div>
 
-                <div className='mt-8'>
+                {/* <div className='mt-8'>
 
                     <span className={`label-text font-medium mb-2`}>Servisos Prestados</span>
 
@@ -277,13 +285,13 @@ const FormLojista = (props) => {
                         ]}
                         />
                     </div>
-                </div>
+                </div> */}
 
                 <div className='justify-between mt-8'>
-                    <TextInput name="Descrição"
+                    <TextareaInput name="Descrição"
                         width={`w-full ${!props.register ? '' : 'md:w-[584px] lg:w-[700px]'} `}
                         required
-                        value={descricao ? descricao : data?.description}
+                        defaultValue={descricao ? descricao : data?.type?.description}
                         onChange={handleDescricao}
                     />
                 </div>

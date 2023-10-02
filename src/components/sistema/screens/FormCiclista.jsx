@@ -77,26 +77,38 @@ const FormCiclista = (props) => {
     const handleEstado = (e) => setEstado(e.target.value)
 
     let newData = {
-        name: nome,
-        email: email,
-        password: senha,
-        password_confirmation: confirmaSenha,
-        cpf: cpf,
-        rg: rg,
-        birthday: date,
-        phone: celular,
-        blood: sangue,
-        sexo: sexo,
-        type: 'Cyclist',
-        address: {
+        user: {
+            name: nome,
+            email: email,
+            password: senha,
+            password_confirmation: confirmaSenha,
+            phone: celular,
+            city: cidade,
+            state: estado,
+            premium: null,
+            dateExpiracao: null,
+            inactivated_at: null,
+            store_id: null,
+            cpf: cpf,
+            rg: rg,
+            birthday: date,
+            email_verified_at: null,
+        },
+        type: {
+            photo: photo,
+            cpf: cpf,
+            nascimento: date,
             street: rua,
             number: numero,
             neighborhood: bairro,
-            city: cidade,
-            state: estado,
-            cep: cep
+            cep: cep,
+            sexo: sexo,
+            bloodType: sangue,
+            cityCT: cidade,
+            stateCT: estado,
         }
     }
+    console.log(newData)
 
     return (
         <div className={`mx-auto xl:px-28 ${!props.register ? 'px-0 py-10' : 'p-10'} xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit`}>
@@ -105,7 +117,7 @@ const FormCiclista = (props) => {
                     <EmailInput name="E-mail"
                         required
                         width={`${!props.register ? 'w-72 md:w-[420px] lg:w-[520px]' : 'w-80 md:w-[520px]'}`}
-                        value={data?.email}
+                        defaultValue={data?.user?.email}
                         onChange={handleEmail}
                     />
                     <div className={`${hidePass} flex-col md:flex-row gap-8 mt-8 justify-between`}>
@@ -126,6 +138,9 @@ const FormCiclista = (props) => {
                         text="Upload"
                         description="SVG, PNG ou JPG "
                         onChange={handlePhoto}
+                        size='h-36 w-36'
+                        defaultValue={data?.type?.photo}
+                        typeImgURL='ciclistaFoto'
                     />
                 </div>
             </div>
@@ -136,21 +151,21 @@ const FormCiclista = (props) => {
                         required
                         width={`${!props.register ? 'w-72 md:w-[420px] lg:w-[520px]' : 'w-80 md:w-[520px]'}`}
                         onChange={handleNome}
-                        value={data?.name}
+                        defaultValue={data?.user?.name}
                     />
 
                     <div className={`flex flex-col ${!props.register ? 'lg:flex-row' : 'md:flex-row'} gap-8 mt-8 justify-between`}>
                         <DateInput name="Nascimento"
                             onChange={handleDate}
                             className="w-60"
-                            value={data?.birthday}
+                            defaultValue={data?.type?.nascimento}
                         />
                         <TextInput name="Celular"
                             mask="(99) 99999-9999"
                             required
                             width="w-60"
                             onChange={handleCelular}
-                            value={data?.phone}
+                            defaultValue={data?.user?.phone}
                         />
                         
                     </div>
@@ -160,7 +175,7 @@ const FormCiclista = (props) => {
                             mask="9.999.999"
                             required
                             width="w-60"
-                            value={data?.rg}
+                            defaultValue={data?.user?.rg}
                             onChange={handleRg}
                         />
                         <TextInput name="CPF"
@@ -168,7 +183,7 @@ const FormCiclista = (props) => {
                             required
                             width="w-60"
                             onChange={handleCpf}
-                            value={data?.cpf}
+                            defaultValue={data?.user?.cpf}
                         />
                     </div>
                     <div className='flex flex-col md:flex-row gap-8 mt-8 justify-between'>
@@ -178,7 +193,7 @@ const FormCiclista = (props) => {
                                 { name: 'Masculino' },
                                 { name: 'Feminino' }
                             ]}
-                            value={data?.sexo}
+                            value={data?.type?.sexo}
                         />
                     </div>
                 </div>
@@ -196,7 +211,7 @@ const FormCiclista = (props) => {
                                 { name: 'O+' },
                                 { name: 'O-' },
                             ]}
-                            value={data?.blood}
+                            value={data?.type?.bloodType}
                         />
                     </div>
                 </div>
@@ -209,31 +224,31 @@ const FormCiclista = (props) => {
                         required
                         width="w-60"
                         onChange={handleCep}
-                        value={data?.address.cep}
+                        defaultValue={data?.type?.cep}
                     />
                     <TextInput name="Bairro"
                         width="w-60"
-                        value={bairro ? bairro : data?.address.neighborhood}
+                        defaultValue={bairro ? bairro : data?.type?.neighborhood}
                         onChange={handleBairro}
                     />
                     <NumberInput name="Número"
                         width="w-40"
                         onChange={handleNumero}
-                        value={data?.address.number}
+                        value={data?.type?.number}
                     />
                 </div>
 
                 <div className={`flex flex-col ${!props.register ? 'xl:flex-row' : 'md:flex-row'} gap-10 justify-between mt-8`}>
                     <TextInput name="Rua"
                         width={`${!props.register ? 'w-72 md:w-[420px] lg:w-[520px]' : 'w-80 md:w-[520px]'}`}
-                        value={rua ? rua : data?.address.street}
+                        defaultValue={rua ? rua : data?.type?.street}
                         onChange={handleRua}
                     />
                     <TextInput name="Estado"
                         mask="aa"
                         required
                         width="w-40"
-                        value={estado ? estado : data?.address.state}
+                        defaultValue={estado ? estado : data?.type?.stateCT}
                         onChange={handleEstado}
                     />
                 </div>
@@ -242,7 +257,7 @@ const FormCiclista = (props) => {
                     <TextInput name="Cidade"
                         width="w-60"
                         required
-                        value={cidade ? cidade : data?.address.city}
+                        defaultValue={cidade ? cidade : data?.type?.cityCT}
                         onChange={handleCidade}
                     />
                 </div>

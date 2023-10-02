@@ -1,60 +1,88 @@
 'use client'
 import { ApiContext } from '@/contexts/Api'
 import React, { useContext, useState } from 'react'
+import creates from '../functions/creates'
 
 const ButtonModalComponent = (props) => {
 
     const {instance} = useContext(ApiContext)
     const [confirmation, setConfirmation] = useState(false)
-    const url = props.url
 
-    function name(){
-        if(props.title == "delete"){
-            return "Deletar"
-        }
-        else if(props.title == "edit"){
-            return "Editar"
-        }
-        else{
-            return "Adicionar"
-        }
+    let name, url, btnStyle
+
+    if(props.title == "delete"){
+        name = "Deletar"
+        url = `/${props.baseUrl}Delete/${props.data?.id}?_method=DELETE`
+        btnStyle = 'btn-error'
+    }
+    else if(props.title == "edit"){
+        name = "Editar"
+        url = `/${props.baseUrl}Update/${props.data?.id}?_method=PUT`
+        btnStyle = 'btn-primary'
+    }
+    else{
+        name = "Adicionar"
+        url = `/${props.baseUrl}`
+        btnStyle = 'btn-success'
     }
 
-    if(confirmation){
-        if(props.title == "delete"){
-            instance.delete(`/${url}/${props.data.id}`)
-            .then(() => document.location.reload())
-        }
-        else if(props.title == "edit"){
-            instance.put(`/${url}/${props.data.id}`,
-                props.newData
-            )
-            .then(() => document.location.reload())
-        }
-        else{
-            instance.post(`/${url}`,
-                props.newData
-            )
-            .then(() => document.location.reload())
-        }
-    }
 
-    function style(){
-        if(props.title == "delete"){
-            return "bg-error text-white hover:opacity-60 p-1 rounded-md"
+    // if(confirmation){
+    //     if (props.title == "delete") {
+    //         console.log(props.data)
+    //         // instance.delete(`/${url}/${props.data.id}`)
+    //         creates(props.data, url)
+    //         .then(() => document.location.reload())
+    //     }
+    //     else if(props.title == "edit"){
+    //         instance.put(`/${url}/${props.data.id}`,
+    //             props.newData
+    //         )
+    //         .then(() => document.location.reload())
+    //     }
+    //     else{
+    //         instance.post(`/${url}`,
+    //             props.newData
+    //         )
+    //         .then(() => document.location.reload())
+    //     }
+    // }
+
+    // function style(){
+    //     if(props.title == "delete"){
+    //         return "bg-error text-white hover:opacity-60 p-1 rounded-md"
+    //     }
+    //     else if(props.title == "edit"){
+    //         return "bg-azul text-white hover:opacity-60 p-1 rounded-md"
+    //     }
+    //     else{
+    //         return "bg-success text-white hover:opacity-60 p-1 rounded-md"
+    //     }
+    // }
+
+    const sendRequest = async () => {
+        const formData = new FormData();
+        for (const key in props.newData) {
+            if (props.newData[key] != undefined) {
+                formData.append(key, props.newData[key]);
+            }
         }
-        else if(props.title == "edit"){
-            return "bg-azul text-white hover:opacity-60 p-1 rounded-md"
-        }
-        else{
-            return "bg-success text-white hover:opacity-60 p-1 rounded-md"
+        try {
+            instance.postForm(url, formData).then(resp => console.log(resp))
+            setTimeout(() => {
+                document.location.reload()
+            }, 800);
+        } catch (error) {
+            console.error(error)
         }
     }
 
     return (
-        <button onClick={() => setConfirmation(true)} className={`${style()} absolute right-0 bottom-0 p-2 text-lg leading-none`}>
-            {name()}
-        </button>
+        <div>
+            <button disabled={props.disabled} onClick={sendRequest} className={`btn ${btnStyle} ml-auto text-white ${props.title == 'close' ? 'hidden' : 'flex'}`}>
+                {name}
+            </button>
+        </div>
     )
 }
 

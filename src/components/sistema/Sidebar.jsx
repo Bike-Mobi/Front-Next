@@ -1,7 +1,7 @@
 'use client'
 
 import { AuthContext } from '@/contexts/Auth'
-import { ArrowRightOnRectangleIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, HeartIcon, NewspaperIcon, UserIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowRightOnRectangleIcon, BanknotesIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, GlobeAltIcon, HeartIcon, NewspaperIcon, UserIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -10,19 +10,27 @@ import { IconBike } from './utils/icons'
 
 const Sidebar = (props) => {
 
-    const {signOut, directory} = useContext(AuthContext)
+    const {signOut, directory, valid} = useContext(AuthContext)
 
-    const items = [
-        { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-        { link: `/sistema/${directory}/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
-        { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
-        { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-        { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-        { link: `/sistema/${directory}/bikes`, name: 'Bikes', icon: <IconBike/> },
-        { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
-        { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
-        
-    ]
+    let items = []
+    if (valid) {   
+        if (directory == 'admin') {
+            items.push(
+                { link: `/sistema/${directory}/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
+                { link: `/sistema/${directory}/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> }
+            ) 
+        }
+        items.push(
+            { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+            { link: `/sistema/${directory}/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
+            { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+            { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+            { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+            { link: `/sistema/${directory}/bikes`, name: 'Bikes', icon: <IconBike/> },
+            { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
+            { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+        )
+    }
 
     const [nav, setNav] = useState(false)
 
@@ -36,7 +44,11 @@ const Sidebar = (props) => {
     const route = usePathname()
     let selected, yellow
 
-    const shortName = props.name?.split(" ")[0] + ' ' + props.name?.split(" ")[1]
+    let shortName
+    shortName = props.name?.split(" ")[0] + ' ' + props.name?.split(" ")[1]
+    if (props.name?.split(" ")[1] == undefined) {
+        shortName = props.name?.split(" ")[0]
+    }
 
     return (
         <div className=''>
@@ -49,7 +61,7 @@ const Sidebar = (props) => {
                             item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : null
             
                             return(
-                                <Link key={index} href={item.link}>
+                                <Link key={index} href={item.link} prefetch={false}>
                                     <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-5`}>
                                         <div className={`${yellow} w-7`}>{item.icon}</div>
                                         <div className='text-base font-medium'>{item.name}</div>

@@ -13,7 +13,7 @@ const DateInput = (props) => {
             <input type="date"
                 required={req}
                 onChange={props.onChange}
-                value={props.value}
+                defaultValue={props.defaultValue}
                 className="input input-accent input-bordered w-full invalid:border-error"
             />
         </div>

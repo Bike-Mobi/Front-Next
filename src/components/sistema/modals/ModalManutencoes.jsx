@@ -1,22 +1,41 @@
 'use client'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import NumberInput from '../inputs/NumberInput';
 import RadioInput from '../inputs/RadioInput';
 import TextInput from '../inputs/TextInput';
 import ButtonModalComponent from '../utils/ButtonModalComponent';
 import TitleModalComponent from '../utils/TitleModalComponent';
 import axios from 'axios'
+import LoadingComponent from '../loadingComponent';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
+import TextareaInput from '../inputs/TextareaInput';
+import FileInput from '../inputs/FileInput';
+import { ApiContext } from '@/contexts/Api';
 
 const ModalManutencoes = (props) => {
+
+    const { instance } = useContext(ApiContext)
+
     const data = props.data
 
     const [value, setValue] = useState(data?.value)
     const [type, setType] = useState(data?.type)
     const [description, setDescription] = useState(data?.description)
+    const [bike, setBike] = useState(<div></div>)
+    const [loading, setLoading] = useState(false)
+    const [photo_1, setPhoto_1] = useState()
+    const [photo_2, setPhoto_2] = useState()
+    const [photo_3, setPhoto_3] = useState()
+
+    const [loja, setLoja] = useState()
+    
+    const [bikeDefaultNumber, setBikeDefaultNumber] = useState('')
+    const [numberBike, setNumberBike] = useState()
+
     const [search, setSearch] = useState('')
     const [content, setContent] = useState('')
-    const [isOpen, setIsOpen] = useState(false)
-    const inputSearch = useRef(null);
+    // const [isOpen, setIsOpen] = useState(false)
+    // const inputSearch = useRef(null);
 
 
     // const handleContent = (e) => {
@@ -29,62 +48,104 @@ const ModalManutencoes = (props) => {
     //     }, 100);
     // }
 
+    useEffect(() => {
+        getNumberBike(data?.bike_id)
+        
+        instance.get(`/loja/${data?.loja_id}`)
+            .then((response) => {
+                setLoja(response.data[0])
+            })
+            .catch(() => {
+                setLoja(undefined)
+            })
+        console.log('loja: ', loja)
+    }, [data])
+
     const handleContent = (e) => {
         setContent(e.target.value)
     }
 
     const handleValue = (e) => setValue(e.target.value)
+    const handleNumberBike = (e) => setNumberBike(e.target.value)
     const handleType = (e) => setType(e.target.value)
     const handleDescription = (e) => setDescription(e.target.value)
     const handleSearch = (e) => setSearch(e.target.value)
-    const handleDropdown = () => {
-        setIsOpen(!isOpen)
-        setTimeout(() => {
-            inputSearch.current.focus()
-        }, 100);
-    }
+    // const handleDropdown = () => {
+    //     setIsOpen(!isOpen)
+    //     setTimeout(() => {
+    //         inputSearch.current.focus()
+    //     }, 100);
+    // }
 
-    const ciclistasFiltrados = props.ciclistas?.filter((ciclista) => {
-        return ciclista.cpf.toLowerCase().includes(search.toLowerCase())
-    })
+    // const ciclistasFiltrados = props.ciclistas?.filter((ciclista) => {
+    //     return ciclista?.street?.toLowerCase().includes(search.toLowerCase())
+    // })
 
     
-    let editOn , deleteOn, createOn, submit, styleButton, des;
+    let editOn , deleteOn, createOn, submit, des;
     if(data?.id+'e' == props?.idModal){
         editOn = 'hidden'
         submit = 'edit'
-        styleButton = 'bg-azul'
+        des = false
+        // styleButton = 'bg-azul'
     }
-    else if(data?.id+'D' == props?.idModal){
+    else if (data?.id + 'D' == props?.idModal) {
         deleteOn = 'hidden'
         submit = 'delete'
-        styleButton = 'bg-error'
+        des = false
+        // styleButton = 'bg-error'
+    } else if(data?.id+'det' == props?.idModal){
+        editOn = 'hidden'
+        submit = 'close'
+        des = true
+        // styleButton = 'bg-azul'
     }else{
         createOn = 'hidden'
         submit = 'create'
-        styleButton = 'bg-success'
+        des = false
+        // styleButton = 'bg-success'
     }
 
     let newData = {
-        id: data?.id,
-        title: content,
         description: description,
-        value: value,
-        start_at: '2023-01-01',
-        end_at: '2023-01-01',
+        valor_mdo: value,
+        bike_id: bike?.id,
+        loja_id: props.lojaId,
+        photo_1: photo_1,
+        photo_2: photo_2,
+        photo_3: photo_3
     }
 
-    const [buscaBike, setBuscaBike] = useState()
-    const [ciclistaID, setCiclistaID] = useState(null)
+    console.log('new data: ',newData)
+
+    // const [buscaBike, setBuscaBike] = useState()
+    // const [ciclistaID, setCiclistaID] = useState(null)
 
     useEffect(() => {
-      axios.get("http://localhost:8000/api/bikes")
-      .then((response) => setBuscaBike(response.data.data))
-    }, [])
+        setLoading(true)
+        instance.get(`/getBicicletaByNumber/${numberBike}`)
+            .then((response) => {
+                setBike(response.data[0])
+                setLoading(false)
+            })
+            .catch(() => {
+                setBike(undefined)
+                setLoading(false)
+            })
+    }, [numberBike])
+
+    const getNumberBike = async (id) => {
+        const bike = await instance.get(`/bicicleta/${id}`)
+        // console.log('bike.number_check: ', bike.number_check)
+        // console.log('ahahahahsjasdghasjkdadasjhdfas: ', bike)
+        // setBikeDefaultNumber(bike.data[0].number_check)
+        setNumberBike(bike.data[0].number_check)
+        // return bike.data[0].number_check
+    }
   
-    const bikeCiclista = buscaBike?.filter((item) => {
-      return item.cyclist_id == ciclistaID
-    })
+    // const bikeCiclista = buscaBike?.filter((item) => {
+    //   return item.cyclist_id == ciclistaID
+    // })
 
     return (
         <div>
@@ -99,66 +160,93 @@ const ModalManutencoes = (props) => {
                         {/* Criar/Editar */}
                         <div className={`${deleteOn} flex flex-col w-full`}>
 
-                            {/* <div className="dropdown-menu relative">
-
-                                <TextInput name="Ciclista"
+                            <div className='flex flex-col'>
+                                <TextInput name="Número da Bike"
                                     width={`w-full`}
-                                    defaultValue={data?.title ? data?.title: null} //erro aqui
-                                    value={(content && !des) ? content : data?.title}// erro aqui
+                                    onChange={handleNumberBike}
+                                    value={numberBike}
                                     required
-                                    onClick={handleDropdown}
-                                    placeholder={'cpf'}
+                                    disabled={des}
                                 />
-                                {isOpen && (
-                                    <ul className={`absolute p-2 shadow rounded-box w-full bg-cinzaClaro block max-h-[250px] overflow-auto`}>
-                                        <li><input ref={inputSearch} className='w-full border rounded-md cursor-text p-1' type="text" placeholder="Digite um cpf" id="myInput" onChange={handleSearch}/></li>
-
-                                        {ciclistasFiltrados?.map((ciclista, index) => (
-                                            <li key={index} className={`text-neutral-800 p-2 cursor-pointer`}><a value={ciclista.id} onClick={handleContent}>{ciclista.name} - {ciclista.cpf}</a></li>
-                                        ))}
-                                    </ul>
-                                )}
+                                {loading ? (
+                                    <div className='h-24 w-full flex'>
+                                        <div className="inline-block h-5 w-5 my-6 mx-auto animate-spin rounded-full border-4 border-solid border-primary border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                                    </div>
+                                ) :
+                                    bike ? (
+                                        <div className='flex p-2 m-2 mt-3 bg-cinzaClaro rounded-lg'>
+                                            <img src={`${process.env.NEXT_PUBLIC_API_BACK_END}/bicicletaFoto/${bike.photo_1}`} className='w-14 h-14 object-cover rounded-lg mr-4' alt="" />
+                                            <div className='flex flex-col gap-1'>
+                                                <div className='font-semibold text-tomEscuro text-lg'>{bike.nameBike}</div>
+                                                <div className='text-accent'>{bike.brand}</div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className='p-3 m-2 bg-error rounded-lg flex'>
+                                            <ExclamationTriangleIcon color='white' className='w-6 h-6 mt-[2px] mr-3 '/>    
+                                            <div className='text-white font-medium'>Digite o número de uma bicicleta cadastrada no nosso sistema.</div>   
+                                        </div>
+                                    )
+                                }
                             </div>
 
-                           { ciclistaID ?
-                                (
-                                    bikeCiclista?.length > 0 ?
-                                        <div className={`flex flex-col`}>
-                                        <span className={` label-text font-medium px-1 py-2`}>Bicicleta</span>
-                                        <select name="" id="" className='border w-1/2 rounded-md p-2 border-cinza focus:outline-cinza '>
-                                            <option value="">Selecione uma bicicleta</option>
-                                            {bikeCiclista?.map((item, index) => (
-                                                <option key={index} value={item.id}>{item.name}</option>
-                                            ))}
-                                        </select>
-
+                            {loja ? (
+                                <div className='flex justify-between p-2 m-2 mt-3 bg-cinzaClaro rounded-lg'>
+                                    <div>
+                                        <div className='text-sm text-white w-fit mr-auto mb-2 bg-cinza rounded-md py-1 px-3'>Loja</div>
+                                        <img src={`${process.env.NEXT_PUBLIC_API_BACK_END}/lojaFoto/${loja?.photo}`} className='w-36 h-36 object-cover rounded-lg mr-4' alt="" />
                                     </div>
-                                : 
-                                    <div className={`flex flex-col`}>
-                                        <span className={`label-text font-normal px-4 py-2 italic`}>Este Ciclista não possui bicicletas cadastradas</span>
+                                    <div className='w-[240px]'>
+                                        <div className='text-sm'>{loja?.description.slice(0, 250)}</div>
+                                        <div className='text-sm text-accent w-fit ml-auto mt-2 border-2 border-cinza rounded-md py-1 px-3'>{loja?.tel_fixo}</div>
                                     </div>
-                                )
-                            : null
-                            } */}
+                                </div>
+                            ) : null}
 
-                            <TextInput name="Título"
+                            <TextInput name="Valor MDO"
                                 width={`w-full`}
-                                defaultValue={data?.title}
-                                onChange={handleContent}
-                                required
-                            />
-
-                            <NumberInput name="Valor MDO"
-                                width={`w-full`}
-                                defaultValue={data?.value}
+                                defaultValue={data?.valor_mdo}
                                 onChange={handleValue}
+                                price
+                                disabled={des}
                             />
-                            <TextInput name="Descrição"
+                            <TextareaInput name="Descrição"
                                 width={`w-full`}
                                 defaultValue={data?.description}
                                 onChange={handleDescription}
                                 required
+                                disabled={des}
                             />
+                            {data?.photo_1 || data == null ? (
+                                <FileInput name="Foto 1"
+                                    text="Upload"
+                                    description="SVG, PNG ou JPG "
+                                    onChange={setPhoto_1}
+                                    defaultValue={data?.photo_1}
+                                    typeImgURL='manutencaoFoto'
+                                    disabled={des}
+                                />
+                            ) : null}
+                            {data?.photo_2 || data == null ? (
+                                <FileInput name="Foto 2"
+                                    text="Upload"
+                                    description="SVG, PNG ou JPG "
+                                    onChange={setPhoto_2}    
+                                    defaultValue={data?.photo_2}
+                                    typeImgURL='manutencaoFoto'
+                                    disabled={des}
+                                />
+                            ) : null}
+                            {data?.photo_3 || data == null ? (
+                                <FileInput name="Foto 3"
+                                    text="Upload"
+                                    description="SVG, PNG ou JPG "
+                                    onChange={setPhoto_3}
+                                    defaultValue={data?.photo_3}
+                                    typeImgURL='manutencaoFoto'
+                                    disabled={des}
+                                />
+                            ) : null}
                             {/* <RadioInput name="Buscar e entregar a bicicleta?"
                                 items={[
                                     { name: 'sim'},
@@ -176,8 +264,15 @@ const ModalManutencoes = (props) => {
                             <span className={`mt-6 font-bold text-lg text-neutral-600`}>Tem certeza que deseja deletar essa manutenção?</span>
                         </div>
 
-                        <div className={`relative w-full mt-16 ${styleButton}`}>
-                            <ButtonModalComponent title={submit} data={data} newData={newData} url={'maintence'}/>
+                        <div className={`relative w-full mt-16`}>
+                            <ButtonModalComponent
+                                title={submit}
+                                data={data}
+                                newData={newData}
+                                url={'maintence'}
+                                disabled={bike ? false : true}
+                                baseUrl='manutencao'
+                            />
                         </div>
                     </div>
                     
