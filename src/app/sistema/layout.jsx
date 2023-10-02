@@ -27,7 +27,7 @@ const SitemaLayout = (props) => {
     const user = {
         name: authData.user?.name,
         type: tipo,
-        imgPerfil: `${process.env.https://bikemobi.com.br/api}/${imgURL}/${authData.type?.photo}`,
+        imgPerfil: `${'//bikemobi.com.br/api'}/${imgURL}/${authData.type?.photo}`,
         nNotificacoes: 4
     }
 
