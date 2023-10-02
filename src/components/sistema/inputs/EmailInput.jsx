@@ -20,7 +20,7 @@ const EmailInput = (props) => {
             <input type="email"
                 required={req}
                 placeholder={props.placeholder}
-                value={props.value}
+                defaultValue={props.defaultValue}
                 onChange={props.onChange}
                 className={`input input-accent input-bordered ${props.width}`}
             />

@@ -15,21 +15,28 @@ const ModalBicicleta = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [trasicao, setTransicao] = useState(false);
 
-    const [serie, setSerie] = useState(data?.serie)
-    const [tipoBike, setTipoBike] = useState(data?.tipoBike)
-    const [nome, setNome] = useState(data?.name)
-    const [marca, setMarca] = useState(data?.marca)
-    const [cor, setCor] = useState(data?.cor)
-    const [cambioDianteiro, setCambioDianteiro] = useState(data?.cambioDianteiro)
-    const [cambioTraseiro, setCambioTraseiro] = useState(data?.cambioTraseiro)
-    const [suspencaoTraseira, setSuspencaoTraseira] = useState(data?.suspencaoTraseira)
-    const [tamanhoAro, setTamanhoAro] = useState(data?.tamanhoAro)
-    const [tipoFreio, setTipoFreio] = useState(data?.tipoFreio)
-    const [tipoQuadro, setTipoQuadro] = useState(data?.tipoQuadro)
-    const [peneuDianteiro, setPeneuDianteiro] = useState(data?.peneuDianteiro)
-    const [peneuTraseiro, setPeneuTraseiro] = useState(data?.peneuTraseiro)
-    const [observacao, setObservacao] = useState(data?.observacao)
-    const [photo, setPhoto] = useState()
+    const [serie, setSerie] = useState()
+    const [tipoBike, setTipoBike] = useState()
+    const [nome, setNome] = useState()
+    const [marca, setMarca] = useState()
+    const [cor, setCor] = useState()
+    const [cambioDianteiro, setCambioDianteiro] = useState()
+    const [cambioTraseiro, setCambioTraseiro] = useState()
+    const [cambioSuperiorDianteiro, setCambioSuperiorDianteiro] = useState()
+    const [suspencaoTraseira, setSuspencaoTraseira] = useState()
+    const [tamanhoAro, setTamanhoAro] = useState()
+    const [tipoFreio, setTipoFreio] = useState()
+    const [tipoQuadro, setTipoQuadro] = useState()
+    const [peneuDianteiro, setPeneuDianteiro] = useState()
+    const [peneuTraseiro, setPeneuTraseiro] = useState()
+    const [observacao, setObservacao] = useState()
+    const [photo1, setPhoto1] = useState()
+    const [photo2, setPhoto2] = useState()
+    const [photo3, setPhoto3] = useState()
+
+    // const [filePhoto1, setFilePhoto1] = useState()
+    // const [filePhoto2, setFilePhoto2] = useState()
+    // const [filePhoto3, setFilePhoto3] = useState()
 
 
     const handleSerie = (e) => setSerie(e.target.value)
@@ -39,6 +46,7 @@ const ModalBicicleta = (props) => {
     const handleCor = (e) => setCor(e.target.value)
     const handleCambioDianteiro = (e) => setCambioDianteiro(e.target.value)
     const handleCambioTraseiro = (e) => setCambioTraseiro(e.target.value)
+    const handleCambioSuperiorDianteiro = (e) => setCambioSuperiorDianteiro(e.target.value)
     const handleSuspencaoTraseira = (e) => setSuspencaoTraseira(e.target.value)
     const handleTamanhoAro = (e) => setTamanhoAro(e.target.value)
     const handleTipoFreio = (e) => setTipoFreio(e.target.value)
@@ -46,10 +54,10 @@ const ModalBicicleta = (props) => {
     const handlePeneuDianteiro = (e) => setPeneuDianteiro(e.target.value)
     const handlePeneuTraseiro = (e) => setPeneuTraseiro(e.target.value)
     const handleObservacao = (e) => setObservacao(e.target.value)
-    const handlePhoto = (file) => {
-        setPhoto(file)
-        console.log("photo: ",photo)
-    }
+    // const handlePhoto = (set, value, file) => {
+    //     set(file)
+    //     console.log("photo: ",value)
+    // }
 
     useEffect(() => {
         setTimeout(() => {
@@ -73,39 +81,29 @@ const ModalBicicleta = (props) => {
         hidePassCriar = 'hidden'
     }
 
-    const itens = [
-        {title: 'Numero de série: ', value: data?.serie},
-        {title: 'Tipo de bicicleta: ', value: data?.type},
-        {title: 'Nome: ', value: data?.name},
-        {title: 'Marca: ', value: data?.brand},
-        {title: 'Cor: ', value: data?.color},
-        {title: 'Câmbio dianteiro: ', value: data?.frontDerailleur},
-        {title: 'Câmbio traseiro: ', value: data?.rearDerailleur},
-        {title: 'Tipo de suspensão traseira: ', value: data?.rearSuspensionType},
-        {title: 'Tamanho do aro: ', value: data?.wheelSize},
-        {title: 'Tipo de freio: ', value: data?.brakesType},
-        {title: 'Tipo de quadro: ', value: data?.frameType},
-        {title: 'Peneu dianteiro: ', value: data?.frontTire},
-        {title: 'Peneu traseiro: ', value: data?.rearTire},
-        {title: 'Observação: ', value: data?.Comments},
-    ]
 
     let newData = {
-        serie: serie,
-        type: tipoBike,
-        name: nome,
+        nameBike: nome,
         brand: marca,
         color: cor,
-        frontDerailleur: cambioDianteiro,
-        rearDerailleur: cambioTraseiro,
-        rearSuspensionType: suspencaoTraseira,
-        wheelSize: tamanhoAro,
-        brakesType: tipoFreio,
-        frameType: tipoQuadro,
-        frontTire: peneuDianteiro,
-        rearTire: peneuTraseiro,
-        Comments: observacao,
-        photo: photo
+        number_check: serie,
+        cambio_dianteiro: cambioDianteiro,
+        cambio_traseiro: cambioTraseiro,
+        tamanho_aro: tamanhoAro,
+        type_break: tipoFreio,
+        type_quadro: tipoQuadro,
+        cambio_superior_dianteiro: cambioSuperiorDianteiro,
+        type_suspensao_traseira: suspencaoTraseira,
+        pneu_dianteiro: peneuDianteiro,
+        pneu_traseiro: peneuTraseiro,
+        type: tipoBike,
+        photo_1: photo1,
+        photo_2: photo2,
+        photo_3: photo3,
+        distTotal: null,
+        distDia: null,
+        observer: observacao,
+        cyclist_id: props.cyclistId,
     }
 
     function buttonCard(){
@@ -156,16 +154,8 @@ const ModalBicicleta = (props) => {
                         {/* Criar/Editar */}
                         <div className={`w-full mt-8 ${hidePassDelete}`}>
                             <form action="">
-                                <TextInput name="Número de série do quadro"
-                                    width={`w-full`}
-                                    onChange={handleSerie}
-                                    defaultValue={data?.serie}
-                                    required
-                                    disabled={des}
-                                    
-                                />
 
-                                <RadioInput name="Tipo de bicicleta"
+                                {/* <RadioInput name="Tipo de bicicleta"
                                     items={[
                                         { name: 'MTB'},
                                         { name: 'Speed'},
@@ -175,12 +165,20 @@ const ModalBicicleta = (props) => {
                                     value={data?.type}
                                     required
                                     disabled={des}
-                                />
+                                /> */}
 
                                 <TextInput name="Nome"
                                     width={`w-full`}
                                     onChange={handleNome}
-                                    defaultValue={data?.name}
+                                    defaultValue={data?.nameBike}
+                                    required
+                                    disabled={des}
+                                />
+                                
+                                <TextInput name="Tipo de Bicicleta"
+                                    width={`w-full`}
+                                    onChange={handleTipoBike}
+                                    defaultValue={data?.type}
                                     required
                                     disabled={des}
                                 />
@@ -200,101 +198,122 @@ const ModalBicicleta = (props) => {
                                     disabled={des}
                                 />
 
+                                <TextInput name="Número de série do quadro"
+                                    width={`w-full`}
+                                    onChange={handleSerie}
+                                    defaultValue={data?.number_check}
+                                    required
+                                    disabled={des}
+                                    
+                                />
+                            
                                 <TextInput name="Câmbio dianteiro"
                                     width={`w-full`}
                                     onChange={handleCambioDianteiro}
-                                    defaultValue={data?.frontDerailleur}
+                                    defaultValue={data?.cambio_dianteiro}
                                     disabled={des}
                                 />
 
                                 <TextInput name="Câmbio traseiro"
                                     width={`w-full`}
                                     onChange={handleCambioTraseiro}
-                                    defaultValue={data?.rearDerailleur}
+                                    defaultValue={data?.cambio_traseiro}
+                                    disabled={des}
+                                />
+                                
+                                <TextInput name="Tipo de câmbio superior dianteiro"
+                                    width={`w-full`}
+                                    onChange={handleCambioSuperiorDianteiro}
+                                    defaultValue={data?.cambio_superior_dianteiro}
                                     disabled={des}
                                 />
 
                                 <TextInput name="Tipo de suspensão traseira"
                                     width={`w-full`}
                                     onChange={handleSuspencaoTraseira}
-                                    defaultValue={data?.rearSuspensionType}
+                                    defaultValue={data?.type_suspensao_traseira}
                                     disabled={des}
                                 />
+                                
 
                                 <TextInput name="Tamanho do aro"
                                     width={`w-full`}
                                     onChange={handleTamanhoAro}
-                                    defaultValue={data?.wheelSize}
+                                    defaultValue={data?.tamanho_aro}
                                     disabled={des}
                                 />
 
                                 <TextInput name="Tipo de freios"
                                     width={`w-full`}
                                     onChange={handleTipoFreio}
-                                    defaultValue={data?.brakesType}
+                                    defaultValue={data?.type_break}
                                     disabled={des}
                                 />
 
                                 <TextInput name="Tipo de quadro"
                                     width={`w-full`}
                                     onChange={handleTipoQuadro}
-                                    defaultValue={data?.frameType}
+                                    defaultValue={data?.type_quadro}
                                     disabled={des}
                                 />
 
                                 <TextInput name="Pneu dianteiro"
                                     width={`w-full`}
                                     onChange={handlePeneuDianteiro}
-                                    defaultValue={data?.frontTire}
+                                    defaultValue={data?.pneu_dianteiro}
                                     disabled={des}
                                 />
 
                                 <TextInput name="Pneu traseiro"
                                     width={`w-full`}
                                     onChange={handlePeneuTraseiro}
-                                    defaultValue={data?.rearTire}
+                                    defaultValue={data?.pneu_traseiro}
                                     disabled={des}
                                 />
 
                                 <TextInput name="Observações"
                                     width={`w-full`}
                                     onChange={handleObservacao}
-                                    defaultValue={data?.Comments}
+                                    defaultValue={data?.observer}
                                     disabled={des}
                                 />
 
-                                <FileInput name="Imagem"
+                                <FileInput name="Imagem 1"
                                     text="Upload"
                                     description="SVG, PNG ou JPG"
-                                    onChange={handlePhoto}
-                                    defaultValue={data?.photo}
+                                    onChange={setPhoto1}
+                                    // file={filePhoto1}
+                                    // setFile={setFilePhoto1}
+                                    typeImgURL='bicicletaFoto'
+                                    defaultValue={data?.photo_1}
                                     disabled={des}
                                 />
+                            
+                                <FileInput name="Imagem 2"
+                                    text="Upload"
+                                    description="SVG, PNG ou JPG"
+                                    onChange={setPhoto2}
+                                    // file={filePhoto2}
+                                    // setFile={setFilePhoto2}
+                                    typeImgURL='bicicletaFoto'
+                                    defaultValue={data?.photo_2}
+                                    disabled={des}
+                                />
+                            
+                                <FileInput name="Imagem 3"
+                                    text="Upload"
+                                    description="SVG, PNG ou JPG"
+                                    onChange={setPhoto3}
+                                    // file={filePhoto3}
+                                    // setFile={setFilePhoto3}
+                                    typeImgURL='bicicletaFoto'
+                                    defaultValue={data?.photo_3}
+                                    disabled={des}
+                                />
+                            
                             </form>
 
                         </div>
-
-                        {/* Detalhes */}
-                        {/* <div className={`${hidePassDelete} ${hidePassCriar} flex flex-col`}>
-
-                            <span className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all">
-                                {data?.name}
-                            </span>
-
-                            <img src={data?.photo ? data?.photo : '/Bike.jpg'} alt="image" className='rounded-xl'/>
-
-                            <div className='grid grid-cols-1 justify-items-start mt-8 text-cinza text-md font-medium'>
-                                <table className='w-full'>
-                                    {itens.map((item, index) => (
-                                        <tr key={index} className='odd:bg-cinzaClaro'>
-                                            <td className='text-neutral-700 w-1/3'>{item.title}</td>
-                                            <td className='pl-10'>{item.value}</td>
-                                        </tr>
-                                ))}
-                                </table>
-                            </div>
-
-                        </div> */}
 
                         {/* Delete */}
                         <div className={`Delete ${hidePassDetalhe} ${hidePassCriar}`}>
@@ -304,7 +323,12 @@ const ModalBicicleta = (props) => {
                         </div>
 
                         <div className={`relative w-full mt-16 ${hidePassDetalhe}`}>
-                            <ButtonModalComponent title={props.action} onClick={() => (null)}/>
+                        <ButtonModalComponent
+                            title={props.action}
+                            data={data}
+                            newData={newData}
+                            baseUrl='bicicleta'
+                        />
                         </div>
 
                         <style

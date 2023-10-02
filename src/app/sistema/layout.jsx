@@ -3,18 +3,31 @@
 import Header from '@/components/sistema/Header'
 import Sidebar from '@/components/sistema/Sidebar'
 import { AuthContext } from '@/contexts/Auth'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 const SitemaLayout = (props) => {
 
     /* Aqui nos Layouts devem estar funções de GET da API, e gerar o(s) array(s) como o de "user" */
 
-    const { authData } = useContext(AuthContext)
+    const { authData, verifyStravaToken } = useContext(AuthContext)
+
+    useEffect(() => {
+        verifyStravaToken(authData)
+    }, [])
+
+    let tipo, imgURL = ''
+    if (authData.user?.type == 'Cyclist') {
+        tipo = 'Ciclista'
+        imgURL = 'ciclistaFoto'
+    } else if (authData.user?.type == 'Shopkeeper') {
+        tipo = 'Loja'
+        imgURL = 'lojaFoto'
+    }
 
     const user = {
-        name: authData?.name,
-        type: authData?.type,
-        imgPerfil: 'https://dominicrussel.com/authors/admin/avatar_hu8d30e29128cae2b0d49276543cea6665_24055_250x250_fill_q90_lanczos_center.jpg',
+        name: authData.user?.name,
+        type: tipo,
+        imgPerfil: `${process.env.NEXT_PUBLIC_API_BACK_END}/${imgURL}/${authData.type?.photo}`,
         nNotificacoes: 4
     }
 

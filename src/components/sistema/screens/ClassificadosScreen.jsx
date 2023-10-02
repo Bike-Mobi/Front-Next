@@ -1,13 +1,16 @@
 'use client'
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CardClassificados from '@/components/site/custom/CardClassificados'
 import Link from 'next/link';
 import { usePathname, useRouter } from "next/navigation";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import ModalClassificados from "../modals/ModalClassificados";
+import { AuthContext } from "@/contexts/Auth";
 
 
 const ClassificadosScreen = (props) => {
+
+    const { authData } = useContext(AuthContext)
 
     const [search, setSearch] = useState('')
 
@@ -15,7 +18,7 @@ const ClassificadosScreen = (props) => {
     const router = useRouter()
 
     const produtosFiltrados = props.produtos?.filter((item) => {
-        return item.title.toLowerCase().includes(search.toLowerCase())
+        return item.name.toLowerCase().includes(search.toLowerCase())
     })
 
     function renderCards() {
@@ -24,11 +27,13 @@ const ClassificadosScreen = (props) => {
                 return (
                     <CardClassificados
                         key={item.id}
-                        title={item.title}
-                        photo={item.photo}
-                        description={item.description}
-                        price={item.price}
-                        id={item.id}
+                        // title={item.title}
+                        // photo={item.photo}
+                        // description={item.description}
+                        // price={item.price}
+                        // id={item.id}
+                        data={item}
+                        userId={authData.user.id}
                     ></CardClassificados>
                 )
             })
@@ -49,7 +54,7 @@ const ClassificadosScreen = (props) => {
                     <input onChange={(e) => setSearch(e.target.value)} placeholder="Pesquisar um anúncio" type="text" name="input-search" id="input-search" className="border p-2 pl-3 rounded-md border-white bg-azul placeholder:text-neutral-300 text-white w-full focus:outline-none" />
                     <MagnifyingGlassIcon className="w-6 h-6 absolute right-2 text-white"/>
                 </div>
-                <ModalClassificados path={path} action="create" id="null"/>
+                <ModalClassificados path={path} action="create" id="null" userId={authData.user.id}/>
             </div>
 
             <div className={`grid justify-items-center ${ path == "/classificados" ? "grid-cols-1 lg:grid-cols-2 gap-4" : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'}`}>

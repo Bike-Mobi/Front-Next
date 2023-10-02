@@ -3,17 +3,16 @@ import React from "react";
 const ModalCardClassificados = (props) => {
     return(
         <div className="modal-container">
-            <label htmlFor={`my-modal-${props.id}`}  className='btn btn-primary text-white btn-sm xl:btn-sm'>Detalhes</label>
-            <input type="checkbox" id={`my-modal-${props.id}`} className="modal-toggle" />
-            <label htmlFor={`my-modal-${props.id}`} className="modal cursor-pointer">
+            <label htmlFor={`my-modal-${props.data.id}`}  className='btn btn-primary text-white btn-sm xl:btn-sm'>Detalhes</label>
+            <input type="checkbox" id={`my-modal-${props.data.id}`} className="modal-toggle" />
+            <label htmlFor={`my-modal-${props.data.id}`} className="modal cursor-pointer">
                 <label className="rounded-lg modal-box relative" htmlFor="">
-                    <label htmlFor={`my-modal-${props.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <label htmlFor={`my-modal-${props.data.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto">
-                        <h3 className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all">{props.title}</h3>
-                        <img src={props.photo} alt="Foto da mercadoria" className=' rounded-2xl object-cover'/>
-                        <span></span>
-                        <span className='font-normal text-cinza text-base break-all overflow-hidden my-10'>{props.description}</span>
-                        <span className='text-base break-all font-bold text-tomEscuro'>Valor: {props.price}</span>
+                        <h3 className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all">{props.data.name}</h3>
+                        <img src={`${process.env.NEXT_PUBLIC_API_BACK_END}/classificadoFoto/${props.data.photo}`} alt="Foto da mercadoria" className=' rounded-2xl object-cover'/>
+                        <span className='font-normal text-cinza text-base break-all overflow-hidden my-10'>{props.data.description}</span>
+                        <span className='text-base break-all font-bold text-tomEscuro'>Valor: {props.data.price}</span>
                     </div>
                 </label>
             </label>

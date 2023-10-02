@@ -3,37 +3,52 @@
 import React, { useEffect, useState } from 'react'
 
 const FileInput = (props) => {
-
+    
     const [file, setFile] = useState()
     const [dataFile, setDataFile] = useState()
-
-    useEffect(() => {
+    
+    const getFile = (setFile, file, onChange) => {
+        setFile(URL.createObjectURL(event.target.files[0]))
+        // let formData = new FormData()
+        // formData.append('photo_1', event.target.files[0])
         console.log(file)
-        // props.onChange(dataFile)
-    }, [dataFile])
-
-    const getFile = (e) => {
-        setFile(URL.createObjectURL(e.target.files[0]))
-        let formData = new FormData()
-        formData.append('cover', e.target.files[0]) //!!!!!
-        console.log(file)
-        setDataFile(formData)
-        props.onChange(dataFile)
-        console.log('dataFile: ', dataFile)
+        // setDataFile(formData)
+        onChange(event.target.files[0])
+        // console.log('formData: ', formData)
     }
+    // const [bikeData, setBikeData] = useState({
+    //     nameBike: '',
+    //     brand: '',
+    //     // Outros campos da bicicleta
+    //     photo_1: null,
+    //     photo_2: null,
+    //     photo_3: null
+    //   });
+
+    // useEffect(() => {
+    //     console.log(file)
+    //     // props.onChange(dataFile)
+    // }, [dataFile])
+
+
+    // const handleFileChange = (event) => {
+    //     const { name, files } = event.target;
+    //     setBikeData({ ...bikeData, [name]: files[0] });
+    //     console.log(bikeData)
+    // };
 
     let bg
 
     if (file || props.defaultValue) {
         bg = (
-            <label htmlFor="dropzone-file" className="flex flex-col items-center w-full max-w-lg mx-auto text-center bg-white border-2 border-cinza border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
-                <img src={file ? file : props.defaultValue} alt="" className={`object-cover rounded-xl ${props.className}`}/>
-                <input id="dropzone-file" onChange={getFile} type="file" className="hidden" disabled={props.disabled}/>
+            <label htmlFor={props.name} className={`flex flex-col items-center max-w-lg ${props.size} mx-auto text-center bg-white border-2 border-cinza border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl`}>
+                <img src={file ? file : `${process.env.NEXT_PUBLIC_API_BACK_END}/${props.typeImgURL}/${props.defaultValue}`} alt="" className={`object-cover rounded-xl min-w-full min-h-full overflow-hidden ${props.className}`}/>
+                <input id={props.name} onChange={() => getFile(setFile, file, props.onChange)} name='imagem' type="file" className="hidden" disabled={props.disabled}/>
             </label>
         )
     } else {
         bg = (
-            <label htmlFor="dropzone-file" className="flex flex-col items-center w-full max-w-lg p-5 mx-auto text-center bg-white border-2 border-cinza border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
+            <label htmlFor={props.name} className="flex flex-col items-center w-full max-w-lg p-5 mx-auto text-center bg-white border-2 border-cinza border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-cinza dark:text-gray-400">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
                 </svg>
@@ -42,7 +57,7 @@ const FileInput = (props) => {
 
                 <p className="mt-2 text-xs tracking-wide text-tomEscuro dark:text-gray-400">{props.description}</p>
 
-                <input id="dropzone-file" onChange={getFile} type="file" className="hidden" disabled={props.disabled}/>
+                <input id={props.name} onChange={() => getFile(setFile, file, props.onChange)} name='imagem' type="file" className="hidden" disabled={props.disabled}/>
             </label>
         )
     }

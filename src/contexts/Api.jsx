@@ -7,11 +7,12 @@ export const ApiContext = createContext()
 
 export function ApiProvider({ children }) {
 
-    const instance = axios.create({
+    let instance = axios.create({
         baseURL: process.env.NEXT_PUBLIC_API_BACK_END,
         headers: {
-            Accept : "application/json",
-            "Content-Type": "application/json"
+            'Content-Type': 'multipart/form-data',
+            Accept: "application/json",
+            // "Content-Type": "multipart/form-data" // Ajuste o Content-Type para multipart/form-data
         },
     }); 
     
