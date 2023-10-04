@@ -28,7 +28,7 @@ const Sidebar = (props) => {
             { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
             { link: `/sistema/${directory}/bikes`, name: 'Bikes', icon: <IconBike/> },
             { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
-            { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+            // { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
         )
     }
 
