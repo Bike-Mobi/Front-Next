@@ -9,11 +9,7 @@ const SitemaLayout = (props) => {
 
     /* Aqui nos Layouts devem estar funções de GET da API, e gerar o(s) array(s) como o de "user" */
 
-    const { authData, verifyStravaToken } = useContext(AuthContext)
-
-    useEffect(() => {
-        verifyStravaToken(authData)
-    }, [])
+    const { authData } = useContext(AuthContext)
 
     let tipo, imgURL = ''
     if (authData.user?.type == 'Cyclist') {
