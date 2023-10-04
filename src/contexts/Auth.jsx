@@ -287,7 +287,7 @@ export function AuthProvider({ children }) {
 
     const getStravaToken = async () => {
 
-        const redirectUri = `http://localhost:3000/sistema/${directory}/dashboard`; // Substitua pelo seu URI de redirecionamento
+        const redirectUri = `https://bikemobi.vercel.app/sistema/${directory}/dashboard`; // Substitua pelo seu URI de redirecionamento
         const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=read_all`;
     
         // Redireciona o usuário para a rota de autorização
