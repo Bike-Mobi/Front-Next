@@ -5,16 +5,16 @@ import { createContext } from "react";
 
 export const ApiContext = createContext()
 
-export function ApiProvider({ children }) {
+let instance = axios.create({
+    baseURL: 'https://bikemobi.com.br/api',
+    headers: {
+        'Content-Type': 'multipart/form-data',
+        Accept: "application/json",
+        // "Content-Type": "multipart/form-data" // Ajuste o Content-Type para multipart/form-data
+    },
+}); 
 
-    let instance = axios.create({
-        baseURL: 'https://bikemobi.com.br/api',
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            Accept: "application/json",
-            // "Content-Type": "multipart/form-data" // Ajuste o Content-Type para multipart/form-data
-        },
-    }); 
+export function ApiProvider({ children }) {
     
     return (
         <ApiContext.Provider value={{instance}}>
