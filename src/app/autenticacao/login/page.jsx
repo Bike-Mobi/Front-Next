@@ -22,6 +22,8 @@ const Login = () => {
     const handleEmail = (e) => setEmail(e.target.value)
     const handleSenha = (e) => setSenha(e.target.value)
 
+    console.log('api back: ', process.env.NEXT_PUBLIC_API)
+
     return (
         <div className={`flex h-screen items-center justify-center`}>
 
