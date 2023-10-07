@@ -6,7 +6,7 @@ import { createContext } from "react";
 export const ApiContext = createContext()
 
 let instance = axios.create({
-    baseURL: 'https://bikemobi.com.br/api',
+    baseURL: process.env.NEXT_PUBLIC_API,
     headers: {
         'Content-Type': 'multipart/form-data',
         Accept: "application/json",

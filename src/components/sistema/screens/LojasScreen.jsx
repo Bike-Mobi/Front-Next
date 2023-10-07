@@ -30,7 +30,7 @@ const LojasScreen = (props) => {
 
     return(
         <div className={`mt-16 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2`}>
-            {/* <button onClick={() => router.push(`${'https://bikemobi.com.br/api'}/auth/strava`)}>Press here</button> */}
+            {/* <button onClick={() => router.push(`${process.env.NEXT_PUBLIC_API}/auth/strava`)}>Press here</button> */}
             {props.lojas.map((item, index) => {
                 return (
                     <div key={index} className={`flex justify-center items-center`}>

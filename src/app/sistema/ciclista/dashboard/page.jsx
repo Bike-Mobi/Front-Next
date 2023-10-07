@@ -89,7 +89,7 @@ const Dashboard = () => {
                     {bikes.map(item => (
                         <div className="card card-side bg-base-100 shadow-xl mb-6" key={item.id}>
                             <figure className='w-52'>
-                                <img className='object-cover h-full' src={item.photo_1 ? `${'https://bikemobi.com.br/api'}/bicicletaFoto/${item.photo_1}` : '/Bike.jpg'} />
+                                <img className='object-cover h-full' src={item.photo_1 ? `${process.env.NEXT_PUBLIC_API}/bicicletaFoto/${item.photo_1}` : '/Bike.jpg'} />
                             </figure>
                             <div className="card-body">
                                 <h2 className="card-title">{item.nameBike}</h2>

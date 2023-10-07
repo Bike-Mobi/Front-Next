@@ -42,7 +42,7 @@ const FileInput = (props) => {
     if (file || props.defaultValue) {
         bg = (
             <label htmlFor={props.name} className={`flex flex-col items-center max-w-lg ${props.size} mx-auto text-center bg-white border-2 border-cinza border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl`}>
-                <img src={file ? file : `${'https://bikemobi.com.br/api'}/${props.typeImgURL}/${props.defaultValue}`} alt="" className={`object-cover rounded-xl min-w-full min-h-full overflow-hidden ${props.className}`}/>
+                <img src={file ? file : `${process.env.NEXT_PUBLIC_API}/${props.typeImgURL}/${props.defaultValue}`} alt="" className={`object-cover rounded-xl min-w-full min-h-full overflow-hidden ${props.className}`}/>
                 <input id={props.name} onChange={() => getFile(setFile, file, props.onChange)} name='imagem' type="file" className="hidden" disabled={props.disabled}/>
             </label>
         )

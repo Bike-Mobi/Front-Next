@@ -14,7 +14,7 @@ const CardClassificados = (props) => {
                 <ModalClassificados action="edit" id={`${props?.id}e`} data={props.data} userId={props?.userId}/>
             </div>
             <div className={`flex w-56 justify-center ${ path == "/classificados" ? " md:w-[176px] xl:w-56" : ""}`}>
-                <img src={`${'https://bikemobi.com.br/api'}/classificadoFoto/${props.data.photo}`} alt="Foto da mercadoria" className='rounded-2xl object-cover h-[195px]'/>
+                <img src={`${process.env.NEXT_PUBLIC_API}/classificadoFoto/${props.data.photo}`} alt="Foto da mercadoria" className='rounded-2xl object-cover h-[195px]'/>
             </div>
             <div className={`flex flex-col justify-evenly  w-56 h-full ${path == "/classificados" ? "md:w-[240px] xl:w-72 md:justify-between" : ""}`}>
                 <div className='flex justify-center font-bold text-tomEscuro text-lg max-h-14 break-all overflow-hidden'>

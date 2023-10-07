@@ -175,7 +175,7 @@ const ModalManutencoes = (props) => {
                                 ) :
                                     bike ? (
                                         <div className='flex p-2 m-2 mt-3 bg-cinzaClaro rounded-lg'>
-                                            <img src={`${'https://bikemobi.com.br/api'}/bicicletaFoto/${bike.photo_1}`} className='w-14 h-14 object-cover rounded-lg mr-4' alt="" />
+                                            <img src={`${process.env.NEXT_PUBLIC_API}/bicicletaFoto/${bike.photo_1}`} className='w-14 h-14 object-cover rounded-lg mr-4' alt="" />
                                             <div className='flex flex-col gap-1'>
                                                 <div className='font-semibold text-tomEscuro text-lg'>{bike.nameBike}</div>
                                                 <div className='text-accent'>{bike.brand}</div>
@@ -194,7 +194,7 @@ const ModalManutencoes = (props) => {
                                 <div className='flex justify-between p-2 m-2 mt-3 bg-cinzaClaro rounded-lg'>
                                     <div>
                                         <div className='text-sm text-white w-fit mr-auto mb-2 bg-cinza rounded-md py-1 px-3'>Loja</div>
-                                        <img src={`${'https://bikemobi.com.br/api'}/lojaFoto/${loja?.photo}`} className='w-36 h-36 object-cover rounded-lg mr-4' alt="" />
+                                        <img src={`${process.env.NEXT_PUBLIC_API}/lojaFoto/${loja?.photo}`} className='w-36 h-36 object-cover rounded-lg mr-4' alt="" />
                                     </div>
                                     <div className='w-[240px]'>
                                         <div className='text-sm'>{loja?.description.slice(0, 250)}</div>

@@ -127,13 +127,13 @@ const ManutencoesScreen = (props) => {
                       <td>
                         <div className='flex gap-4'>
                         {manutencao.photo_1 ? (
-                            <img src={`${'https://bikemobi.com.br/api'}/manutencaoFoto/${manutencao.photo_1}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                            <img src={`${process.env.NEXT_PUBLIC_API}/manutencaoFoto/${manutencao.photo_1}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
                           ) : null}
                           {manutencao.photo_2 ? (
-                            <img src={`${'https://bikemobi.com.br/api'}/manutencaoFoto/${manutencao.photo_2}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                            <img src={`${process.env.NEXT_PUBLIC_API}/manutencaoFoto/${manutencao.photo_2}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
                           ) : null}
                           {manutencao.photo_3 ? (
-                            <img src={`${'https://bikemobi.com.br/api'}/manutencaoFoto/${manutencao.photo_3}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                            <img src={`${process.env.NEXT_PUBLIC_API}/manutencaoFoto/${manutencao.photo_3}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
                           ) : null}
                         </div>
                       </td>
