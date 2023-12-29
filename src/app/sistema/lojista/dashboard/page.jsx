@@ -1,7 +1,9 @@
 'use client'
 
+import ModalManutencoesPadroes from '@/components/sistema/modals/ModalManuntecoesPadroes'
 import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
+import { DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import {  CalendarDaysIcon, StarIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
@@ -37,6 +39,13 @@ const Dashboard = () => {
 
     const router = useRouter()
 
+    const dateFormat = (date) => {
+        const dia = date.slice(8, 10)
+        const mes = date.slice(5, 7)
+        const ano = date.slice(0, 4)
+        return dia + '/' + mes + '/' + ano
+      }
+
     return (
         <div className='p-2 bg-slate-600'>
             <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
@@ -48,13 +57,13 @@ const Dashboard = () => {
                             <div className='text-lg'>
                                 <span className='text-cinza'>Esse Mes: </span>
                                 <span className='font-semibold text-azul'>
-                                    {stravaStatusUser?.recent_ride_totals ? (stravaStatusUser?.recent_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
+                                    {stravaStatusUser?.recent_ride_totals ? (stravaStatusUser?.recent_ride_totals.distance / 1000).toFixed(0) : '-'}
                                 </span>
                             </div>
                             <div className='text-lg'>
                                 <span className='text-cinza'>Essa Ano: </span>
                                 <span className='font-semibold text-azul'>
-                                    {stravaStatusUser?.ytd_ride_totals ? (stravaStatusUser?.ytd_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
+                                    {stravaStatusUser?.ytd_ride_totals ? (stravaStatusUser?.ytd_ride_totals.distance / 1000).toFixed(0) : '-'}
                                 </span>
                             </div>
                         </div>
@@ -66,9 +75,9 @@ const Dashboard = () => {
                     </span>
                     <div className='card bg-azul rounded-xl p-3'>
                         <div className='text-white text-bold font-bold text-4xl m-auto'>
-                            {stravaStatusUser?.all_ride_totals ? (stravaStatusUser?.all_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
+                            R$ {stravaStatusUser?.all_ride_totals ? (stravaStatusUser?.all_ride_totals.distance / 1000).toFixed(0): '-'}
                         </div>
-                        <div className='text-white font-medium'>Distancia total Percorrida</div>
+                        <div className='text-white font-medium'>Total já Recebido</div>
                     </div>
                 </div>
                 <div className='flex gap-6 border-2 border-tomEscuro rounded-xl px-4 py-1'>
@@ -83,21 +92,54 @@ const Dashboard = () => {
             </div>
             <div className='flex'>
                 <div className='w-1/2 mt-10 justify-center flex flex-col'>
-                    {bikes.map(item => (
-                        <div className="card card-side bg-base-100 shadow-xl mb-6" key={item.id}>
-                            <figure className='w-52'>
-                                <img className='object-cover h-full' src={item.photo_1 ? `${process.env.NEXT_PUBLIC_API}/bicicletaFoto/${item.photo_1}` : '/Bike.jpg'} />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">{item.nameBike}</h2>
-                                <p>{item.brand}</p>
-                                <div className="card-actions justify-end">
-                                <button className="btn btn-primary" onClick={() => router.push('/sistema/ciclista/manutencoes')}>Realizar Manutenção</button>
-                                </div>
+                <table className="table table-zebra w-full my-20 text-xs md:text-sm lg:text-base">
+
+                    <thead>
+                    <tr >
+{/*                         <th className='z-0'>Descrição</th> */}
+                        {/* <th>Ciclista</th> */}
+                        <th>Fotos</th>
+                        <th>Data</th>
+                        <th className='hidden md:table-cell'>Valor</th>
+                        <th>Detalhes</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {authData.manutencoes?.map((manutencao, index) => {
+                        return(
+                        <tr key={index}>
+                            <td className='max-w-[174px] overflow-hidden md:text-sm'><p className=''>{manutencao.description?.length > 69 ? manutencao.description.slice(0, 67) + '...' : manutencao.description}</p></td>
+                            <td>
+                            <div className='flex gap-4'>
+                            {manutencao.photo_1 ? (
+                                <img src={`${process.env.NEXT_PUBLIC_API}/manutencaoFoto/${manutencao.photo_1}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                                ) : null}
+                                {manutencao.photo_2 ? (
+                                <img src={`${process.env.NEXT_PUBLIC_API}/manutencaoFoto/${manutencao.photo_2}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                                ) : null}
+                                {manutencao.photo_3 ? (
+                                <img src={`${process.env.NEXT_PUBLIC_API}/manutencaoFoto/${manutencao.photo_3}`} className='w-12 h-12 object-cover rounded-lg' alt="" />
+                                ) : null}
                             </div>
-                        </div>
-                    ))}
-                    <button className='btn btn-secondary mx-auto text-white' onClick={() => router.push('/sistema/ciclista/bikes')}>Minhas Bicicletas</button>
+                            </td>
+                        {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
+                        
+                        <td >{dateFormat(manutencao.created_at)}</td>
+                        <td className='hidden md:table-cell text-nowrap'>R$ {manutencao.valor_mdo} </td>
+                            <td className={`text-white grid grid-cols-2 lg:flex lg:flex-row py-8`}>
+                                {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
+                                {/* <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao> */}
+                                <label htmlFor={`my-modal-${manutencao.id}det`} onClick={() => setIdModal(manutencao.id+'det')} className='cursor-pointer mt-1 md:mt-1 lg:mt-0'><DocumentTextIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-success p-1 mx-1 rounded-md'/></label>
+                                <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
+                                <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
+                                <ModalManutencoesPadroes type='add' item={{id: manutencao.id, price: manutencao.valor_mdo, description: manutencao.description }}/>
+                            </td>
+                        </tr>
+                        )
+                    })}
+                    </tbody>
+                    </table>
                 </div>
                 <div>
                     {!stravaStatusUser ? (
