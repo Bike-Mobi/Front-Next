@@ -4,7 +4,7 @@ import Admin from '@/components/sistema/screens/Admin'
 import { IconBike } from '@/components/sistema/utils/icons'
 import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
-import { BuildingStorefrontIcon, CogIcon, NewspaperIcon, StarIcon, UserIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
+import { BuildingStorefrontIcon, CogIcon, NewspaperIcon, ShieldCheckIcon, StarIcon, UserIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
 import React, { useContext, useEffect, useState } from 'react'
 
 const Dashboard = () => {
@@ -75,6 +75,13 @@ const Dashboard = () => {
                     <div>
                         <h2 class="card-title">Anúncios</h2>
                         <p className='font-bold text-azul text-xl'>{infos.numberOfAnuncios}</p>
+                    </div>
+                </div>
+                <div className='shadow-xl flex p-4 w-64 rounded-lg text-tomEscuro'>
+                    <ShieldCheckIcon className='w-8 h-8 my-auto mr-3'/>
+                    <div>
+                        <h2 class="card-title">Bikes Encontradas</h2>
+                        <p className='font-bold text-azul text-xl'>{infos.numberOfBikeFounded}</p>
                     </div>
                 </div>
             </div>

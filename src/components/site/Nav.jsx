@@ -27,7 +27,7 @@ const Nav = () => {
                 <div className={`fixed top-0 bg-azul w-[60%] h-full border-r border-white text-white font-semibold ease-in-out duration-500 ${transition} z-40 flex flex-col`}>
                     <div className='flex justify-center pt-4 pb-14 border-b border-white'>Bike Mobi</div>
                     <Link className='p-4 border-b border-white' href='/classificados'>Classificados</Link>
-                    <Link className='p-4 border-b border-white' href='/login'>Login</Link>
+                    <Link className='p-4 border-b border-white' href='/autenticacao/login'>Login</Link>
                 </div>
                 <button className='md:hidden' onClick={handleNav}>
                     {nav ?

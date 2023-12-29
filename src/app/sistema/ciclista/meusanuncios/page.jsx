@@ -7,19 +7,11 @@ import React, { useContext, useEffect, useState } from 'react'
 
 const Meusanuncios = () => {
 
-    const { instance } = useContext(ApiContext)
     const { authData } = useContext(AuthContext)
-
-    const [anuncios, setAnuncios] = useState([])
-
-    useEffect(() => {    
-        instance.get(`/classificadoFromUser/${authData.user.id}`)
-        .then((response) => setAnuncios(response.data))
-    }, [])
 
     return (
         <div className=''>
-            <ClassificadosScreen produtos={ anuncios } />
+            <ClassificadosScreen produtos={ authData.meusclassificados } />
         </div>
     )
 }

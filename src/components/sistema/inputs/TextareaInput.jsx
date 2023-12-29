@@ -20,7 +20,7 @@ const TextareaInput = (props) => {
             <textarea
                 required={req}
                 placeholder={props.placeholder}
-                // value={props.value}
+                value={props.value}
                 defaultValue={props.defaultValue}
                 onChange={props.onChange}
                 className={`textarea textarea-bordered textarea-accent ${props.width}`}

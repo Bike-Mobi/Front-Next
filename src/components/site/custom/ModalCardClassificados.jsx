@@ -11,7 +11,7 @@ const ModalCardClassificados = (props) => {
                     <label htmlFor={`my-modal-${props.data.id}`} className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="flex flex-col justify-center items-center overflow-auto">
                         <h3 className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all">{props.data.name}</h3>
-                        <Image src={`${process.env.NEXT_PUBLIC_API}/classificadoFoto/${props.data.photo}`} alt="Foto da mercadoria" className=' rounded-2xl object-cover'/>
+                        <img src={`${process.env.NEXT_PUBLIC_API}/classificadoFoto/${props.data.photo}`} alt="Foto da mercadoria" className=' rounded-2xl object-cover'/>
                         <span className='font-normal text-cinza text-base break-all overflow-hidden my-10'>{props.data.description}</span>
                         <span className='text-base break-all font-bold text-tomEscuro'>Valor: {props.data.price}</span>
                     </div>

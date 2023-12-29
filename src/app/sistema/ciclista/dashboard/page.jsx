@@ -1,18 +1,13 @@
 'use client'
 
-import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
 import { FireIcon, StarIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 const Dashboard = () => {
 
     const { authData, obterParametroCode, handlerStravaUser, getStravaToken, verifyStravaToken, stravaStatusUser } = useContext(AuthContext)
-    const { instance } = useContext(ApiContext)
-
-    const [manutencoesCount, setManutencoesCount] = useState('-')
-    const [bikes, setBikes] = useState([])
 
     useEffect(() => {
         const urlSearchParams = new URLSearchParams(window.location.search);
@@ -24,19 +19,8 @@ const Dashboard = () => {
             verifyStravaToken(authData)
         }
         handlerStravaUser()
-
-        instance.get(`/manutencaoFromCyclist/${authData.type.id}`)
-            .then((resp) => setManutencoesCount(resp.data.length))
-        
-        instance.get(`/bicicletas/${authData.type.id}`)
-            .then((resp) => setBikes(resp.data))
         
     }, [authData])
-
-    useEffect(() => {
-    }, [])
-
-    console.log(bikes)
 
     const router = useRouter()
 
@@ -78,7 +62,7 @@ const Dashboard = () => {
                     <WrenchScrewdriverIcon className='w-10 h-10 text-tomEscuro my-auto'/>
                     <div className='text-end'>
                         <div className='text-tomEscuro font-medium text-lg text-start'>Total de</div>
-                        <div className='text-azul font-bold text-2xl justify-center text-center'>{manutencoesCount}</div>
+                        <div className='text-azul font-bold text-2xl justify-center text-center'>{authData.manutencoes.length < 1 ? '-' : authData.manutencoes.length}</div>
                         <div className='text-tomEscuro font-medium text-lg text-end'>Manutenções</div>
                         <div className='text-tomEscuro font-medium text-lg text-end'>Realizadas</div>
                     </div>
@@ -86,7 +70,7 @@ const Dashboard = () => {
             </div>
             <div className='flex'>
                 <div className='w-1/2 mt-10 justify-center flex flex-col'>
-                    {bikes.map(item => (
+                    {authData.bikes.map(item => (
                         <div className="card card-side bg-base-100 shadow-xl mb-6" key={item.id}>
                             <figure className='w-52'>
                                 <img className='object-cover h-full' src={item.photo_1 ? `${process.env.NEXT_PUBLIC_API}/bicicletaFoto/${item.photo_1}` : '/Bike.jpg'} />
@@ -95,7 +79,7 @@ const Dashboard = () => {
                                 <h2 className="card-title">{item.nameBike}</h2>
                                 <p>{item.brand}</p>
                                 <div className="card-actions justify-end">
-                                <button className="btn btn-primary" onClick={() => router.push('/sistema/ciclista/manutencoes')}>Realizar Manutenção</button>
+                                <button className="btn w-32 lg:w-fit btn-primary" onClick={() => router.push('/sistema/ciclista/manutencoes')}>Realizar Manutenção</button>
                                 </div>
                             </div>
                         </div>

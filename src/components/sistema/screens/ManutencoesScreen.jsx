@@ -8,11 +8,11 @@ import ModalDetalhesManutencao from '../modals/ModalDetalhesManutencao';
 import { ApiContext } from '@/contexts/Api';
 import LoadingComponent from '../loadingComponent';
 import { AuthContext } from '@/contexts/Auth';
+import ModalManutencoesPadroes from '../modals/ModalManuntecoesPadroes';
 
 const ManutencoesScreen = (props) => {
 
   const { authData } = useContext(AuthContext)
-  const { instance } = useContext(ApiContext)
 
   const [idModal, setIdModal] = useState('')
   const [search, setSearch] = useState('')
@@ -28,14 +28,7 @@ const ManutencoesScreen = (props) => {
   const [buscaManutencao, setBuscaManutencao] = useState()
 
   useEffect(() => {
-    let url
-    authData.user.type == 'Cyclist' ? url = 'Cyclist' : url = 'Loja'
-
-    // instance.get("/allBicicletas/C84s6942")
-    // .then((response) => setAllBicicletas(response.data))
-
-    instance.get(`/manutencaoFrom${url}/${authData.type.id}`)
-    .then((response) => setBuscaManutencao(response.data))
+    setBuscaManutencao(authData.manutencoes)
   }, [])
 
   // const ciclistas = buscaCiclista?.filter((item) => {
@@ -123,7 +116,7 @@ const ManutencoesScreen = (props) => {
                 {manutencoesFiltradas?.map((manutencao, index) => {
                   return(
                   <tr key={index}>
-                      <td className='max-w-[174px] overflow-hidden'><p className='break-all'>{manutencao.description}</p></td>
+                      <td className='max-w-[174px] overflow-hidden md:text-sm'><p className=''>{manutencao.description?.length > 69 ? manutencao.description.slice(0, 67) + '...' : manutencao.description}</p></td>
                       <td>
                         <div className='flex gap-4'>
                         {manutencao.photo_1 ? (
@@ -142,16 +135,17 @@ const ManutencoesScreen = (props) => {
                     <td>{dateFormat(manutencao.created_at)}</td>
                     <td className='hidden md:table-cell'>R$ {manutencao.valor_mdo} </td>
                       {props.create ? (
-                        <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row py-8`}>
+                        <td className={`text-white grid grid-cols-2 lg:flex lg:flex-row py-8`}>
                           {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
                           {/* <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao> */}
-                          <label htmlFor={`my-modal-${manutencao.id}det`} onClick={() => setIdModal(manutencao.id+'det')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><DocumentTextIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-success p-1 mx-1 rounded-md'/></label>
-                          <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
-                          <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
+                          <label htmlFor={`my-modal-${manutencao.id}det`} onClick={() => setIdModal(manutencao.id+'det')} className='cursor-pointer mt-1 md:mt-1 lg:mt-0'><DocumentTextIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-success p-1 mx-1 rounded-md'/></label>
+                          <label htmlFor={`my-modal-${manutencao.id}e`} onClick={() => setIdModal(manutencao.id+'e')} className='cursor-pointer mt-1 md:mt-1 lg:mt-0'><PencilSquareIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-azul p-1 mx-1 rounded-md'/></label>
+                          <label htmlFor={`my-modal-${manutencao.id}D`} onClick={() => setIdModal(manutencao.id+'D')} className='cursor-pointer mt-1 md:mt-1 lg:mt-0'><TrashIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-error p-1 mx-1 rounded-md'/></label>
+                          <ModalManutencoesPadroes type='add' item={{id: manutencao.id, price: manutencao.valor_mdo, description: manutencao.description }}/>
                         </td>
                       ) : (
                         <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row py-8`}>
-                          <label htmlFor={`my-modal-${manutencao.id}det`} onClick={() => setIdModal(manutencao.id+'det')} className='cursor-pointer mt-1 sm:mt-0 md:mt-1 lg:mt-0'><DocumentTextIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-success p-1 mx-1 rounded-md'/></label>
+                          <label htmlFor={`my-modal-${manutencao.id}det`} onClick={() => setIdModal(manutencao.id+'det')} className='cursor-pointer mt-1 md:mt-1 lg:mt-0'><DocumentTextIcon className='w-7 h-7 lg:w-8 lg:h-w-8 hover:opacity-60 bg-success p-1 mx-1 rounded-md'/></label>
                         </td>
                     )}
                   </tr>

@@ -1,7 +1,7 @@
 'use client'
 
 import { AuthContext } from '@/contexts/Auth'
-import { ArrowRightOnRectangleIcon, BanknotesIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, GlobeAltIcon, HeartIcon, NewspaperIcon, UserIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowRightOnRectangleIcon, BanknotesIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, GlobeAltIcon, HeartIcon, NewspaperIcon, SwatchIcon, UserIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -20,16 +20,28 @@ const Sidebar = (props) => {
                 { link: `/sistema/${directory}/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> }
             ) 
         }
-        items.push(
-            { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-            { link: `/sistema/${directory}/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
-            { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
-            { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-            { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-            { link: `/sistema/${directory}/bikes`, name: 'Bikes', icon: <IconBike/> },
-            { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
-            // { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
-        )
+        if(directory == 'ciclista'){
+            items.push(
+                { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+                { link: `/sistema/${directory}/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
+                { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+                { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+                { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+                { link: `/sistema/${directory}/bikes`, name: 'Bikes', icon: <IconBike/> },
+                { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
+                // { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+            )
+        } else{
+            items.push(
+                { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+                { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+                { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+                { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+                { link: `/sistema/${directory}/manutencoespadroes`, name: 'Manutenções Padrões', icon: <SwatchIcon /> },
+                { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
+                // { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+            )
+        }
     }
 
     const [nav, setNav] = useState(false)

@@ -1,9 +1,13 @@
 
 import React from 'react'
 import ModalBicicleta from './ModalBicicleta';
+import { ShieldExclamationIcon } from '@heroicons/react/24/solid';
 
 const CardBicicleta = (props) => {
   const data = props.data
+
+  var colorThiefs
+  data.is_thiefs ? colorThiefs = 'warning' : colorThiefs = 'base-100'
 
   return (
     <div className={`flex flex-col w-[300px] md:w-[350px] xl:w-[450px] h-[150px] md:h-full xl:h-full p-4 md:p-0 border border-cinza rounded-lg justify-between`}>
@@ -15,18 +19,33 @@ const CardBicicleta = (props) => {
             <div className='flex flex-col'>
               <span className={`font-semibold text-xl text-tomEscuro max-w-[194px] xl:max-w-full max-h-10 overflow-hidden break-all leading-none mt-[-1px]`}>{data?.nameBike}</span>
               <span className={`text-md text-cinza max-h-6 overflow-hidden break-all mt-1`}>{data?.brand}</span>
+{/*               <div className='tooltip' data-tip='Clique aqui se a sua bicicleta foi roubada'>
+                <label className="cursor-pointer flex gap-1">
+                  <span className="label-text"><ShieldExclamationIcon className={`w-6 h-6 text-${colorThiefs}`}/></span> 
+                </label>
+              </div> */}
             </div>
           </div>
           <div className={`flex justify-between`}>
             <div className={`flex cursor-pointer`}>
-              <ModalBicicleta
-                action="edit"
-                data={data}
-              />
-              <ModalBicicleta
-                action="delete"
-                data={data}
-              />
+              <div className='tooltip' data-tip='Editar'>
+                <ModalBicicleta
+                  action="edit"
+                  data={data}
+                />
+              </div>
+              <div className='tooltip' data-tip='Deletar'>
+                <ModalBicicleta
+                  action="delete"
+                  data={data}
+                />
+              </div>
+              <div className='tooltip' data-tip='Informar Furto'>
+                <ModalBicicleta
+                  action="protect"
+                  data={data}
+                />
+              </div>
             </div>
             <div className='md:mr-2 xl:mr-4'>
               {/* <button className={`bg-info text-white rounded-md p-0.5 px-2 hover:bg-azul`}>Detalhes</button> */}

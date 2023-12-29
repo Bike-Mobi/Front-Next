@@ -30,14 +30,17 @@ function Admin() {
     const [users, setUsers] = useState()
     const [searchUsersName, setSearchUsersName] = useState()
     const [currentUsersPage, setCurrentUsersPage] = useState(1)
-    const [loadingUsers, setLoadingUsers] = useState(0)
+    const [typeData, setTypeData] = useState()
+    const [userBikes, setUserBikes] = useState()
+    const [userManutencoes, setUserManutencoes] = useState()
+    const [loading, setLoading] = useState(false)
 
     const query = async (currentPage, searchName) => {
         await instance.get(`http://localhost:8000/api/allUsers?page=${currentPage}&name=${searchName}`)
         .then(response => {
             setUsers(response.data.data);
             console.log(response)
-            setLoadingUsers(0)
+/*             setLoadingUsers(0) */
         })
         .catch(error => console.error(error));
     }
@@ -47,15 +50,28 @@ function Admin() {
     // }, [currentPage, loading]);
     // console.log(users)
 
-    const getUser = async (id, premium) => {
-        
-        const formDataUser = new FormData();
-        formDataUser.append('premium', premium);
-        try {
-            await instance.postForm(`/users/${id}?_method=PUT`, formDataUser).then(resp => console.log(resp))
-            setLoadingUsers(id)
-        } catch (error) {
-            console.error(error)
+
+
+    const getUserType = async (user) => {
+
+        document.getElementById(`my_modal_${user.id}`).showModal()
+
+        if (user.type == 'Cyclist') {
+            const type = await instance.get(`/ciclistaFromUser/${user.id}`).then(resp => setTypeData(resp.data))
+        } else {
+            await instance.get(`/lojaFromUser/${user.id}`).then(resp => setTypeData(resp.data))
+        }
+    }
+
+    const getUserInfos = async (user) => {
+        setLoading(true)
+        if (user.type == 'Cyclist') {
+            await instance.get(`/bicicletas/${typeData?.[0].id}`).then(resp => setUserBikes(resp.data))
+            await instance.get(`/manutencaoFromCyclist/${typeData?.[0].id}`).then(resp => setUserManutencoes(resp.data))
+            setLoading(false)
+        } else {
+            await instance.get(`/manutencaoFromLoja/${typeData?.[0].id}`).then(resp => setUserManutencoes(resp.data))
+            setLoading(false)
         }
     }
 
@@ -95,12 +111,61 @@ function Admin() {
                                     <th>{user.id}</th>
                                     <td>{user.name}</td>
                                     <td>
-                                        <button className={`btn bg-transparent border-none ${user.premium == 1 ? 'text-primary' : null}`} onClick={() => getUser(user.id, user.premium == 1 ? 0 : 1)}>
-                                            {user.premium == 1 ? 'Valido' : 'Invalido'}
-                                            {loadingUsers == user.id ? (
-                                                <span className="btn btn-success">Sucesso</span>
-                                            ) : null}
-                                        </button>
+                                        <button className="btn bg-transparent border-none text-primary" onClick={()=>getUserType(user)}>Infos</button>
+                                        <dialog id={`my_modal_${user.id}`} className="modal">
+                                            <div className="modal-box">
+                                                <h2 className="font-bold text-lg my-4">{user.name}</h2>
+                                                <h3 className="font-bold text-md m-2">User data:</h3>
+                                                <div className="mockup-code bg-white border-2 border-tomEscuro text-neutral p-4">
+                                                    <pre><code>{JSON.stringify(user, null, '   ')}</code></pre>
+                                                </div>
+                                                <h3 className="font-bold text-md m-2 mt-8">Type data: {user.type}</h3>
+                                                <div className="mockup-code bg-white border-2 border-tomEscuro text-neutral p-4">
+                                                    <pre><code>{JSON.stringify(typeData, null, '   ')}</code></pre>
+                                                </div>
+                                                <button className='btn my-4' onClick={()=>getUserInfos(user)}>load more infos</button>
+                                                {loading ? (
+                                                    <div><span className="loading loading-dots loading-xs"></span></div>
+                                                ) : (
+                                                    <div>
+                                                        {user?.id == typeData?.[0].user_id ? 
+                                                            <div>
+                                                                {typeData?.[0].id == userBikes?.[0].cyclist_id ? (
+                                                                    <div>
+                                                                        <h3 className="font-bold text-md m-2 mt-8">Bikes</h3>
+                                                                        <p className='m-2'>cyclist_id: {userBikes?.[0]?.cyclist_id} === id de ciclista: {typeData?.[0].id}</p>
+                                                                        <div className="mockup-code bg-white border-2 border-tomEscuro text-neutral p-4">
+                                                                            <pre><code>{JSON.stringify(userBikes, null, '   ')}</code></pre>
+                                                                        </div>
+                                                                        <h3 className="font-bold text-md m-2 mt-8">Manutenções</h3>
+                                                                        <p className='m-2'>Manutenções by Ciclista</p>
+                                                                        <div className="mockup-code bg-white border-2 border-tomEscuro text-neutral p-4">
+                                                                            <pre><code>{JSON.stringify(userManutencoes, null, '   ')}</code></pre>
+                                                                        </div>
+                                                                
+                                                                    </div>
+                                                                    
+
+                                                                ) : null}
+                                                                {typeData?.[0].id == userManutencoes?.[0]?.loja_id ? (
+                                                                    <div>
+                                                                        <h3 className="font-bold text-md m-2 mt-8">Manutenções</h3>
+                                                                        <p className='m-2'>Manutenções by Loja</p>
+                                                                        <div className="mockup-code bg-white border-2 border-tomEscuro text-neutral p-4">
+                                                                            <pre><code>{JSON.stringify(userManutencoes, null, '   ')}</code></pre>
+                                                                        </div>
+                                                                    </div>
+
+                                                                ) : null}
+                                                            </div>
+                                                        : null}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <form method="dialog" className="modal-backdrop">
+                                                <button>close</button>
+                                            </form>
+                                        </dialog>
                                     </td>
                                 </tr>
                             ))}

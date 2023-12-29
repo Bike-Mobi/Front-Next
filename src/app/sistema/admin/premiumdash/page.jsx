@@ -15,7 +15,7 @@ const PremiumDash = () => {
     const [loading, setLoading] = useState(0)
 
     const query = async (currentPage, searchName) => {
-        await instance.get(`http://bikemobi.com.br/api/allUsers?page=${currentPage}&name=${searchName}`)
+        await instance.get(`/allUsers?page=${currentPage}&name=${searchName}`)
         .then(response => {
             setUsers(response.data.data);
             console.log(response)

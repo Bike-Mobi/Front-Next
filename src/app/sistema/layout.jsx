@@ -23,8 +23,8 @@ const SitemaLayout = (props) => {
     const user = {
         name: authData.user?.name,
         type: tipo,
-        imgPerfil: `${'//bikemobi.com.br/api'}/${imgURL}/${authData.type?.photo}`,
-        nNotificacoes: 4
+        imgPerfil: `${process.env.NEXT_PUBLIC_API}/${imgURL}/${authData.type?.photo}`,
+        notificacoes: authData.messages
     }
 
     return (
@@ -34,7 +34,7 @@ const SitemaLayout = (props) => {
                     imgPerfil={user.imgPerfil}
             />
             <div>
-                <Header nNotificacoes={user.nNotificacoes}
+                <Header notificacoes={user.notificacoes}
                     name={user.name}
                     type={user.type}
                     imgPerfil={user.imgPerfil}

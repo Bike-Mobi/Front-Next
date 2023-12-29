@@ -11,6 +11,12 @@ const TitleModalComponent = (props) => {
         else if(action == "create"){
             return "Adicionar " + title
         }
+        else if(action == "protect"){
+            return "Alerta de Furto " + title
+        }
+        else if(action == "detail"){
+            return "Detalhes da " + title
+        }
     }
 
     return (

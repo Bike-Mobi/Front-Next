@@ -14,7 +14,12 @@ export function AuthProvider({ children }) {
 
     const { instance } = useContext(ApiContext)
 
-    const [authData, setAuthData] = useState({user: undefined, type: undefined})
+    const [authData, setAuthData] = useState({
+        user: undefined, 
+        type: undefined,
+        bikes: undefined,
+        manutencoes: undefined
+    })
     // para setar infos globais (do header component)
 
     const [error, setError] = useState()
@@ -35,6 +40,37 @@ export function AuthProvider({ children }) {
 
     const router = useRouter() 
     const path = usePathname()
+
+    async function getUserDatas(authUserData, authTypeData){
+
+        const bikes = await instance(`/bicicletas/${authTypeData.id}`)
+
+        let url
+        authUserData.type == 'Cyclist' ? url = 'Cyclist' : url = 'Loja'
+        const manutencoes = await instance(`/manutencaoFrom${url}/${authTypeData.id}`)
+
+        const meusclassificados = await instance(`/classificadoFromUser/${authUserData.id}`)
+        const classificados = await instance(`/allClassificados`)
+        
+        const messages = await instance(`/messagesFromReceiver/${authUserData.id}`)
+
+        let manutencoespadroes = {data: []}
+        if(url == 'Loja'){
+            manutencoespadroes = await instance(`/manutencaopadraoFromLoja/${authTypeData.id}`)
+        }
+
+        setAuthData({
+            user: authUserData, 
+            type: authTypeData,
+            bikes: bikes.data,
+            manutencoes: manutencoes.data,
+            manutencoespadroes: manutencoespadroes.data,
+            meusclassificados: meusclassificados.data,
+            classificados: classificados.data,
+            messages: messages.data
+        })
+    }
+    setTimeout(() => console.log('Bazinga',authData), 10000)
 
     async function verifyToken(token, typePage) {
         setIsLoading(false)
@@ -77,9 +113,9 @@ export function AuthProvider({ children }) {
         // }
     }
 
-    function userMenagement(token, authUserData, authTypeData, typePage) {
+    async function userMenagement(token, authUserData, authTypeData, typePage) {
         
-        setAuthData({user: authUserData, type: authTypeData })
+        await getUserDatas(authUserData, authTypeData)
         console.log('authData',authData)
         const type = authUserData.type
         let routeDestiny
@@ -156,11 +192,13 @@ export function AuthProvider({ children }) {
     }
 
     function signOut() {
-        destroyCookie(null, 'bikeMobiToken', {
-            path: '/'
-        })
-        setAuthData({ user: undefined, type: undefined })
         router.push('autenticacao/login')
+        setTimeout(() => {
+            destroyCookie(null, 'bikeMobiToken', {
+                path: '/'
+            })
+            setAuthData({ user: undefined, type: undefined })
+        }, 1000)
     }
 
     function defineType(selected) {
@@ -318,7 +356,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, typeRegister, stravaStatusUser, setError,setIsLoading, signIn, signOut, verifyToken, userMenagement, defineType, getStravaToken, obterParametroCode, verifyStravaToken, handlerStravaUser }}>
+        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, typeRegister, stravaStatusUser, setError,setIsLoading, signIn, signOut, verifyToken, userMenagement, getUserDatas, defineType, getStravaToken, obterParametroCode, verifyStravaToken, handlerStravaUser }}>
             {children}
         </AuthContext.Provider>
     )

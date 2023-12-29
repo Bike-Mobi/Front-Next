@@ -1,23 +1,16 @@
 'use client'
 
 import ClassificadosScreen from '@/components/sistema/screens/ClassificadosScreen'
-import { ApiContext } from '@/contexts/Api'
-import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '@/contexts/Auth'
+import React, { useContext } from 'react'
 
 const Anuncios = () => {
 
-    const { instance } = useContext(ApiContext)
-
-    const [anuncios, setAnuncios] = useState([])
-
-    useEffect(() => {    
-        instance.get(`/allClassificados`)
-        .then((response) => setAnuncios(response.data))
-    }, [])
+    const { authData } = useContext(AuthContext)
 
     return (
         <div className=''>
-            <ClassificadosScreen produtos={ anuncios } />
+            <ClassificadosScreen produtos={ authData.classificados } />
         </div>
     )
 }

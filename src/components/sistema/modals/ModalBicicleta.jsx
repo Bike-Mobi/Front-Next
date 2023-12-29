@@ -1,14 +1,17 @@
 'use client'
-import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PencilSquareIcon, ShieldExclamationIcon, ExclamationTriangleIcon, DocumentTextIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { XCircleIcon } from '@heroicons/react/24/solid';
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FileInput from "../inputs/FileInput";
 import RadioInput from '../inputs/RadioInput';
 import TextInput from "../inputs/TextInput";
 import ButtonModalComponent from '../utils/ButtonModalComponent';
 import TitleModalComponent from '../utils/TitleModalComponent';
+import { ApiContext } from '@/contexts/Api';
 
 const ModalBicicleta = (props) => {
+
+    const { instance } = useContext(ApiContext)
 
     const data = props?.data;
 
@@ -39,7 +42,6 @@ const ModalBicicleta = (props) => {
     // const [filePhoto3, setFilePhoto3] = useState()
 
 
-    const handleSerie = (e) => setSerie(e.target.value)
     const handleTipoBike = (e) => setTipoBike(e.target.value)
     const handleNome = (e) => setNome(e.target.value)
     const handleMarca = (e) => setMarca(e.target.value)
@@ -69,13 +71,27 @@ const ModalBicicleta = (props) => {
         }, 100);
     }, [showModal]);
 
-    let hidePassDetalhe, hidePassDelete, hidePassCriar, des, submit
+    let hidePassDetalhe, hidePassDelete, hidePassCriar, hidePassProtect, des, submit
     if (props.action === 'detail') {
         hidePassDetalhe = 'hidden'
         des = true
     }
     else if (props.action === 'delete'){
         hidePassDelete = 'hidden'
+    }
+    else if (props.action === 'protect'){
+        hidePassProtect = 'hidden'
+
+        var color, title, text
+        if(data.is_thiefs){
+            title = 'Deseja retirar a Bicicleta do estado de furto?'
+            text = 'Ficamos felizes que tenha recuperado sua bicicleta, ao confirmar, não iremos mais notificar as lojas.'
+            color = 'bg-warning'
+        } else{
+            title = 'Deseja proteger essta Bicicleta?'
+            text = 'Ao confirmar você está nos dizendo que sua bicicleta foi furtada e nós iremos avisar a todos os nossos colaboradores para que fiquem atentos caso eles encontrem sua bicicleta.'
+            color = 'bg-accent'
+        }
     }
     else if (props.action === 'edit' || props.action === 'create'){
         hidePassCriar = 'hidden'
@@ -107,14 +123,22 @@ const ModalBicicleta = (props) => {
     }
 
     function buttonCard(){
+
         if(props.action == 'detail'){
             return(
-                <button
-                    className={`bg-info p-1 rounded-md text-white hover:bg-opacity-80`}
+                <div>
+                    <button
+                    className={`bg-success py-1 px-3 rounded-md text-white hidden xl:block hover:bg-opacity-80`}
                     type="button"
-                >
-                    Detalhes
-                </button>
+                    >
+                        DETALHES
+                    </button>
+                    <div className='tooltip mr-7 block xl:hidden' data-tip='Detalhes'>
+                        <button type='button' className=''>
+                            <DocumentTextIcon className='w-8 h-8 hover:opacity-60 bg-success p-1 rounded-md text-white'/>
+                        </button>
+                    </div>
+                </div>
             )
         }
         else if(props.action == 'edit'){
@@ -124,16 +148,38 @@ const ModalBicicleta = (props) => {
         }
         else if(props.action == 'delete'){
             return(
-                <TrashIcon className=' w-8 h-8 hover:opacity-60 bg-error p-1 rounded-md text-white'/>
+                <TrashIcon className='mr-2 w-8 h-8 hover:opacity-60 bg-error p-1 rounded-md text-white'/>
             )
         }
         else if(props.action == 'create'){
             return(
-                <span className={`bg-tomEscuro text-white rounded-md cursor-pointer btn hover:opacity-90 hover:bg-tomEscuro`}>+ Adicionar Bicicleta</span>
+                <span className={`bg-tomEscuro text-white rounded-md cursor-pointer btn hover:opacity-90 hover:bg-tomEscuro`}><PlusIcon className='w-5 h-5'/> Adicionar Bicicleta</span>
+            )
+        } 
+        else if(props.action == 'protect'){
+
+            return(
+                <ShieldExclamationIcon className={`w-8 h-8 hover:opacity-60 ${color} p-1 rounded-md text-white`}/>
             )
         }
     }
 
+    const [disabled, setDisabled] = useState(false)
+    const [bikeExistent, setBikeExistent] = useState()
+
+    const getNumberBike = async (number) => {
+        const bike = await instance.get(`/getBicicletaByNumber/${number}`)
+        console.log('a boss: ',bike.data[0])
+        setBikeExistent(bike.data[0])
+        if(bike.data[0]) {
+            setDisabled(true)
+        }
+    }
+
+    const handleSerie = (e) => {
+        setSerie(e.target.value)
+        getNumberBike(e.target.value)
+    }
 
     return (
         <div>
@@ -152,7 +198,7 @@ const ModalBicicleta = (props) => {
                         <TitleModalComponent action={props.action} title={'Bike'}/>
 
                         {/* Criar/Editar */}
-                        <div className={`w-full mt-8 ${hidePassDelete}`}>
+                        <div className={`w-full mt-8 ${hidePassDelete} ${hidePassProtect}`}>
                             <form action="">
 
                                 {/* <RadioInput name="Tipo de bicicleta"
@@ -198,15 +244,22 @@ const ModalBicicleta = (props) => {
                                     disabled={des}
                                 />
 
-                                <TextInput name="Número de série do quadro"
-                                    width={`w-full`}
-                                    onChange={handleSerie}
-                                    defaultValue={data?.number_check}
-                                    required
-                                    disabled={des}
-                                    
-                                />
-                            
+                                    <TextInput name="Número de série do quadro"
+                                        width={`w-full`}
+                                        onChange={handleSerie}
+                                        defaultValue={data?.number_check}
+                                        required
+                                        disabled={des}
+                                        
+                                    />
+
+                                    {bikeExistent ? (
+                                        <div className='p-3 m-2 bg-error rounded-lg flex'>
+                                            <ExclamationTriangleIcon color='white' className='w-6 h-6 mt-[2px] mr-3 '/>    
+                                            <div className='text-white font-medium'>O Número de serie da sua bicicleta já existe no nosso sistema.</div>   
+                                        </div>
+                                    ) : null}
+                                                
                                 <TextInput name="Câmbio dianteiro"
                                     width={`w-full`}
                                     onChange={handleCambioDianteiro}
@@ -316,10 +369,18 @@ const ModalBicicleta = (props) => {
                         </div>
 
                         {/* Delete */}
-                        <div className={`Delete ${hidePassDetalhe} ${hidePassCriar}`}>
+                        <div className={`Delete ${hidePassDetalhe} ${hidePassCriar} ${hidePassProtect}`}>
                             <h2 className='font-bold text-lg text-neutral-600 mt-8'>
                                 Tem certeza que deseja deletar essa Bike?
                             </h2>
+                        </div>
+
+                        {/* Protect */}
+                        <div className={`Protect ${hidePassDetalhe} ${hidePassCriar} ${hidePassDelete}`}>
+                            <h2 className='font-bold text-lg text-neutral-600 mt-8 text-center'>
+                                {title}
+                            </h2>
+                            <p className='mt-6 text-center'>{text}</p>
                         </div>
 
                         <div className={`relative w-full mt-16 ${hidePassDetalhe}`}>
@@ -328,6 +389,7 @@ const ModalBicicleta = (props) => {
                             data={data}
                             newData={newData}
                             baseUrl='bicicleta'
+                            disabled={disabled}
                         />
                         </div>
 

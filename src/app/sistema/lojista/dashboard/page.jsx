@@ -2,7 +2,7 @@
 
 import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
-import { FireIcon, StarIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
+import {  CalendarDaysIcon, StarIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 
@@ -41,9 +41,9 @@ const Dashboard = () => {
         <div className='p-2 bg-slate-600'>
             <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
                 <div className='flex'>
-                    <FireIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
+                    <CalendarDaysIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
                     <div className='card'>
-                        <h2 className="card-title text-tomEscuro">Distância percorrida</h2>
+                        <h2 className="card-title text-tomEscuro">Manutenções Realizadas</h2>
                         <div className='card-body p-3'>
                             <div className='text-lg'>
                                 <span className='text-cinza'>Esse Mes: </span>
