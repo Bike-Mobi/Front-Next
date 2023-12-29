@@ -135,7 +135,7 @@ Um raciocino analogo é o do arquivo **head.jsx**, que, permite inclusões de *l
 Tendo em vista que a relação do sistema com a API Rest se dá atravez da chamada GET para carregar as informações do usuario na página, e nas chamandas POST, DELETE e UPDATE quando algum tipo de formulario é preeenchido, neste projeto, foi criado o context *Api.jsx* que básicamente configura a chamada API Rest padrão do sistema, ele está em um context para que possa ser acessado em varias partes do sistema. Seu uso e lógica está diretamente relacionada a Autenticação do sistema também
 ```JavaScript
 const instance = axios.create({
-    baseURL: 'https://bikemobi.com.br/api',
+    baseURL: process.env.NEXT_PUBLIC_API,
     headers: {
         Accept : "application/json",
         "Content-Type": "application/json"
