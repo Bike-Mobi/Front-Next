@@ -100,7 +100,7 @@ const Dashboard = () => {
                         {/* <th>Ciclista</th> */}
                         <th>Fotos</th>
                         <th>Data</th>
-                        <th className='hidden md:table-cell'>Valor</th>
+                        <th className='hidden lg:table-cell'>Valor</th>
                         <th>Detalhes</th>
                     </tr>
                     </thead>
@@ -126,7 +126,7 @@ const Dashboard = () => {
                         {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
                         
                         <td >{dateFormat(manutencao.created_at)}</td>
-                        <td className='hidden md:table-cell text-nowrap'>R$ {manutencao.valor_mdo} </td>
+                        <td className='hidden lg:table-cell text-nowrap'>R$ {manutencao.valor_mdo} </td>
                             <td className={`text-white grid grid-cols-2 lg:flex lg:flex-row py-8`}>
                                 {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
                                 {/* <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao> */}
@@ -142,9 +142,9 @@ const Dashboard = () => {
                     </table>
                 </div>
                 <div>
-                    {!stravaStatusUser ? (
+                    {/* {!stravaStatusUser ? (
                         <button onClick={getStravaToken} className='btn bg-strava text-white border-strava hover:opacity-80 hover:bg-strava hover:border-strava m-10'>Sincronize com o Strava</button>
-                    ) : null}
+                    ) : null} */}
                     {/* <div className='fixed bottom-6 right-6'>
                         <div className='mt-auto flex flex-col gap-2 py-2 bg-azul w-[400px] rounded-xl'>
                             <div className='text-center w-full text-white font-bold'>Promoções</div>
