@@ -290,7 +290,7 @@ const ModalManutencoes = (props) => {
                                 <select className="select select-bordered border-cinza w-full" onChange={(e) => handleManutencaoPadraoData(e.target.value)}>
                                     <option value='selecione' selected>Selecione</option>
                                     {authData.manutencoespadroes.map(item => (
-                                        <option value={item.name}>{item.name}</option>
+                                        <option key={item.id} value={item.name}>{item.name}</option>
                                     ))}
                                 </select>
                             </div>

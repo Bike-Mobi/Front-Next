@@ -51,7 +51,7 @@ const PassarBike = () => {
             <select className="select select-bordered border-cinza w-full" onChange={(e) => setIdBike(e.target.value)}>
               <option value='selecione' selected>Selecione</option>
               {authData.bikes.map(item => (
-                <option value={item.id}>{item.nameBike}</option>
+                <option key={item.id} value={item.id}>{item.nameBike}</option>
               ))}
             </select>
           </div>

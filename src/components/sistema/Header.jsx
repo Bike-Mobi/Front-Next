@@ -58,7 +58,7 @@ const Header = (props) => {
             {openMessages && notifications.length > 0 ? (
                 <div className='fixed right-10 top-[72px] border-2 border-tomEscuro rounded-lg bg-white z-30'>
                     {notifications?.map(item => (
-                        <div tabIndex={0} className='collapse w-80 bg-base-200 m-2 rounded-md hover:bg-base-300'>
+                        <div key={item.id} tabIndex={0} className='collapse w-80 bg-base-200 m-2 rounded-md hover:bg-base-300'>
                             <div className='collapse-title p-2' onClick={() => setviewed(item)}>
                                 <div className='flex justify-between'>
                                     <h2 className='px-2'>{item.title}</h2>
