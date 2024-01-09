@@ -230,11 +230,13 @@ const FormCiclista = (props) => {
                         width="w-60"
                         defaultValue={bairro ? bairro : data?.type?.neighborhood}
                         onChange={handleBairro}
+                        value={bairro}
                     />
                     <NumberInput name="Número"
                         width="w-40"
+                        defaultValue={numero ? numero : data?.type?.number}
                         onChange={handleNumero}
-                        value={data?.type?.number}
+                        value={numero}
                     />
                 </div>
 
@@ -243,6 +245,7 @@ const FormCiclista = (props) => {
                         width={`${!props.register ? 'w-72 md:w-[420px] lg:w-[520px]' : 'w-80 md:w-[520px]'}`}
                         defaultValue={rua ? rua : data?.type?.street}
                         onChange={handleRua}
+                        value={rua}
                     />
                     <TextInput name="Estado"
                         mask="aa"
@@ -250,6 +253,7 @@ const FormCiclista = (props) => {
                         width="w-40"
                         defaultValue={estado ? estado : data?.type?.stateCT}
                         onChange={handleEstado}
+                        value={estado}
                     />
                 </div>
 
@@ -259,6 +263,7 @@ const FormCiclista = (props) => {
                         required
                         defaultValue={cidade ? cidade : data?.type?.cityCT}
                         onChange={handleCidade}
+                        value={cidade}
                     />
                 </div>
             </div>

@@ -233,11 +233,13 @@ const FormLojista = (props) => {
                         width="w-60"
                         defaultValue={bairro ? bairro : data?.type?.neighborhood}
                         onChange={handleBairro}
+                        value={bairro}
                     />
                     <NumberInput name="Número"
                         width="w-40"
+                        defaultValue={numero ? numero : data?.type?.number}
                         onChange={handleNumero}
-                        value={data?.type?.number}
+                        value={numero}
                     />
                 </div>
 
@@ -246,6 +248,7 @@ const FormLojista = (props) => {
                         width="w-full"
                         defaultValue={rua ? rua : data?.type?.street}
                         onChange={handleRua}
+                        value={rua}
                     />
                     <TextInput name="Estado"
                         mask="aa"
@@ -253,6 +256,7 @@ const FormLojista = (props) => {
                         width="w-40"
                         defaultValue={estado ? estado : data?.user?.state}
                         onChange={handleEstado}
+                        value={estado}
                     />
                 </div>
 
@@ -262,6 +266,7 @@ const FormLojista = (props) => {
                         required
                         defaultValue={cidade ? cidade : data?.user?.city}
                         onChange={handleCidade}
+                        value={cidade}
                     />
                 </div>
 
