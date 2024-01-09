@@ -124,18 +124,16 @@ export function AuthProvider({ children }) {
             router.push('/autenticacao/login')
         } else {
             if (authUserData.is_admin) {
-
                 setDirectory('admin')
-                routeDestiny = '/sistema/admin/dashboard' // rota inicial Admin
-
             } else if (type == 'Shopkeeper') {
-
                 setDirectory('lojista')
-                routeDestiny = '/sistema/lojista/dashboard' // rota inicial Lojista
-
             } else if (type == 'Cyclist') {
-
                 setDirectory('ciclista')
+            }
+
+            if (type == 'Shopkeeper') {
+                routeDestiny = '/sistema/lojista/dashboard' // rota inicial Lojista
+            } else if (type == 'Cyclist') {
                 routeDestiny = '/sistema/ciclista/dashboard' // rota inicial Ciclista
             }
 

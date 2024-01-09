@@ -10,11 +10,11 @@ import { IconBike } from './utils/icons'
 
 const Sidebar = (props) => {
 
-    const {signOut, directory, valid} = useContext(AuthContext)
+    const {authData, signOut, directory, valid} = useContext(AuthContext)
 
     let items = []
     if (valid) {   
-        if(directory == 'ciclista'){
+        if(authData.user.type == 'Cyclist'){
             if (directory == 'admin') {
                 items.push(
                     { link: `/sistema/ciclista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
