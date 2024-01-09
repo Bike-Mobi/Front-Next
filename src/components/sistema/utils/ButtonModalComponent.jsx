@@ -89,7 +89,7 @@ const ButtonModalComponent = (props) => {
         try {
             instance.postForm(url, formData).then(resp => console.log(resp))
             setTimeout(() => {
-/*                 document.location.reload() */
+                document.location.reload()
 /*                 getUserDatas(authData.user, authData.type) */
             }, 800);
         } catch (error) {
