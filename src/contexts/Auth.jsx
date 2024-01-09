@@ -259,7 +259,7 @@ export function AuthProvider({ children }) {
         try {
             await instance.postForm(`/users/${authData.user?.id}?_method=PUT`, formDataUser).then(resp => console.log(resp))
             setTimeout(() => {
-                router.push(`/sistema/${directory}/dashboard`)
+                router.push(`/sistema/ciclista/dashboard`)
                 document.location.reload()
             }, 800);
         } catch (error) {
@@ -277,7 +277,7 @@ export function AuthProvider({ children }) {
             await refreshStravaToken(authData.user?.strava_refresh_token)
             console.log('fez um refresh do token do strava')
             setTimeout(() => {
-                router.push(`/sistema/${directory}/dashboard`)
+                router.push(`/sistema/ciclista/dashboard`)
                 document.location.reload()
             }, 800);
         } else {
@@ -325,7 +325,7 @@ export function AuthProvider({ children }) {
 
     const getStravaToken = async () => {
 
-        const redirectUri = `https://bikemobi.vercel.app/sistema/${directory}/dashboard`; // Substitua pelo seu URI de redirecionamento
+        const redirectUri = `https://bikemobi.vercel.app/sistema/ciclista/dashboard`; // Substitua pelo seu URI de redirecionamento
         const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=read_all`;
     
         // Redireciona o usuário para a rota de autorização

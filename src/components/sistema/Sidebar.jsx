@@ -14,32 +14,38 @@ const Sidebar = (props) => {
 
     let items = []
     if (valid) {   
-        if (directory == 'admin') {
-            items.push(
-                { link: `/sistema/${directory}/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
-                { link: `/sistema/${directory}/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> }
-            ) 
-        }
         if(directory == 'ciclista'){
+            if (directory == 'admin') {
+                items.push(
+                    { link: `/sistema/ciclista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
+                    { link: `/sistema/ciclista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> }
+                ) 
+            }
             items.push(
-                { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-                { link: `/sistema/${directory}/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
-                { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
-                { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-                { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-                { link: `/sistema/${directory}/bikes`, name: 'Bikes', icon: <IconBike/> },
-                { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
-                // { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+                { link: `/sistema/ciclista/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+                { link: `/sistema/ciclista/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
+                { link: `/sistema/ciclista/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+                { link: `/sistema/ciclista/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+                { link: `/sistema/ciclista/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+                { link: `/sistema/ciclista/bikes`, name: 'Bikes', icon: <IconBike/> },
+                { link: `/sistema/ciclista/perfil`, name: 'Perfil', icon: <UserIcon /> },
+                // { link: `/sistema/ciclista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
             )
         } else{
+            if (directory == 'admin') {
+                items.push(
+                    { link: `/sistema/lojista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
+                    { link: `/sistema/lojista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> }
+                ) 
+            }
             items.push(
-                { link: `/sistema/${directory}/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-                { link: `/sistema/${directory}/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
-                { link: `/sistema/${directory}/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-                { link: `/sistema/${directory}/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-                { link: `/sistema/${directory}/manutencoespadroes`, name: 'Manutenções Padrões', icon: <SwatchIcon /> },
-                { link: `/sistema/${directory}/perfil`, name: 'Perfil', icon: <UserIcon /> },
-                // { link: `/sistema/${directory}/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+                { link: `/sistema/lojista/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+                { link: `/sistema/lojista/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+                { link: `/sistema/lojista/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+                { link: `/sistema/lojista/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+                { link: `/sistema/lojista/manutencoespadroes`, name: 'Manutenções Padrões', icon: <SwatchIcon /> },
+                { link: `/sistema/lojista/perfil`, name: 'Perfil', icon: <UserIcon /> },
+                // { link: `/sistema/lojista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
             )
         }
     }
