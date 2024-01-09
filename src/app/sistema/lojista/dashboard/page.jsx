@@ -4,50 +4,61 @@ import ModalManutencoesPadroes from '@/components/sistema/modals/ModalManuntecoe
 import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
 import { DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import {  CalendarDaysIcon, StarIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
+import {  CalendarDaysIcon, StarIcon, SwatchIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 
 const Dashboard = () => {
 
-    const { authData, obterParametroCode, handlerStravaUser, getStravaToken, verifyStravaToken, stravaStatusUser } = useContext(AuthContext)
-    const { instance } = useContext(ApiContext)
-
-    const [manutencoesCount, setManutencoesCount] = useState('-')
-    const [bikes, setBikes] = useState([])
-
-    useEffect(() => {
-        const urlSearchParams = new URLSearchParams(window.location.search);
-        const code = urlSearchParams.get('code');
-        if (code) {
-            obterParametroCode()
-        }
-        if (authData.user != undefined) {
-            verifyStravaToken(authData)
-        }
-        handlerStravaUser()
-
-        instance.get(`/manutencaoFromCyclist/${authData.type.id}`)
-            .then((resp) => setManutencoesCount(resp.data.length))
-        
-        instance.get(`/bicicletas/${authData.type.id}`)
-            .then((resp) => setBikes(resp.data))
-        
-    }, [authData])
-
-    console.log(bikes)
-
-    const router = useRouter()
+    const { authData, stravaStatusUser } = useContext(AuthContext)
 
     const dateFormat = (date) => {
         const dia = date.slice(8, 10)
         const mes = date.slice(5, 7)
-        const ano = date.slice(0, 4)
-        return dia + '/' + mes + '/' + ano
-      }
+        return dia + '/' + mes
+    }
+
+    const manutencoesPeriodoTempo = (time, manutencoesArray) => {
+        if(manutencoesArray.length < 1){
+            return '-'
+        }
+
+        const hoje = new Date();
+        const periodTime = new Date();
+        if(time == 'mes'){
+            periodTime.setMonth(periodTime.getMonth() - 1);
+        } else {
+            periodTime.setFullYear(periodTime.getFullYear() - 1);
+        }
+        
+        const itensRecentes = manutencoesArray.filter(item => {
+            const dataCriacao = new Date(item.created_at);
+            return dataCriacao > periodTime && dataCriacao <= hoje;
+        });
+
+        return itensRecentes.length
+    }
+
+    const calculaTotalArrecadado = (manutencoesArray) => {
+        if(manutencoesArray.length < 1){
+            return '-'
+        }
+
+        let count = 0
+        manutencoesArray.map(item => {
+            const valor_mdo = item?.valor_mdo.replace(',', '.')
+            count = count + parseFloat(valor_mdo)
+            console.log('parseFloat(item?.valor_mdo): ', parseFloat(item?.valor_mdo))
+        })
+
+        const stringCount = count + ''
+
+        const countVirgula = stringCount.replace('.', ',')
+        return countVirgula
+    }
 
     return (
-        <div className='p-2 bg-slate-600'>
+        <div className='p-2 pr-3 bg-slate-600'>
             <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
                 <div className='flex'>
                     <CalendarDaysIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
@@ -57,13 +68,13 @@ const Dashboard = () => {
                             <div className='text-lg'>
                                 <span className='text-cinza'>Esse Mes: </span>
                                 <span className='font-semibold text-azul'>
-                                    {stravaStatusUser?.recent_ride_totals ? (stravaStatusUser?.recent_ride_totals.distance / 1000).toFixed(0) : '-'}
+                                    {manutencoesPeriodoTempo('mes', authData?.manutencoes)}
                                 </span>
                             </div>
                             <div className='text-lg'>
                                 <span className='text-cinza'>Essa Ano: </span>
                                 <span className='font-semibold text-azul'>
-                                    {stravaStatusUser?.ytd_ride_totals ? (stravaStatusUser?.ytd_ride_totals.distance / 1000).toFixed(0) : '-'}
+                                {manutencoesPeriodoTempo('ano', authData?.manutencoes)}
                                 </span>
                             </div>
                         </div>
@@ -75,41 +86,42 @@ const Dashboard = () => {
                     </span>
                     <div className='card bg-azul rounded-xl p-3'>
                         <div className='text-white text-bold font-bold text-4xl m-auto'>
-                            R$ {stravaStatusUser?.all_ride_totals ? (stravaStatusUser?.all_ride_totals.distance / 1000).toFixed(0): '-'}
+                            R$ {calculaTotalArrecadado(authData?.manutencoes)}
                         </div>
-                        <div className='text-white font-medium'>Total já Recebido</div>
+                        <div className='text-white font-medium mx-auto'>Total já Recebido</div>
                     </div>
                 </div>
                 <div className='flex gap-6 border-2 border-tomEscuro rounded-xl px-4 py-1'>
                     <WrenchScrewdriverIcon className='w-10 h-10 text-tomEscuro my-auto'/>
                     <div className='text-end'>
                         <div className='text-tomEscuro font-medium text-lg text-start'>Total de</div>
-                        <div className='text-azul font-bold text-2xl justify-center text-center'>{manutencoesCount}</div>
+                        <div className='text-azul font-bold text-2xl justify-center text-center'>{authData.manutencoes.length}</div>
                         <div className='text-tomEscuro font-medium text-lg text-end'>Manutenções</div>
                         <div className='text-tomEscuro font-medium text-lg text-end'>Realizadas</div>
                     </div>
                 </div>
             </div>
-            <div className='flex'>
-                <div className='w-1/2 mt-10 justify-center flex flex-col'>
-                <table className="table table-zebra w-full my-20 text-xs md:text-sm lg:text-base">
+            <div className='flex md:flex-row flex-col'>
+                <div className='w-full p-10 md:p-0 md:w-1/2 justify-center flex flex-col'>
+                <h2 className="card-title text-tomEscuro mt-8 mb-4 ml-1"> <WrenchScrewdriverIcon className='w-5 h-5 text-tomEscuro my-auto'/>Ultimas Manutenções Realizadas</h2>
+                <table className="table table-zebra w-full text-xs md:text-sm">
 
                     <thead>
                     <tr >
 {/*                         <th className='z-0'>Descrição</th> */}
                         {/* <th>Ciclista</th> */}
                         <th>Fotos</th>
-                        <th>Data</th>
-                        <th className='hidden lg:table-cell'>Valor</th>
+                        <th className='hidden xl:table-cell'>Data</th>
+                        <th>Valor</th>
                         <th>Detalhes</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    {authData.manutencoes?.map((manutencao, index) => {
+                    {authData.manutencoes?.reverse().slice(0, 5).map((manutencao, index) => {
                         return(
                         <tr key={index}>
-                            <td className='max-w-[174px] overflow-hidden md:text-sm'><p className=''>{manutencao.description?.length > 69 ? manutencao.description.slice(0, 67) + '...' : manutencao.description}</p></td>
+                            {/* <td className='max-w-[174px] overflow-hidden md:text-sm'><p className=''>{manutencao.description?.length > 69 ? manutencao.description.slice(0, 67) + '...' : manutencao.description}</p></td> */}
                             <td>
                             <div className='flex gap-4'>
                             {manutencao.photo_1 ? (
@@ -125,8 +137,8 @@ const Dashboard = () => {
                             </td>
                         {/* <td>Manutencoes ainda nao esta vinculada com um ciclista/bicicleta na api </td> */}
                         
-                        <td >{dateFormat(manutencao.created_at)}</td>
-                        <td className='hidden lg:table-cell text-nowrap'>R$ {manutencao.valor_mdo} </td>
+                        <td className='hidden xl:table-cell'>{dateFormat(manutencao.created_at)}</td>
+                        <td className='text-nowrap'>R$ {manutencao.valor_mdo} </td>
                             <td className={`text-white grid grid-cols-2 lg:flex lg:flex-row py-8`}>
                                 {/* <label htmlFor={`my-modal-${manutencao.id}d`} onClick={() => setIdModal(manutencao.id+'d')} className='cursor-pointer'><DocumentTextIcon className={`w-8 h-w-8 hover:opacity-60 p-1 mx-1 rounded-md bg-success`}/></label> */}
                                 {/* <ModalDetalhesManutencao data={manutencao}></ModalDetalhesManutencao> */}
@@ -140,6 +152,34 @@ const Dashboard = () => {
                     })}
                     </tbody>
                     </table>
+                    <button className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções</button>
+                </div>
+                <div className='ml-5 flex flex-col p-10 md:p-0 md:w-1/2'>
+                    <h2 className="card-title text-tomEscuro mt-8 mb-4 ml-1"> <SwatchIcon className='w-5 h-5 text-tomEscuro my-auto'/>Manutenções Padrões</h2>
+                    <table className="table table-zebra">
+                        <thead>
+                            <tr>
+                                <th>Nome da Manutenção</th>
+                                <th className='hidden xl:table-cell'>Preço</th>
+                                <th>Descrição</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {authData.manutencoespadroes?.slice(0, 5).map(item => (
+                                <tr key={item.id}>
+                                    <td>{item.name}</td>
+                                    <td className='hidden xl:table-cell'>R$ {item.price}</td>
+                                    <td className='max-w-[174px]'>{item.description?.length > 29 ? item.description.slice(0, 27) + '...' : item.description}</td>
+                                    <td className={`flex text-white flex-col sm:flex-row md:flex-col lg:flex-row py-8`}>
+                                        <ModalManutencoesPadroes type='edit' item={item}/>
+                                        <ModalManutencoesPadroes type='delete' item={item}/>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <button className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções Padrões</button>
                 </div>
                 <div>
                     {/* {!stravaStatusUser ? (

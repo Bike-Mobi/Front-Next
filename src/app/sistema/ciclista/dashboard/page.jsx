@@ -25,7 +25,7 @@ const Dashboard = () => {
     const router = useRouter()
 
     return (
-        <div className='p-2 bg-slate-600'>
+        <div className='p-2 pr-3 bg-slate-600'>
             <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
                 <div className='flex'>
                     <FireIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
