@@ -1,7 +1,16 @@
-import Image from "next/image";
 import React from "react";
 
 const ModalCardClassificados = (props) => {
+
+    function redirecionaWhats(telefone) {
+        // Remover caracteres não numéricos
+        const numero = telefone.replace(/\D/g, '');
+        const linkWhatsApp = `https://wa.me/55${numero}`;
+
+        // Redirecionar para o link
+        window.location.href = linkWhatsApp;
+    }
+
     return(
         <div className="modal-container">
             <label htmlFor={`my-modal-${props.data.id}`}  className='btn btn-primary text-white btn-sm xl:btn-sm'>Detalhes</label>
@@ -13,7 +22,10 @@ const ModalCardClassificados = (props) => {
                         <h3 className="text-3xl flex justify-center font-bold text-tomEscuro mb-6 break-all">{props.data.name}</h3>
                         <img src={`${process.env.NEXT_PUBLIC_API}/classificadoFoto/${props.data.photo}`} alt="Foto da mercadoria" className=' rounded-2xl object-cover'/>
                         <span className='font-normal text-cinza text-base break-all overflow-hidden my-10'>{props.data.description}</span>
-                        <span className='text-base break-all font-bold text-tomEscuro'>Valor: {props.data.price}</span>
+                        <div className="flex justify-between w-full">
+                            <div className='text-base break-all font-bold text-tomEscuro'>Valor: R$ {props.data.price}</div>
+                            <button onClick={() => redirecionaWhats(props.data.contact)} className="btn btn-secondary">Enviar mensagem</button>
+                        </div>
                     </div>
                 </label>
             </label>

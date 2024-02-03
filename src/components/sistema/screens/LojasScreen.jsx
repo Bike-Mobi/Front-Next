@@ -3,41 +3,37 @@ import { ApiContext } from '@/contexts/Api'
 import React, { useContext, useEffect, useState } from 'react'
 import CardLoja from '../modals/CardLoja'
 import { useRouter } from 'next/navigation'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
 const LojasScreen = (props) => {
 
-//   const {instance} = useContext(ApiContext)
-//   const [buscaLojas, setBuscaLojas] = useState([])
+    const [search, setSearch] = useState('')
+    const buscaLojas = props.lojas
 
-//   useEffect(() => {
-//     instance.get("/users")
-//     .then((response) => setBuscaLojas(response.data))
-//   }, [])
+    const handleSearchChange = (event) => setSearch( event.target.value)
 
-// const lojas = buscaLojas.data?.filter((item) => {
-//     return item.type == "Shopkeeper"
-// })
-    
-    // useEffect(() => {
-    //     axios.get('https://www.strava.com/api/v3/athlete/activities', {
-    //         headers: {
-    //             Authorization: `Bearer 5cd3226e0459c73d5bdbaac5c05f6e2f6486ddad`
-    //         }
-    //     }).then(resp => console.log(resp)).catch(error => console.error(error))
-    // }, [])
-
-    const router = useRouter()
+    let lojasFiltradas = buscaLojas?.filter((item) => {
+        
+        return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.city?.toLowerCase()?.includes(search?.toLowerCase()) || item?.neighborhood?.toLowerCase()?.includes(search?.toLowerCase())
+    })
 
     return(
-        <div className={`mt-16 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2`}>
-            {/* <button onClick={() => router.push(`${process.env.NEXT_PUBLIC_API}/auth/strava`)}>Press here</button> */}
-            {props.lojas.map((item, index) => {
-                return (
-                    <div key={index} className={`flex justify-center items-center`}>
-                        <CardLoja data={item}/>
-                    </div>
-                )
-            })}
+        <div>
+            <div className='m-14'>
+                <div className='relative flex items-end'>
+                    <input placeholder='Nome, Cidade ou Bairro' className='bg-cinzaClaro border rounded-md p-[10px] w-80 border-neutral-400 focus:outline-none' type="text" onChange={handleSearchChange} />
+                    <MagnifyingGlassIcon className='w-6 h-6 text-neutral-700 absolute left-72 lg:right-2 bottom-3'/>
+                </div>
+            </div>
+            <div className={`mt-16 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2`}>
+                {lojasFiltradas?.map((item, index) => {
+                    return (
+                        <div key={index} className={`flex justify-center items-center`}>
+                            <CardLoja data={item}/>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }

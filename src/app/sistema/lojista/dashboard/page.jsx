@@ -4,13 +4,15 @@ import ModalManutencoesPadroes from '@/components/sistema/modals/ModalManuntecoe
 import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
 import { DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import {  CalendarDaysIcon, StarIcon, SwatchIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
+import {  CalendarDaysIcon, CurrencyDollarIcon, StarIcon, SwatchIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 
 const Dashboard = () => {
 
     const { authData, stravaStatusUser } = useContext(AuthContext)
+
+    const router = useRouter()
 
     const dateFormat = (date) => {
         const dia = date.slice(8, 10)
@@ -36,7 +38,7 @@ const Dashboard = () => {
             return dataCriacao > periodTime && dataCriacao <= hoje;
         });
 
-        return itensRecentes.length
+        return itensRecentes
     }
 
     const calculaTotalArrecadado = (manutencoesArray) => {
@@ -68,13 +70,33 @@ const Dashboard = () => {
                             <div className='text-lg'>
                                 <span className='text-cinza'>Esse Mes: </span>
                                 <span className='font-semibold text-azul'>
-                                    {manutencoesPeriodoTempo('mes', authData?.manutencoes)}
+                                    {manutencoesPeriodoTempo('mes', authData?.manutencoes).length}
                                 </span>
                             </div>
                             <div className='text-lg'>
                                 <span className='text-cinza'>Essa Ano: </span>
                                 <span className='font-semibold text-azul'>
-                                {manutencoesPeriodoTempo('ano', authData?.manutencoes)}
+                                    {manutencoesPeriodoTempo('ano', authData?.manutencoes).length}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='flex shadow-md rounded-xl'>
+                    <CurrencyDollarIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
+                    <div className='card'>
+                        <h2 className="card-title text-tomEscuro">Arrecadação</h2>
+                        <div className='card-body p-3'>
+                            <div className='text-lg'>
+                                <span className='text-cinza'>Esse Mes: </span>
+                                <span className='font-semibold text-azul'>
+                                    R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('mes', authData?.manutencoes))}
+                                </span>
+                            </div>
+                            <div className='text-lg'>
+                                <span className='text-cinza'>Essa Ano: </span>
+                                <span className='font-semibold text-azul'>
+                                    R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('ano', authData?.manutencoes))}
                                 </span>
                             </div>
                         </div>
@@ -152,7 +174,7 @@ const Dashboard = () => {
                     })}
                     </tbody>
                     </table>
-                    <button className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções</button>
+                    <button onClick={() => router.push('/sistema/lojista/manutencoes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções</button>
                 </div>
                 <div className='ml-5 flex flex-col p-10 md:p-0 md:w-1/2'>
                     <h2 className="card-title text-tomEscuro mt-8 mb-4 ml-1"> <SwatchIcon className='w-5 h-5 text-tomEscuro my-auto'/>Manutenções Padrões</h2>
@@ -179,7 +201,7 @@ const Dashboard = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções Padrões</button>
+                    <button onClick={() => router.push('/sistema/lojista/manutencoespadroes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções Padrões</button>
                 </div>
                 <div>
                     {/* {!stravaStatusUser ? (

@@ -45,7 +45,7 @@ const ModalManutencoesPadroes = ({type, item}) => {
                                 required
                                 width={`w-full`}
                                 onChange={(e) => setTitle(e.target.value)}
-                                defaultValue={item?.title}
+                                defaultValue={item?.name}
                             />
                             <TextInput name="Valor"
                                 required
@@ -68,7 +68,9 @@ const ModalManutencoesPadroes = ({type, item}) => {
                         <button className='btn'>Fechar</button>
                         <ButtonModalComponent 
                             title={type}
+                            data={item}
                             newData={newData}
+                            htmlFor={`modal_edit_mp_${item.id}`}
                             baseUrl='manutencaopadrao'
                         />
                     </form>

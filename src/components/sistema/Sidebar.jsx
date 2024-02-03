@@ -27,7 +27,7 @@ const Sidebar = (props) => {
                 { link: `/sistema/ciclista/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
                 { link: `/sistema/ciclista/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
                 { link: `/sistema/ciclista/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-                { link: `/sistema/ciclista/bikes`, name: 'Bikes', icon: <IconBike/> },
+                // { link: `/sistema/ciclista/bikes`, name: 'Bikes', icon: <IconBike/> },
                 { link: `/sistema/ciclista/perfil`, name: 'Perfil', icon: <UserIcon /> },
                 // { link: `/sistema/ciclista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
             )

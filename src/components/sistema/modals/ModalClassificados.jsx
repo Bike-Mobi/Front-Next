@@ -121,8 +121,9 @@ const ModalClassificados = (props) => {
                                     required
                                 />
 
-                                <TextInput name="Contato"
+                                <TextInput name="Número de Contato"
                                     defaultValue={data?.contact}
+                                    mask="(99) 99999-9999"
                                     width="w-full"
                                     onChange={handleContato}
                                     className="disabled disabled:opacity-75"

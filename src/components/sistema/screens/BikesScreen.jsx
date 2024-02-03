@@ -39,7 +39,7 @@ const PassarBike = () => {
     <div>
       <button onClick={()=>document.getElementById(`modal_passarbike`).showModal()} className='flex bg-azul text-white rounded-md cursor-pointer btn hover:opacity-90 hover:bg-azul'>
         <ChevronDoubleRightIcon className='w-5 h-5'/>
-        <div>Enviar Bicicleta</div>
+        <div>Transferir Bicicleta</div>
       </button>
       <dialog className='modal' id='modal_passarbike'>
         <div className='modal-box'>
@@ -112,9 +112,9 @@ const BikesScreen = (props) => {
     console.log(data)
 
       return (
-        <div className={`m-10 my-10`}>
+        <div className={`my-10`}>
           
-            <div className={`my-16 ml-0 md:ml-[13px] px-0 flex justify-between`}>
+            <div className={`my-16 mx-10 px-0 flex justify-between`}>
               <ModalBicicleta
                 action="create"
                 data={data}

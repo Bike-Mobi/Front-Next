@@ -31,6 +31,8 @@ const ModalManutencoes = (props) => {
     const [photo_3, setPhoto_3] = useState()
 
     const [loja, setLoja] = useState()
+
+    const [selectedBike, setSelectedBike] = useState()
     
     const [bikeDefaultNumber, setBikeDefaultNumber] = useState('')
     const [numberBike, setNumberBike] = useState()
@@ -116,7 +118,7 @@ const ModalManutencoes = (props) => {
     let newData = {
         description: description,
         valor_mdo: value,
-        bike_id: bike?.id,
+        bike_id: selectedBike?.id,
         loja_id: props.lojaId,
         photo_1: photo_1,
         photo_2: photo_2,
@@ -125,10 +127,11 @@ const ModalManutencoes = (props) => {
 
     useEffect(() => {
         setLoading(true)
-        instance.get(`/getBicicletaByNumber/${numberBike}`)
+        instance.get(`/getBikeForMaintence/${numberBike}`)
             .then((response) => {
-                setBike(response.data[0])
+                setBike(response.data)
                 setLoading(false)
+                response.data[1].length == 1 ? setSelectedBike(response.data[1][0]) : null
             })
             .catch(() => {
                 setBike(undefined)
@@ -143,6 +146,7 @@ const ModalManutencoes = (props) => {
         // setBikeDefaultNumber(bike.data[0].number_check)
         setNumberBike(bike.data[0]?.number_check)
         // return bike.data[0].number_check
+        return bike.data[0]?.number_check
     }
   
     // const bikeCiclista = buscaBike?.filter((item) => {
@@ -224,7 +228,7 @@ const ModalManutencoes = (props) => {
 
                             <div className='flex flex-col'>
                                 <div className='flex justify-between'>
-                                    <TextInput name="Número da Bike"
+                                    <TextInput name="Número do Bicicleta, Nome ou CPF do Ciclista"
                                         width={`w-full`}
                                         onChange={handleNumberBike}
                                         value={numberBike}
@@ -240,34 +244,40 @@ const ModalManutencoes = (props) => {
                                     <div className='h-24 w-full flex'>
                                         <div className="inline-block h-5 w-5 my-6 mx-auto animate-spin rounded-full border-4 border-solid border-primary border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
                                     </div>
-                                ) :
-                                    bike ? (
-                                        <div>
-                                            <div className='flex p-2 m-2 mt-3 bg-cinzaClaro rounded-lg'>
-                                                <img src={`${process.env.NEXT_PUBLIC_API}/bicicletaFoto/${bike.photo_1}`} className='w-14 h-14 object-cover rounded-lg mr-4' alt="" />
-                                                <div className='flex flex-col gap-1'>
-                                                    <div className='font-semibold text-tomEscuro text-lg'>{bike.nameBike}</div>
-                                                    <div className='text-accent'>{bike.brand}</div>
+                                ) : bike?.[1]?.length > 0 ? (
+                                    <div>
+                                        <label className="label mt-2">
+                                            <span className={`label-text font-medium`}>Selecione a Bicicleta</span>
+                                        </label>
+                                        {bike?.[1]?.map(item => (
+                                            <div key={item.id} onClick={() => setSelectedBike(item)}>
+                                                {console.log(`uuashcainysdhsdumxasd? `, selectedBike.id, item.id)}
+                                                <div className={`flex p-2 m-2 mt-1 mb-3 ${selectedBike.id == item.id ? 'bg-azul opacity-75' : 'bg-cinzaClaro hover:border-azul'} rounded-lg border-2 border-cinzaClaro `}>
+                                                    <img src={item.photo_1 ? `${process.env.NEXT_PUBLIC_API}/bicicletaFoto/${item.photo_1}` : '/sistema/bikeDefault.png'} className={item.photo_1 ? 'w-14 h-14 object-cover rounded-lg mr-4' : 'w-14 h-14 p-4 bg-white rounded-lg mr-4'} alt="" />
+                                                    <div className='flex flex-col gap-1'>
+                                                        <div className={`font-semibold ${selectedBike.id == item.id ? 'text-white' : 'text-tomEscuro'}  text-lg`}>{item.nameBike}</div>
+                                                        <div className={selectedBike.id == item.id ? 'text-tomEscuro' : 'text-accent'}>{item.brand}</div>
+                                                    </div>
                                                 </div>
+                                                {bike.is_thiefs ? (
+                                                    <div className='p-3 m-2 bg-warning rounded-lg flex'>
+                                                        <ExclamationTriangleIcon color='white' className='w-6 h-6 mt-[2px] mr-3 '/>    
+                                                        <div>
+                                                            <div className='text-white font-bold'>Atenção</div>  
+                                                            <div className='text-white font-medium'>Este número de serie corresponde a uma bicicleta que se encontra em estado de furto, clique no botão abaixo para notificar ao dono.</div>
+                                                            <button onClick={sendNotification} disabled={disableWarning} className='btn btn-sm bg-white text-warning ml-auto flex'>Notificar</button>
+                                                        </div>
+                                                    </div>
+                                                ) : null}
                                             </div>
-                                            {bike.is_thiefs ? (
-                                                <div className='p-3 m-2 bg-warning rounded-lg flex'>
-                                                    <ExclamationTriangleIcon color='white' className='w-6 h-6 mt-[2px] mr-3 '/>    
-                                                    <div>
-                                                        <div className='text-white font-bold'>Atenção</div>  
-                                                        <div className='text-white font-medium'>Este número de serie corresponde a uma bicicleta que se encontra em estado de furto, clique no botão abaixo para notificar ao dono.</div>
-                                                        <button onClick={sendNotification} disabled={disableWarning} className='btn btn-sm bg-white text-warning ml-auto flex'>Notificar</button>
-                                                    </div> 
-                                                </div>
-                                            ) : null}
-                                        </div>
-                                    ) : (
-                                        <div className='p-3 m-2 bg-error rounded-lg flex'>
-                                            <ExclamationTriangleIcon color='white' className='w-6 h-6 mt-[2px] mr-3 '/>    
-                                            <div className='text-white font-medium'>Digite o número de uma bicicleta cadastrada no nosso sistema.</div>   
-                                        </div>
-                                    )
-                                }
+                                        ))}
+                                    </div>
+                                ) :  (
+                                    <div className='p-3 m-2 bg-error rounded-lg flex'>
+                                        <ExclamationTriangleIcon color='white' className='w-6 h-6 mt-[2px] mr-3 '/>    
+                                        <div className='text-white font-medium'>Não corresponde a nenhuma bicicleta ou usuario cadastrado no nosso sistema.</div>   
+                                    </div>
+                                )}
                             </div>
 
                             {loja ? (

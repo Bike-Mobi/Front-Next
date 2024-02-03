@@ -1,5 +1,6 @@
 'use client'
 
+import BikesScreen from '@/components/sistema/screens/BikesScreen'
 import { AuthContext } from '@/contexts/Auth'
 import { FireIcon, StarIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
@@ -22,7 +23,7 @@ const Dashboard = () => {
         
     }, [authData])
 
-    const router = useRouter()
+    console.log('strava: ', stravaStatusUser)
 
     return (
         <div className='p-2 pr-3 bg-slate-600'>
@@ -68,8 +69,12 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex'>
-                <div className='w-1/2 mt-10 justify-center flex flex-col'>
+            <div className='w-full'>
+                <BikesScreen produtos={authData.bikes}/>
+                {!stravaStatusUser ? (
+                        <button onClick={getStravaToken} className='btn bg-strava text-white border-strava hover:opacity-80 hover:bg-strava hover:border-strava m-10'>Sincronize com o Strava</button>
+                    ) : null}
+                {/* <div className='w-1/2 mt-10 justify-center flex flex-col'>
                     {authData.bikes.map(item => (
                         <div className="card card-side bg-base-100 shadow-xl mb-6" key={item.id}>
                             <figure className='w-52'>
@@ -89,7 +94,7 @@ const Dashboard = () => {
                 <div>
                     {!stravaStatusUser ? (
                         <button onClick={getStravaToken} className='btn bg-strava text-white border-strava hover:opacity-80 hover:bg-strava hover:border-strava m-10'>Sincronize com o Strava</button>
-                    ) : null}
+                    ) : null} */}
                     {/* <div className='fixed bottom-6 right-6'>
                         <div className='mt-auto flex flex-col gap-2 py-2 bg-azul w-[400px] rounded-xl'>
                             <div className='text-center w-full text-white font-bold'>Promoções</div>
@@ -119,7 +124,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div> */}
-                </div>
+                {/* </div> */}
             </div>
         </div>
     )

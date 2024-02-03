@@ -5,6 +5,7 @@ import EmailInputLogin from '@/components/sistema/inputs/EmailInputLogin'
 import LoginButton from '@/components/sistema/inputs/LoginButton'
 import PasswordInputLogin from '@/components/sistema/inputs/PasswordInputsLogin'
 import { AuthContext } from '@/contexts/Auth'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useState } from 'react'
 
@@ -28,7 +29,7 @@ const Login = () => {
         <div className={`flex h-screen items-center justify-center`}>
 
             <div className={`hidden md:block md:w-1/2 lg:w-1/2`}>
-                <img src="auth-img.png" alt="" className={`h-screen w-full object-cover`} />
+                <Image width={500} height={500} src="/auth-img.png" alt="" className={`h-screen w-full object-cover`} />
             </div>
 
             <div className='md:hidden absolute -z-20'>

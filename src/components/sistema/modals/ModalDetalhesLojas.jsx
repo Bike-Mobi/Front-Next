@@ -48,7 +48,7 @@ const ModalDetalhesLojas = (props) => {
                         </span> */}
                         <div className={`w-full flex flex-col mt-4`}>
                             {/* <span>Endereço:</span> */}
-                            <span>Cidade: {data.city} / {data.state}</span>
+                            <span>Cidade: {data.city}</span>
                             <span>Rua: {data.street}</span>
                             <span>Numero: {data.number}</span>
                             <span>Bairro: {data.neighborhood}</span>

@@ -3,7 +3,6 @@
 import nookies from "nookies"
 import { AuthContext } from '@/contexts/Auth'
 import React, { useContext, useEffect, useState } from 'react'
-import LoadingComponent from "@/components/sistema/loadingComponent"
 
 const AutenticacaoLayout = ({children}) => {
 
