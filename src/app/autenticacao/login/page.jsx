@@ -29,7 +29,7 @@ const Login = () => {
         <div className={`flex h-screen items-center justify-center`}>
 
             <div className={`hidden md:block md:w-1/2 lg:w-1/2`}>
-                <Image width={500} height={500} src="/auth-img.png" alt="" className={`h-screen w-full object-cover`} />
+                <img width={500} height={500} src="auth-img.png" alt="" className={`h-screen w-full object-cover`} />
             </div>
 
             <div className='md:hidden absolute -z-20'>

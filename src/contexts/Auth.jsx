@@ -18,7 +18,11 @@ export function AuthProvider({ children }) {
         user: undefined, 
         type: undefined,
         bikes: undefined,
-        manutencoes: undefined
+        manutencoes: undefined,
+        manutencoespadroes: undefined,
+        meusclassificados: undefined,
+        classificados: undefined,
+        messages: undefined
     })
     // para setar infos globais (do header component)
 

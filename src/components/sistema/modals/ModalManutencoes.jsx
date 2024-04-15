@@ -251,12 +251,12 @@ const ModalManutencoes = (props) => {
                                         </label>
                                         {bike?.[1]?.map(item => (
                                             <div key={item.id} onClick={() => setSelectedBike(item)}>
-                                                {console.log(`uuashcainysdhsdumxasd? `, selectedBike.id, item.id)}
-                                                <div className={`flex p-2 m-2 mt-1 mb-3 ${selectedBike.id == item.id ? 'bg-azul opacity-75' : 'bg-cinzaClaro hover:border-azul'} rounded-lg border-2 border-cinzaClaro `}>
+                                                {console.log(`uuashcainysdhsdumxasd? `, selectedBike?.id, item?.id)}
+                                                <div className={`flex p-2 m-2 mt-1 mb-3 ${selectedBike?.id == item?.id ? 'bg-azul opacity-75' : 'bg-cinzaClaro hover:border-azul'} rounded-lg border-2 border-cinzaClaro `}>
                                                     <img src={item.photo_1 ? `${process.env.NEXT_PUBLIC_API}/bicicletaFoto/${item.photo_1}` : '/sistema/bikeDefault.png'} className={item.photo_1 ? 'w-14 h-14 object-cover rounded-lg mr-4' : 'w-14 h-14 p-4 bg-white rounded-lg mr-4'} alt="" />
                                                     <div className='flex flex-col gap-1'>
-                                                        <div className={`font-semibold ${selectedBike.id == item.id ? 'text-white' : 'text-tomEscuro'}  text-lg`}>{item.nameBike}</div>
-                                                        <div className={selectedBike.id == item.id ? 'text-tomEscuro' : 'text-accent'}>{item.brand}</div>
+                                                        <div className={`font-semibold ${selectedBike?.id == item?.id ? 'text-white' : 'text-tomEscuro'}  text-lg`}>{item.nameBike}</div>
+                                                        <div className={selectedBike?.id == item?.id ? 'text-tomEscuro' : 'text-accent'}>{item.brand}</div>
                                                     </div>
                                                 </div>
                                                 {bike.is_thiefs ? (

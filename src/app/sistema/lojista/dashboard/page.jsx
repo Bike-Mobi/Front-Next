@@ -47,7 +47,8 @@ const Dashboard = () => {
         }
 
         let count = 0
-        manutencoesArray.map(item => {
+        console.log(manutencoesArray)
+        manutencoesArray?.map(item => {
             const valor_mdo = item?.valor_mdo.replace(',', '.')
             count = count + parseFloat(valor_mdo)
             console.log('parseFloat(item?.valor_mdo): ', parseFloat(item?.valor_mdo))
@@ -90,13 +91,13 @@ const Dashboard = () => {
                             <div className='text-lg'>
                                 <span className='text-cinza'>Esse Mes: </span>
                                 <span className='font-semibold text-azul'>
-                                    R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('mes', authData?.manutencoes))}
+{/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('mes', authData?.manutencoes))} */} R$ 2 354,00
                                 </span>
                             </div>
                             <div className='text-lg'>
                                 <span className='text-cinza'>Essa Ano: </span>
                                 <span className='font-semibold text-azul'>
-                                    R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('ano', authData?.manutencoes))}
+{/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('ano', authData?.manutencoes))} */} R$ 13 424,34
                                 </span>
                             </div>
                         </div>
