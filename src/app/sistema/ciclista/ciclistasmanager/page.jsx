@@ -188,7 +188,7 @@ const CiclistaManager = () => {
                 <div className="modal-box">
                     <h3 className="font-bold text-xl text-tomEscuro mx-auto w-fit">Deletar Ciclista</h3>
                     <p className='text-lg text-tomEscuro text-center mt-4'>Tem certeza de que deseja deletar este ciclista?</p>
-                    <p className='text-tomEscuro text-center  my-4'>Esta ação não poderá ser revertida, dados relacionados a este usuaurio como suas bicicletas, manutenções e outros podem serem apagados ou corrompidos, é sempre indicado inativar o usuario ao invez de deleta-lo</p>
+                    <p className='text-tomEscuro text-center  my-4'>Esta ação não poderá ser revertida, dados relacionados a este usuario como suas bicicletas, manutenções e outros podem serem apagados ou corrompidos, é sempre indicado inativar o usuario ao invez de deleta-lo</p>
                     <button className='btn btn-error text-white ml-auto flex' onClick={deleteAccount}>Deletar</button>
                 </div>
                     <form method="dialog" className="modal-backdrop">
