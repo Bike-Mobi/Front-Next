@@ -13,7 +13,6 @@ const PerfilCiclista = () => {
     console.log(authData)
 
     const updateAccount = async (data) => {
-        console.log('data: ', data)
         
         const formDataUser = new FormData();
         for (const key in data.user) {
