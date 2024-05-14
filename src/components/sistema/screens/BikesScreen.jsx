@@ -16,19 +16,21 @@ const PassarBike = () => {
 
   const [idBike, setIdBike] = useState()
   const [ciclistaUser, setCiclistaUser] = useState([undefined, undefined])
-  const [cpfReceiver, setCpfReceiver] = useState()
+  const [cpfReceiver, setCpfReceiver] = useState('')
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
-    instance.get(`/getCiclistaByCpf/${cpfReceiver}`).then((resp) => {
-      setCiclistaUser(resp.data)
-      setLoading(false)
-      console.log('rasp.data: ',resp.data, 'ciclistaUser:', ciclistaUser)
-    }).catch(() => {
-      setCiclistaUser([undefined, undefined])
-      setLoading(false)
-    })
+    if(cpfReceiver.length > 0){
+      setLoading(true)
+      instance.get(`/getCiclistaByCpf/${cpfReceiver}`).then((resp) => {
+        setCiclistaUser(resp.data)
+        setLoading(false)
+        console.log('rasp.data: ',resp.data, 'ciclistaUser:', ciclistaUser)
+      }).catch(() => {
+        setCiclistaUser([undefined, undefined])
+        setLoading(false)
+      })
+    }
   }, [cpfReceiver])
 
   let newData = {
@@ -109,7 +111,6 @@ const BikesScreen = (props) => {
   const { authData } = useContext(AuthContext)
 
     const data = props.produtos
-    console.log(data)
 
       return (
         <div className={`my-10`}>
