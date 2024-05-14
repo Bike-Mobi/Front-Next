@@ -29,8 +29,8 @@ const PremiumDash = () => {
     }, [currentPage, loading]);
     console.log(users)
 
-    const updatePremiumStatus = async (id, premium) => {
-        setLoading(id)
+    const updatePremiumStatus = async (id, premium, setLoadingParam) => {
+        setLoadingParam(id)
         
         const formDataUser = new FormData();
         formDataUser.append('premium', premium);
@@ -69,7 +69,7 @@ const PremiumDash = () => {
                             <th>{user.id}</th>
                             <td>{user.name}</td>
                             <td>
-                                <button className={`btn bg-transparent border-none ${user.premium == 1 ? 'text-primary' : null}`} onClick={() => updatePremiumStatus(user.id, user.premium == 1 ? 0 : 1)}>
+                                <button className={`btn bg-transparent border-none ${user.premium == 1 ? 'text-primary' : null}`} onClick={() => updatePremiumStatus(user.id, user.premium == 1 ? 0 : 1, setLoading)}>
                                     {user.premium == 1 ? 'Valido' : 'Invalido'}
                                     {loading == user.id ? (
                                         <span className="loading loading-spinner"></span>
