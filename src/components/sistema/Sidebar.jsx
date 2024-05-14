@@ -1,7 +1,7 @@
 'use client'
 
 import { AuthContext } from '@/contexts/Auth'
-import { ArrowRightOnRectangleIcon, BanknotesIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, GlobeAltIcon, HeartIcon, NewspaperIcon, SwatchIcon, UserIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowRightOnRectangleIcon, BanknotesIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, GlobeAltIcon, HeartIcon, NewspaperIcon, SwatchIcon, UserIcon, UsersIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -18,7 +18,8 @@ const Sidebar = (props) => {
             if (directory == 'admin') {
                 items.push(
                     { link: `/sistema/ciclista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
-                    { link: `/sistema/ciclista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> }
+                    { link: `/sistema/ciclista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
+                    { link: `/sistema/ciclista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> }
                 ) 
             }
             items.push(
@@ -27,7 +28,7 @@ const Sidebar = (props) => {
                 { link: `/sistema/ciclista/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
                 { link: `/sistema/ciclista/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
                 { link: `/sistema/ciclista/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-                // { link: `/sistema/ciclista/bikes`, name: 'Bikes', icon: <IconBike/> },
+                { link: `/sistema/ciclista/bikes`, name: 'Bikes', icon: <IconBike/> },
                 { link: `/sistema/ciclista/perfil`, name: 'Perfil', icon: <UserIcon /> },
                 // { link: `/sistema/ciclista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
             )
@@ -35,7 +36,8 @@ const Sidebar = (props) => {
             if (directory == 'admin') {
                 items.push(
                     { link: `/sistema/lojista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
-                    { link: `/sistema/lojista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> }
+                    { link: `/sistema/lojista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
+                    { link: `/sistema/lojista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> }
                 ) 
             }
             items.push(
