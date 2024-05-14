@@ -13,7 +13,6 @@ const TextInput = (props) => {
         req = false
     }
 
-    console.log('dafault value: ',props.defaultValue)
     return (
         <div className={`${props.ClassName} ${props.width}`}>
             <label className="label">

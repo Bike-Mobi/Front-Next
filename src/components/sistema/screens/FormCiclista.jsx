@@ -13,7 +13,6 @@ import PasswordInput from '../inputs/PasswordInput'
 const FormCiclista = (props) => {
 
     const data = props.data
-    console.log(data)
 
     let hidePass, submit
     if (props.register) {
@@ -34,7 +33,7 @@ const FormCiclista = (props) => {
     const [sangue, setSangue] = useState()
     const [celular, setCelular] = useState()
     const [sexo, setSexo] = useState()
-    const [cep, setCep] = useState()
+    const [cep, setCep] = useState(data?.type?.cep)
     const [bairro, setBairro] = useState()
     const [numero, setNumero] = useState()
     const [rua, setRua] = useState()
@@ -45,18 +44,19 @@ const FormCiclista = (props) => {
 
     const handlePhoto = (file) => {
         setPhoto(file)
-        console.log("photo: ",photo)
     }
 
     useEffect(() => {
-        axios.get(`https://viacep.com.br/ws/${cep}/json/`)
-            .then(resp => {
-                setBairro(resp.data.bairro)
-                setRua(resp.data.logradouro)
-                setCidade(resp.data.localidade)
-                setEstado(resp.data.uf)
-            })
-            .catch(error => console.log(error))
+        if(data?.type?.cep != cep){
+            axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(resp => {
+                    setBairro(resp.data.bairro)
+                    setRua(resp.data.logradouro)
+                    setCidade(resp.data.localidade)
+                    setEstado(resp.data.uf)
+                })
+                .catch(error => console.log(error))
+        }
     }, [cep])
 
     const handleNome = (e) => setNome(e.target.value)
@@ -108,7 +108,6 @@ const FormCiclista = (props) => {
             stateCT: estado,
         }
     }
-    console.log(newData)
 
     return (
         <div className={`mx-auto xl:px-28 ${!props.register ? 'px-0 py-10' : 'p-10'} xl:py-10 xl:my-10 xl:border-cinzaClaro xl:border-2 rounded-lg w-fit`}>
