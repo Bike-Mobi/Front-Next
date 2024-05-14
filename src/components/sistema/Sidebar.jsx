@@ -19,7 +19,8 @@ const Sidebar = (props) => {
                 items.push(
                     { link: `/sistema/ciclista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
                     { link: `/sistema/ciclista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
-                    { link: `/sistema/ciclista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> }
+                    { link: `/sistema/ciclista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> },
+                    { link: `/sistema/ciclista/lojasmanager`, name: 'Lojistas', icon: <UsersIcon /> }
                 ) 
             }
             items.push(
@@ -37,7 +38,8 @@ const Sidebar = (props) => {
                 items.push(
                     { link: `/sistema/lojista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
                     { link: `/sistema/lojista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
-                    { link: `/sistema/lojista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> }
+                    { link: `/sistema/lojista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> },
+                    { link: `/sistema/ciclista/lojasmanager`, name: 'Lojistas', icon: <UsersIcon /> }
                 ) 
             }
             items.push(
