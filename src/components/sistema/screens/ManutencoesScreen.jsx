@@ -12,8 +12,6 @@ import ModalManutencoesPadroes from '../modals/ModalManuntecoesPadroes';
 
 const ManutencoesScreen = (props) => {
 
-  const { authData } = useContext(AuthContext)
-
   const [idModal, setIdModal] = useState('')
   const [search, setSearch] = useState('')
   const [date1, setDate1] = useState('')
@@ -28,8 +26,8 @@ const ManutencoesScreen = (props) => {
   const [buscaManutencao, setBuscaManutencao] = useState()
 
   useEffect(() => {
-    setBuscaManutencao(authData.manutencoes)
-  }, [])
+    setBuscaManutencao(props.authData.manutencoes)
+  }, [props.authData.manutencoes])
 
   // const ciclistas = buscaCiclista?.filter((item) => {
   //     return item.type == "Cyclist"
@@ -71,7 +69,7 @@ const ManutencoesScreen = (props) => {
           <ModalManutencoes
             data={null}
             idModal={idModal}
-            lojaId={authData.type.id ? authData.type.id : null}
+            lojaId={props.authData.type.id ? props.authData.type.id : null}
           />
         ):(null)}
 

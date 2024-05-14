@@ -1,12 +1,18 @@
-import ManutencoesScreen from '@/components/sistema/screens/ManutencoesScreen'
-import React from 'react'
+'use client'
 
-const page = () => {
+import ManutencoesScreen from '@/components/sistema/screens/ManutencoesScreen'
+import { AuthContext } from '@/contexts/Auth'
+import React, { useContext } from 'react'
+
+const Manutencoes = () => {
+
+  const { authData } = useContext(AuthContext)
+
   return (
     <div className=''>
-      <ManutencoesScreen create={false} />
+      <ManutencoesScreen authData={authData} create={false} />
     </div>
   )
 }
 
-export default page
+export default Manutencoes
