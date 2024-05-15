@@ -12,7 +12,10 @@ const Lojas = () => {
 
     useEffect(() => {    
       instance.get(`/allLojas`)
-      .then((response) => setLojas(response.data))
+      .then((response) => {
+        setLojas(response.data.data)
+        console.log('banana: ', response.data)
+      })
   }, [])
 
   return (
