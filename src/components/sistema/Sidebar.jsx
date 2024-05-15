@@ -14,7 +14,7 @@ const Sidebar = (props) => {
 
     let items = []
     if (valid) {   
-        if(authData.user.type == 'Cyclist'){
+        if(authData.user?.type == 'Cyclist'){
             if (directory == 'admin') {
                 items.push(
                     { link: `/sistema/ciclista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
