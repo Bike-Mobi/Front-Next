@@ -21,7 +21,7 @@ const Nav = () => {
                 <Link className='md:block hidden text-tomEscuro font-bold px-8 py-2 h-fit my-auto mr-14' href='/classificados'>
                     Classificados
                 </Link>
-                <Link className='md:block hidden bg-azul text-white font-bold rounded-lg px-8 py-2 h-fit my-auto mr-24' href='/autenticacao/login'>
+                <Link className='md:block hidden bg-azul text-white font-bold rounded-lg px-8 py-2 h-fit my-auto mr-24' href='/verificacaodeconta'>
                     Login
                 </Link>
                 <div className={`fixed top-0 bg-azul w-[60%] h-full border-r border-white text-white font-semibold ease-in-out duration-500 ${transition} z-40 flex flex-col`}>

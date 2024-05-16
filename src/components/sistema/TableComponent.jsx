@@ -14,7 +14,7 @@ const TableComponent = ({route, fields, cols, loading, setLoading}) => {
         await instance.get(`${route}?page=${currentPage}&name=${searchName}`)
         .then(response => {
             setData(response.data.data);
-            //console.log('table',response)
+            console.log('table',response)
             setLoading(0)
         })
         .catch(error => console.error(error));

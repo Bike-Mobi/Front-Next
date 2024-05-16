@@ -61,69 +61,86 @@ const Dashboard = () => {
     }
 
     return (
-        <div className='p-2 pr-3 bg-slate-600'>
-            <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
-                <div className='flex'>
-                    <CalendarDaysIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
-                    <div className='card'>
-                        <h2 className="card-title text-tomEscuro">Manutenções Realizadas</h2>
-                        <div className='card-body p-3'>
-                            <div className='text-lg'>
-                                <span className='text-cinza'>Esse Mes: </span>
-                                <span className='font-semibold text-azul'>
-                                    {manutencoesPeriodoTempo('mes', authData?.manutencoes).length}
-                                </span>
-                            </div>
-                            <div className='text-lg'>
-                                <span className='text-cinza'>Essa Ano: </span>
-                                <span className='font-semibold text-azul'>
-                                    {manutencoesPeriodoTempo('ano', authData?.manutencoes).length}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className='flex shadow-md rounded-xl'>
-                    <CurrencyDollarIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
-                    <div className='card'>
-                        <h2 className="card-title text-tomEscuro">Arrecadação</h2>
-                        <div className='card-body p-3'>
-                            <div className='text-lg'>
-                                <span className='text-cinza'>Esse Mes: </span>
-                                <span className='font-semibold text-azul'>
-{/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('mes', authData?.manutencoes))} */} R$ 2 354,00
-                                </span>
-                            </div>
-                            <div className='text-lg'>
-                                <span className='text-cinza'>Essa Ano: </span>
-                                <span className='font-semibold text-azul'>
-{/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('ano', authData?.manutencoes))} */} R$ 13 424,34
-                                </span>
+        <div className='p-2 pr-3'>
+            {authData.user?.id ? (
+                <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
+                    <div className='flex'>
+                        <CalendarDaysIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
+                        <div className='card'>
+                            <h2 className="card-title text-tomEscuro">Manutenções Realizadas</h2>
+                            <div className='card-body p-3'>
+                                <div className='text-lg'>
+                                    <span className='text-cinza'>Esse Mes: </span>
+                                    <span className='font-semibold text-azul'>
+                                        {manutencoesPeriodoTempo('mes', authData?.manutencoes).length}
+                                    </span>
+                                </div>
+                                <div className='text-lg'>
+                                    <span className='text-cinza'>Essa Ano: </span>
+                                    <span className='font-semibold text-azul'>
+                                        {manutencoesPeriodoTempo('ano', authData?.manutencoes).length}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className='indicator'>
-                    <span className="indicator-item p-1 rounded-full badge-secondary">
-                        <StarIcon className='w-4 h-4 text-white'/>
-                    </span>
-                    <div className='card bg-azul rounded-xl p-3'>
-                        <div className='text-white text-bold font-bold text-4xl m-auto'>
-                            R$ {calculaTotalArrecadado(authData?.manutencoes)}
+                    <div className='flex shadow-md rounded-xl'>
+                        <CurrencyDollarIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
+                        <div className='card'>
+                            <h2 className="card-title text-tomEscuro">Arrecadação</h2>
+                            <div className='card-body p-3'>
+                                <div className='text-lg'>
+                                    <span className='text-cinza'>Esse Mes: </span>
+                                    <span className='font-semibold text-azul'>
+    {/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('mes', authData?.manutencoes))} */} R$ 2 354,00
+                                    </span>
+                                </div>
+                                <div className='text-lg'>
+                                    <span className='text-cinza'>Essa Ano: </span>
+                                    <span className='font-semibold text-azul'>
+    {/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('ano', authData?.manutencoes))} */} R$ 13 424,34
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div className='text-white font-medium mx-auto'>Total já Recebido</div>
+                    </div>
+                    <div className='indicator'>
+                        <span className="indicator-item p-1 rounded-full badge-secondary">
+                            <StarIcon className='w-4 h-4 text-white'/>
+                        </span>
+                        <div className='card bg-azul rounded-xl p-3'>
+                            <div className='text-white text-bold font-bold text-4xl m-auto'>
+                                R$ {calculaTotalArrecadado(authData?.manutencoes)}
+                            </div>
+                            <div className='text-white font-medium mx-auto'>Total já Recebido</div>
+                        </div>
+                    </div>
+                    <div className='flex gap-6 border-2 border-tomEscuro rounded-xl px-4 py-1'>
+                        <WrenchScrewdriverIcon className='w-10 h-10 text-tomEscuro my-auto'/>
+                        <div className='text-end'>
+                            <div className='text-tomEscuro font-medium text-lg text-start'>Total de</div>
+                            <div className='text-azul font-bold text-2xl justify-center text-center'>{authData.manutencoes.length}</div>
+                            <div className='text-tomEscuro font-medium text-lg text-end'>Manutenções</div>
+                            <div className='text-tomEscuro font-medium text-lg text-end'>Realizadas</div>
+                        </div>
                     </div>
                 </div>
-                <div className='flex gap-6 border-2 border-tomEscuro rounded-xl px-4 py-1'>
-                    <WrenchScrewdriverIcon className='w-10 h-10 text-tomEscuro my-auto'/>
-                    <div className='text-end'>
-                        <div className='text-tomEscuro font-medium text-lg text-start'>Total de</div>
-                        <div className='text-azul font-bold text-2xl justify-center text-center'>{authData.manutencoes.length}</div>
-                        <div className='text-tomEscuro font-medium text-lg text-end'>Manutenções</div>
-                        <div className='text-tomEscuro font-medium text-lg text-end'>Realizadas</div>
+                ) : (
+                    <div className='shadow-lg p-4 rounded-lg flex align-top justify-between animate-pulse'>
+                        <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                            <div className='w-40 h-24'></div>
+                        </div>
+                        <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                            <div className='w-40 h-24'></div>
+                        </div>
+                        <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                            <div className='w-40 h-24'></div>
+                        </div>
+                        <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                            <div className='w-40 h-24'></div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                )}
             <div className='flex md:flex-row flex-col'>
                 <div className='w-full p-10 md:p-0 md:w-1/2 justify-center flex flex-col'>
                 <h2 className="card-title text-tomEscuro mt-8 mb-4 ml-1"> <WrenchScrewdriverIcon className='w-5 h-5 text-tomEscuro my-auto'/>Ultimas Manutenções Realizadas</h2>
@@ -175,7 +192,7 @@ const Dashboard = () => {
                     })}
                     </tbody>
                     </table>
-                    <button onClick={() => router.push('/sistema/lojista/manutencoes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções</button>
+                    <button onClick={() => router.push('/sistema/manutencoes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções</button>
                 </div>
                 <div className='ml-5 flex flex-col p-10 md:p-0 md:w-1/2'>
                     <h2 className="card-title text-tomEscuro mt-8 mb-4 ml-1"> <SwatchIcon className='w-5 h-5 text-tomEscuro my-auto'/>Manutenções Padrões</h2>
@@ -202,7 +219,7 @@ const Dashboard = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button onClick={() => router.push('/sistema/lojista/manutencoespadroes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções Padrões</button>
+                    <button onClick={() => router.push('/sistema/manutencoespadroes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções Padrões</button>
                 </div>
                 <div>
                     {/* {!stravaStatusUser ? (

@@ -10,48 +10,40 @@ import { IconBike } from './utils/icons'
 
 const Sidebar = (props) => {
 
-    const {authData, signOut, directory, valid} = useContext(AuthContext)
+    const {authData, signOut, routeAccess} = useContext(AuthContext)
 
     let items = []
-    if (valid) {   
-        if(authData.user?.type == 'Cyclist'){
-            if (directory == 'admin') {
-                items.push(
-                    { link: `/sistema/ciclista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
-                    { link: `/sistema/ciclista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
-                    { link: `/sistema/ciclista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> },
-                    { link: `/sistema/ciclista/lojasmanager`, name: 'Lojistas', icon: <UsersIcon /> }
-                ) 
-            }
-            items.push(
-                { link: `/sistema/ciclista/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-                { link: `/sistema/ciclista/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
-                { link: `/sistema/ciclista/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
-                { link: `/sistema/ciclista/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-                { link: `/sistema/ciclista/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-                { link: `/sistema/ciclista/bikes`, name: 'Bikes', icon: <IconBike/> },
-                { link: `/sistema/ciclista/perfil`, name: 'Perfil', icon: <UserIcon /> },
-                // { link: `/sistema/ciclista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
-            )
-        } else{
-            if (directory == 'admin') {
-                items.push(
-                    { link: `/sistema/lojista/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
-                    { link: `/sistema/lojista/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
-                    { link: `/sistema/lojista/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> },
-                    { link: `/sistema/ciclista/lojasmanager`, name: 'Lojistas', icon: <UsersIcon /> }
-                ) 
-            }
-            items.push(
-                { link: `/sistema/lojista/dashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
-                { link: `/sistema/lojista/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
-                { link: `/sistema/lojista/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
-                { link: `/sistema/lojista/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
-                { link: `/sistema/lojista/manutencoespadroes`, name: 'Manutenções Padrões', icon: <SwatchIcon /> },
-                { link: `/sistema/lojista/perfil`, name: 'Perfil', icon: <UserIcon /> },
-                // { link: `/sistema/lojista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
-            )
-        }
+ 
+    if(routeAccess == 'ciclista'){
+        items.push(
+            { link: `/sistema/ciclistadashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+            { link: `/sistema/lojas`, name: 'Lojas', icon: <BuildingStorefrontIcon /> },
+            { link: `/sistema/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+            { link: `/sistema/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+            { link: `/sistema/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+            // { link: `/sistema/bikes`, name: 'Bikes', icon: <IconBike/> },
+            { link: `/sistema/ciclistaperfil`, name: 'Perfil', icon: <UserIcon /> },
+            // { link: `/sistema/ciclista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+        )
+    } else if(routeAccess == 'lojista'){
+        items.push(
+            { link: `/sistema/lojistadashboard`, name: 'Dashboard', icon: <ChartBarSquareIcon /> },
+            { link: `/sistema/anuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
+            { link: `/sistema/meusanuncios`, name: 'Meus Anúncios', icon: <ClipboardDocumentListIcon /> },
+            { link: `/sistema/manutencoes`, name: 'Manutenções', icon: <WrenchScrewdriverIcon /> },
+            { link: `/sistema/manutencoespadroes`, name: 'Manutenções Padrões', icon: <SwatchIcon /> },
+            { link: `/sistema/lojistaperfil`, name: 'Perfil', icon: <UserIcon /> },
+            // { link: `/sistema/lojista/sejapremium`, name: 'Seja Premium', icon: <StarIcon/> }
+        )
+    } else{
+        items.push(
+            { link: `/sistema/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
+            { link: `/sistema/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
+            { link: `/sistema/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> },
+            { link: `/sistema/lojasmanager`, name: 'Lojistas', icon: <UsersIcon /> },
+            { link: `/sistema/ciclistaperfil`, name: 'Perfil', icon: <UserIcon /> },
+        ) 
+
     }
 
     const [nav, setNav] = useState(false)
@@ -78,23 +70,36 @@ const Sidebar = (props) => {
                 <div className='hidden md:flex flex-col'>
                     <Link href={'/'} className='font-bold text-white text-3xl my-4 mb-2 flex justify-center'>Bike Mobi</Link>
                     <div>
-                        {items.map((item, index) => {
-                            route == item.link ? selected = "bg-white text-azul" : selected = "text-white"
-                            item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : null
-            
-                            return(
-                                <Link key={index} href={item.link} prefetch={false}>
-                                    <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-5`}>
-                                        <div className={`${yellow} w-7`}>{item.icon}</div>
-                                        <div className='text-base font-medium'>{item.name}</div>
-                                    </div>
-                                </Link>
-                            )
-                        })}
-                        <button onClick={signOut} className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
-                            <div className={`w-7`}><ArrowRightOnRectangleIcon/></div>
-                            <div className='text-base font-medium'>Logout</div>
-                        </button>
+                        {!authData.user?.type ? (
+                            <div>
+                                <div className={`bg-blue-300 w-52 flex gap-2 items-center mx-4 p-6 rounded-md my-5 animate-pulse`}></div>
+                                <div className={`bg-blue-300 w-52 flex gap-2 items-center mx-4 p-6 rounded-md my-5 animate-pulse`}></div>
+                                <div className={`bg-blue-300 w-52 flex gap-2 items-center mx-4 p-6 rounded-md my-5 animate-pulse`}></div>
+                                <div className={`bg-blue-300 w-52 flex gap-2 items-center mx-4 p-6 rounded-md my-5 animate-pulse`}></div>
+                                <div className={`bg-blue-300 w-52 flex gap-2 items-center mx-4 p-6 rounded-md my-5 animate-pulse`}></div>
+                                <div className={`bg-blue-300 w-52 flex gap-2 items-center mx-4 p-6 rounded-md my-5 animate-pulse`}></div>
+                                <div className={`bg-blue-300 w-52 flex gap-2 items-center mx-4 p-6 rounded-md my-5 animate-pulse`}></div>
+                            </div>
+                        ) : (
+                            <div>
+                                {items.map((item, index) => {
+                                    route == item.link ? selected = "bg-white text-azul" : selected = "text-white"
+                                    item.name == 'Seja Premium' ? yellow = 'text-[#E7EA58]' : null
+                                    return(
+                                        <Link key={index} href={item.link} prefetch={false}>
+                                            <div className={`w-52 flex ${selected} gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                                                <div className={`${yellow} w-7`}>{item.icon}</div>
+                                                <div className='text-base font-medium'>{item.name}</div>
+                                            </div>
+                                        </Link>
+                                    )
+                                })}
+                                <button onClick={signOut} className={`w-52 flex text-white gap-2 items-center mx-4 p-2 rounded-md my-5`}>
+                                    <div className={`w-7`}><ArrowRightOnRectangleIcon/></div>
+                                    <div className='text-base font-medium'>Logout</div>
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className='hidden md:block bg-white w-4 h-full rounded-l-2xl'></div>

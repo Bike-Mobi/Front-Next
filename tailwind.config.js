@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -9,19 +10,20 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    colors: {
-      'azul': '#3AA0FF',
-      'white': '#fff',
-      'tomEscuro': '#170F49',
-      'cinza': '#979797',
-      'cinzaClaro': '#EFF0F6',
-      'strava': '#f87d2b'
+    extend: {
+      colors: {
+        'azul': '#3AA0FF',
+        'white': '#fff',
+        'tomEscuro': '#170F49',
+        'cinza': '#979797',
+        'cinzaClaro': '#EFF0F6',
+        'strava': '#f87d2b',
+      },
+      fontFamily: {
+        'dmsans': ['DM Sans', 'sans-serif'],
+        'robot': ['Roboto', 'sans-serif']
+      },
     },
-    fontFamily: {
-      'dmsans': ['DM Sans', 'sans-serif'],
-      'robot': ['Roboto', 'sans-serif']
-    },
-    extend: {},
   },
   daisyui: {
     themes: [

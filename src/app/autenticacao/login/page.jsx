@@ -5,6 +5,7 @@ import EmailInputLogin from '@/components/sistema/inputs/EmailInputLogin'
 import LoginButton from '@/components/sistema/inputs/LoginButton'
 import PasswordInputLogin from '@/components/sistema/inputs/PasswordInputsLogin'
 import { AuthContext } from '@/contexts/Auth'
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useState } from 'react'
@@ -14,8 +15,8 @@ const Login = () => {
     const { signIn, error, isLoading } = useContext(AuthContext)
 
     const [name, setName] = useState()
-    const [email, setEmail] = useState()
-    const [senha, setSenha] = useState()
+    const [email, setEmail] = useState('ruan@gmail.com')
+    const [senha, setSenha] = useState('password')
 
     const router = useRouter()
 
@@ -28,13 +29,15 @@ const Login = () => {
     return (
         <div className={`flex h-screen items-center justify-center`}>
 
+
             <div className={`hidden md:block md:w-1/2 lg:w-1/2`}>
-                <img width={500} height={500} src="auth-img.png" alt="" className={`h-screen w-full object-cover`} />
+                <img width={500} height={500} src="./auth-img.png" alt="" className={`h-screen w-full object-cover`} />
             </div>
 
             <div className='md:hidden absolute -z-20'>
-                <img src="auth-img-mobile.png" alt="" className={`h-screen w-full object-cover`} />
+                <img src="./auth-img-mobile.png" alt="" className={`h-screen w-full object-cover`} />
             </div>
+            <button onClick={() => router.push('/')} className='absolute top-5 left-5'><ArrowLeftIcon className='text-white h-10 w-10'/></button>
             <div className={`flex flex-col m-auto px-10 md:max-w-lg mb:w-1/2 lg:w-1/2`}>
                 <div className={`mb-5`}>
                     <h1 className={`text-4xl md:text-5xl font-bold text-tomEscuro`}>Login</h1>
@@ -51,7 +54,7 @@ const Login = () => {
                 <LoginButton onClick={() => signIn(email, senha)} isLoading={isLoading} />
 
                 <div className='text-cinza mt-12 md:mt-8'>Ainda não é cadastrado?</div>
-                <button className={`w-full bg-tomEscuro font-bold text-white rounded-lg px-4 py-3 mt-4 md:mt-2 flex justify-center`} onClick={() => router.push('/autenticacao/pre-cadastro')}>
+                <button className={`w-full bg-tomEscuro font-bold text-white rounded-lg px-4 py-3 mt-4 md:mt-2 flex justify-center`} onClick={() => router.push('/autenticacao/precadastro')}>
                     <div>Cadastre-se</div>
                 </button>
             </div>
