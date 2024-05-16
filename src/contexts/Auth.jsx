@@ -48,20 +48,22 @@ export function AuthProvider({ children }) {
     async function getUserDatas(authUserData, authTypeData){
 
         try {
-            const bikes = await instance(`/bicicletas/${authTypeData.id}`)
-    
+            
             let url
             authUserData.type == 'Cyclist' ? url = 'Cyclist' : url = 'Loja'
             const manutencoes = await instance(`/manutencaoFrom${url}/${authTypeData.id}`)
-    
+            
             const meusclassificados = await instance(`/classificadoFromUser/${authUserData.id}`)
             const classificados = await instance(`/allClassificados`)
             
             const messages = await instance(`/messagesFromReceiver/${authUserData.id}`)
-    
+            
             let manutencoespadroes = {data: []}
+            let bikes = {data: []}
             if(url == 'Loja'){
                 manutencoespadroes = await instance(`/manutencaopadraoFromLoja/${authTypeData.id}`)
+            } else{
+                bikes = await instance(`/bicicletas/${authTypeData.id}`)
             }
     
             setAuthData({
