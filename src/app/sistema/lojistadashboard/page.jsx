@@ -136,6 +136,9 @@ const Dashboard = () => {
                         <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
                             <div className='w-40 h-24'></div>
                         </div>
+                        <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                            <div className='w-40 h-24'></div>
+                        </div>
                     </div>
                 )}
             <div className='flex md:flex-row flex-col'>
@@ -189,7 +192,7 @@ const Dashboard = () => {
                     })}
                     </tbody>
                     </table>
-                    <button onClick={() => router.push('/sistema/lojista/manutencoes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções</button>
+                    <button onClick={() => router.push('/sistema/manutencoes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções</button>
                 </div>
                 <div className='ml-5 flex flex-col p-10 md:p-0 md:w-1/2'>
                     <h2 className="card-title text-tomEscuro mt-8 mb-4 ml-1"> <SwatchIcon className='w-5 h-5 text-tomEscuro my-auto'/>Manutenções Padrões</h2>
@@ -216,7 +219,7 @@ const Dashboard = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button onClick={() => router.push('/sistema/lojista/manutencoespadroes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções Padrões</button>
+                    <button onClick={() => router.push('/sistema/manutencoespadroes')} className='btn btn-secondary mt-5 w-fit mx-auto'>Todas as Manutenções Padrões</button>
                 </div>
                 <div>
                     {/* {!stravaStatusUser ? (

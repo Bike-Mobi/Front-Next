@@ -6,11 +6,11 @@ import React, { useContext } from 'react'
 
 const Manutencoes = () => {
 
-  const { authData } = useContext(AuthContext)
+  const { authData, routeAccess } = useContext(AuthContext)
 
   return (
     <div className=''>
-      <ManutencoesScreen authData={authData} create={false} />
+      <ManutencoesScreen authData={authData} create={routeAccess == 'ciclista' ? false : true} />
     </div>
   )
 }
