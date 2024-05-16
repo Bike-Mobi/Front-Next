@@ -50,9 +50,9 @@ const PassarBike = () => {
             <label className="label">
               <span className={`label-text font-medium`}>Bike</span>
             </label>
-            <select className="select select-bordered border-cinza w-full" onChange={(e) => setIdBike(e.target.value)}>
-              <option value='selecione' selected>Selecione</option>
-              {authData.bikes.map(item => (
+            <select className="select select-bordered border-cinza w-full" defaultValue={'selecione'} onChange={(e) => setIdBike(e.target.value)}>
+              <option value='selecione'>Selecione</option>
+              {authData.bikes?.map(item => (
                 <option key={item.id} value={item.id}>{item.nameBike}</option>
               ))}
             </select>
@@ -119,7 +119,7 @@ const BikesScreen = (props) => {
               <ModalBicicleta
                 action="create"
                 data={data}
-                cyclistId = {authData.type.id}
+                cyclistId = {authData.type?.id}
               />
 
               <PassarBike/>
