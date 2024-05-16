@@ -1,12 +1,13 @@
 'use client'
 
 import nookies from "nookies"
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
 import { createContext, useContext, useEffect, useState } from "react";
 import { ApiContext } from "./Api";
 import { fakeApi } from "@/service/fakeApi";
 import axios from "axios";
+import { initialRoute } from "@/router/initialSystemRoute";
 
 export const AuthContext = createContext()
 
@@ -32,18 +33,17 @@ export function AuthProvider({ children }) {
     const [isLoading, setIsLoading] = useState()
     // para gerar loading do LoginButton
 
-    const [directory, setDirectory] = useState()
+    const [routeAccess, setRouteAccess] = useState()
     // para definir o diretorio das rotas da sidebar
 
-    const [valid, setValid] = useState(false)
+    //const [valid, setValid] = useState(false)
     // para não exibir contedos antes de verificar se a rota é valida para tal usuario
 
     const [stravaStatusUser, setStravaStatusUser] = useState()
 
     const [typeRegister, setTypeRegister] = useState()
 
-    const router = useRouter() 
-    const path = usePathname()
+    const router = useRouter()
 
     async function getUserDatas(authUserData, authTypeData){
 
@@ -65,7 +65,7 @@ export function AuthProvider({ children }) {
             }
     
             setAuthData({
-                user: authUserData, 
+                user: authUserData,
                 type: authTypeData,
                 bikes: bikes.data,
                 manutencoes: manutencoes.data,
@@ -79,92 +79,61 @@ export function AuthProvider({ children }) {
         }
 
     }
-    setTimeout(() => console.log('Bazinga',authData), 10000)
+    setTimeout(() => console.log('Bazinga', authData), 10000)
 
-    async function verifyToken(token, typePage) {
-        setIsLoading(false)
+    async function getMainRouteAndData(token){
+        const { authUserData, authTypeData } = await getDataByToken(token)
 
-        const { ['bikeMobiToken']: tokenInCookie } = nookies.get()
-        if (tokenInCookie == token && authData.user) {
-            instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            console.log('it comes')
-            setValid(true)
-            return
-        }
-
-        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
-        // if (token) {
-            try {
-    
-                // -------------------------- Utilizando API Oficial --------------------
-                const user = await instance.get(`/user`)
-                console.log('user: ', user)
-                let type
-                if (user.data.type == 'Cyclist') {
-                    type = await instance.get(`/ciclistaFromUser/${user.data.id}`)
-                } else {
-                    type = await instance.get(`/lojaFromUser/${user.data.id}`)
-                }
-                console.log('type: ', type)
-                userMenagement(token, user.data, type.data[0], typePage)
-                // -----------------------------------------------------------------------
-    
-                // --------------------------- Utilizando fake API -----------------------
-                // await fakeApi.getInfos(token).then(resp => {
-                //     setAuthData({user: resp.data, type: authData.type})
-                //     userMenagement(token, resp.data, typePage)
-                // })
-                // -----------------------------------------------------------------------
-    
-            } catch (error) {
-                return userMenagement(token, false, false, typePage)
-            }
-        // }
-    }
-
-    async function userMenagement(token, authUserData, authTypeData, typePage) {
-        
-        await getUserDatas(authUserData, authTypeData)
-        console.log('authData',authData)
         const type = authUserData.type
-        let routeDestiny
 
+        let mainRoute
         if (!token) {
-            router.push('/autenticacao/login')
+            mainRoute = '/autenticacao/login'
         } else {
             if (authUserData.is_admin) {
-                setDirectory('admin')
+                setRouteAccess('admin')
+                mainRoute = initialRoute.admin
             } else if (type == 'Shopkeeper') {
-                setDirectory('lojista')
+                setRouteAccess('lojista')
+                mainRoute = initialRoute.lojista
             } else if (type == 'Cyclist') {
-                setDirectory('ciclista')
+                setRouteAccess('ciclista')
+                mainRoute = initialRoute.ciclista
             }
+        }
 
-            if (type == 'Shopkeeper') {
-                routeDestiny = '/sistema/lojista/dashboard' // rota inicial Lojista
-            } else if (type == 'Cyclist') {
-                routeDestiny = '/sistema/ciclista/dashboard' // rota inicial Ciclista
-            }
+        return { mainRoute: mainRoute, authUserData: authUserData, authTypeData: authTypeData }
+    }
 
-            if (path.includes('/autenticacao/login')) {
-                router.push(routeDestiny)
+    async function getDataByToken(token) {
+
+        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+        try {
+
+            // -------------------------- Utilizando API Oficial --------------------
+            const user = await instance.get(`/user`)
+            let type
+            if (user.data.type == 'Cyclist') {
+                type = await instance.get(`/ciclistaFromUser/${user.data.id}`)
             } else {
-                // if (path.includes('/sistema/admin') && directory != 'admin') {
-                //     router.push(routeDestiny)
-                // } else if (path.includes('/sistema/lojista') && directory != 'lojista') {
-                //     router.push(routeDestiny)
-                // } else if (path.includes('/sistema/ciclista') && directory != 'ciclista') {
-                //     router.push(routeDestiny)
-                // }
+                type = await instance.get(`/lojaFromUser/${user.data.id}`)
             }
+            return { authUserData: user.data, authTypeData: type.data[0] }
+            // -----------------------------------------------------------------------
+
+            // --------------------------- Utilizando fake API -----------------------
+            // await fakeApi.getInfos(token).then(resp => {
+            //     setAuthData({user: resp.data, type: authData.type})
+            //     userMenagement(token, resp.data, typePage)
+            // })
+            // -----------------------------------------------------------------------
+
+        } catch (error) {
+            signOut()
+            return { authUserData: false, authTypeData: false }
         }
-        console.log('type: ',type)
-        console.log('routeDestiny: ', routeDestiny)
-        console.log('path: ',path)
-        if (routeDestiny == path || typePage == type) {
-            setValid(true)
-        }
-        console.log('valid: ', valid)
+
     }
 
     async function signIn(email, password) {
@@ -191,7 +160,8 @@ export function AuthProvider({ children }) {
                 })
             }
 
-            verifyToken(auth.data.access_token)
+            const { mainRoute } = await getMainRouteAndData(auth.data.access_token)
+            router.push(mainRoute)
         } catch (error) {
             setError({ message: 'Email ou Senha Incorretos' })
             setIsLoading(false)
@@ -199,13 +169,11 @@ export function AuthProvider({ children }) {
     }
 
     function signOut() {
+        destroyCookie(null, 'bikeMobiToken', {
+            path: '/'
+        })
+        setAuthData({ user: undefined, type: undefined })
         router.push('autenticacao/login')
-        setTimeout(() => {
-            destroyCookie(null, 'bikeMobiToken', {
-                path: '/'
-            })
-            setAuthData({ user: undefined, type: undefined })
-        }, 1000)
     }
 
     function defineType(selected) {
@@ -224,11 +192,13 @@ export function AuthProvider({ children }) {
     const clientSecret = process.env.NEXT_PUBLIC_STRAVA_SECRET
 
     const handlerStravaUser = async () => {
-        await axios.get(`https://www.strava.com/api/v3/athletes/${authData.user.strava_athlete_id}/stats?`, {
-            params: {
-                access_token: authData.user.strava_access_token
-            }
-        }).then(resp => setStravaStatusUser(resp.data))
+        if(authData.user?.strava_athlete_id){
+            await axios.get(`https://www.strava.com/api/v3/athletes/${authData.user?.strava_athlete_id}/stats?`, {
+                params: {
+                    access_token: authData.user.strava_access_token
+                }
+            }).then(resp => setStravaStatusUser(resp.data))
+        }
     }
 
     const refreshStravaToken = async (refreshToken) => {
@@ -255,7 +225,6 @@ export function AuthProvider({ children }) {
                 access_token: token
             }
         })
-        console.log('athleteData', athleteData)
 
         // salva o id de usuario do strava do usuario no DB como strava_athlete_id, esse ID é importante para passar em outras rotas, como para pegar os dados do atleta
         const formDataUser = new FormData();
@@ -275,10 +244,7 @@ export function AuthProvider({ children }) {
     }
 
     const verifyStravaToken = async (authData) => {
-        console.log(authData)
         const todayUTC = Date.parse(new Date) / 1000
-        console.log(todayUTC)
-        console.log(authData.user?.strava_expires_at)
 
         if (authData.user?.strava_expires_at != undefined && authData.user?.strava_expires_at < todayUTC) {
             await refreshStravaToken(authData.user?.strava_refresh_token)
@@ -287,8 +253,6 @@ export function AuthProvider({ children }) {
                 router.push(`/sistema/ciclista/dashboard`)
                 document.location.reload()
             }, 800);
-        } else {
-            console.log('não fez um refresh do token do strava')
         }
     }
 
@@ -312,12 +276,10 @@ export function AuthProvider({ children }) {
                     grant_type: 'authorization_code'
                 }
             });
-            console.log(response)
         
             const accessToken = response.data.access_token
             const refreshToken = response.data.refresh_token
             const expiresAt = response.data.expires_at;
-            console.log('Access Token:', accessToken);
 
             saveStravaCredentials(accessToken, refreshToken, expiresAt)
 
@@ -363,7 +325,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ authData, error, isLoading, directory, valid, typeRegister, stravaStatusUser, setError,setIsLoading, signIn, signOut, verifyToken, userMenagement, getUserDatas, defineType, getStravaToken, obterParametroCode, verifyStravaToken, handlerStravaUser }}>
+        <AuthContext.Provider value={{ authData, error, isLoading, routeAccess, typeRegister, stravaStatusUser, setError, setIsLoading, signIn, signOut, getMainRouteAndData, getUserDatas, defineType, getStravaToken, obterParametroCode, verifyStravaToken, handlerStravaUser }}>
             {children}
         </AuthContext.Provider>
     )

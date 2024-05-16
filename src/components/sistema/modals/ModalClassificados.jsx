@@ -12,7 +12,6 @@ import React, { useEffect, useState }  from 'react';
 const ModalClassificados = (props) => {
 
     const data = props.data
-    console.log('classificados data: ',data)
 
     const router = useRouter()
 

@@ -171,7 +171,7 @@ const Cadastro = () => {
         <div>
             <div className='bg-azul py-auto sticky top-0'>
                 <div className='flex'>
-                    <Link href={'/autenticacao/pre-cadastro'} className='ml-10 flex'>
+                    <Link href={'/autenticacao/precadastro'} className='ml-10 flex'>
                         <ArrowLeftIcon className='w-8 py-auto text-white'/>
                     </Link>
                     <div className='px-10 py-5 font-robot font-medium text-3xl text-white'>Registre-se</div>

@@ -23,57 +23,71 @@ const Dashboard = () => {
         
     }, [authData])
 
-    console.log('strava: ', stravaStatusUser)
-
     return (
-        <div className='p-2 pr-3 bg-slate-600'>
-            <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
-                <div className='flex'>
-                    <FireIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
-                    <div className='card'>
-                        <h2 className="card-title text-tomEscuro">Distância percorrida</h2>
-                        <div className='card-body p-3'>
-                            <div className='text-lg'>
-                                <span className='text-cinza'>Esse Mes: </span>
-                                <span className='font-semibold text-azul'>
-                                    {stravaStatusUser?.recent_ride_totals ? (stravaStatusUser?.recent_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
-                                </span>
-                            </div>
-                            <div className='text-lg'>
-                                <span className='text-cinza'>Essa Ano: </span>
-                                <span className='font-semibold text-azul'>
-                                    {stravaStatusUser?.ytd_ride_totals ? (stravaStatusUser?.ytd_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
-                                </span>
+        <div className='p-2 pr-3'>
+            {authData.user?.id ? (
+
+                <div className='shadow-lg p-4 rounded-lg flex align-top justify-between'>
+                    <div className='flex'>
+                        <FireIcon className='text-tomEscuro w-6 h-6 m-[2px] mr-2'/>
+                        <div className='card'>
+                            <h2 className="card-title text-tomEscuro">Distância percorrida</h2>
+                            <div className='card-body p-3'>
+                                <div className='text-lg'>
+                                    <span className='text-cinza'>Esse Mes: </span>
+                                    <span className='font-semibold text-azul'>
+                                        {stravaStatusUser?.recent_ride_totals ? (stravaStatusUser?.recent_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
+                                    </span>
+                                </div>
+                                <div className='text-lg'>
+                                    <span className='text-cinza'>Essa Ano: </span>
+                                    <span className='font-semibold text-azul'>
+                                        {stravaStatusUser?.ytd_ride_totals ? (stravaStatusUser?.ytd_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className='indicator'>
-                    <span className="indicator-item p-1 rounded-full badge-secondary">
-                        <StarIcon className='w-4 h-4 text-white'/>
-                    </span>
-                    <div className='card bg-azul rounded-xl p-3'>
-                        <div className='text-white text-bold font-bold text-4xl m-auto'>
-                            {stravaStatusUser?.all_ride_totals ? (stravaStatusUser?.all_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
+                    <div className='indicator'>
+                        <span className="indicator-item p-1 rounded-full badge-secondary">
+                            <StarIcon className='w-4 h-4 text-white'/>
+                        </span>
+                        <div className='card bg-azul rounded-xl p-3'>
+                            <div className='text-white text-bold font-bold text-4xl m-auto'>
+                                {stravaStatusUser?.all_ride_totals ? (stravaStatusUser?.all_ride_totals.distance / 1000).toFixed(0) + ' Km' : '-'}
+                            </div>
+                            <div className='text-white font-medium'>Distancia total Percorrida</div>
                         </div>
-                        <div className='text-white font-medium'>Distancia total Percorrida</div>
+                    </div>
+                    <div className='flex gap-6 border-2 border-tomEscuro rounded-xl px-4 py-1'>
+                        <WrenchScrewdriverIcon className='w-10 h-10 text-tomEscuro my-auto'/>
+                        <div className='text-end'>
+                            <div className='text-tomEscuro font-medium text-lg text-start'>Total de</div>
+                            <div className='text-azul font-bold text-2xl justify-center text-center'>{authData.manutencoes?.length < 1 ? '-' : authData.manutencoes?.length}</div>
+                            <div className='text-tomEscuro font-medium text-lg text-end'>Manutenções</div>
+                            <div className='text-tomEscuro font-medium text-lg text-end'>Realizadas</div>
+                        </div>
                     </div>
                 </div>
-                <div className='flex gap-6 border-2 border-tomEscuro rounded-xl px-4 py-1'>
-                    <WrenchScrewdriverIcon className='w-10 h-10 text-tomEscuro my-auto'/>
-                    <div className='text-end'>
-                        <div className='text-tomEscuro font-medium text-lg text-start'>Total de</div>
-                        <div className='text-azul font-bold text-2xl justify-center text-center'>{authData.manutencoes.length < 1 ? '-' : authData.manutencoes.length}</div>
-                        <div className='text-tomEscuro font-medium text-lg text-end'>Manutenções</div>
-                        <div className='text-tomEscuro font-medium text-lg text-end'>Realizadas</div>
+            ) : (
+                <div className='shadow-lg p-4 rounded-lg flex align-top justify-between animate-pulse'>
+                    <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                        <div className='w-40 h-24'></div>
+                    </div>
+                    <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                        <div className='w-40 h-24'></div>
+                    </div>
+                    <div className='flex gap-6 bg-slate-100 rounded-xl px-4 py-1'>
+                        <div className='w-40 h-24'></div>
                     </div>
                 </div>
-            </div>
+            )}
             <div className='w-full'>
                 <BikesScreen produtos={authData.bikes}/>
-                {!stravaStatusUser ? (
+                {authData.user?.id && !stravaStatusUser ? (
                         <button onClick={getStravaToken} className='btn bg-strava text-white border-strava hover:opacity-80 hover:bg-strava hover:border-strava m-10'>Sincronize com o Strava</button>
                     ) : null}
+
                 {/* <div className='w-1/2 mt-10 justify-center flex flex-col'>
                     {authData.bikes.map(item => (
                         <div className="card card-side bg-base-100 shadow-xl mb-6" key={item.id}>

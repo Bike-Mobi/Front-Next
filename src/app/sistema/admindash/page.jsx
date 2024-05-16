@@ -24,7 +24,7 @@ const Dashboard = () => {
     console.log(infos)
 
     return (
-        <div className='p-2 bg-slate-600'>
+        <div className='p-2'>
             <div className='flex flex-wrap gap-10 justify-center md:justify-start'>
                 <div className='shadow-xl flex p-4 w-64 rounded-lg text-tomEscuro'>
                     <UserIcon className='w-8 h-8 my-auto mr-3'/>
