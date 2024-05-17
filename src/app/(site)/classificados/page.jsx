@@ -1,8 +1,12 @@
 'use client'
+
 import ClassificadosScreen from '@/components/sistema/screens/ClassificadosScreen'
-import React from 'react'
+import { ApiContext } from '@/contexts/Api'
+import React, { useContext, useEffect, useState } from 'react'
 
 const Classificados = () => {
+
+    const {instance} = useContext(ApiContext)
 
     const produtos = [
         {
@@ -35,9 +39,19 @@ const Classificados = () => {
         }
     ]
 
+    const [classificados, setClassificados] = useState()
+
+    useEffect(() => {
+        const getClassificados = async () => {
+            const classificados = await instance(`/allClassificados`)
+            setClassificados(classificados.data)
+        }
+        getClassificados()
+    }, [])
+
     return (
         <div className='pt-20'>
-            <ClassificadosScreen produtos={ produtos } />
+            <ClassificadosScreen produtos={ classificados } />
         </div>
     )
 }

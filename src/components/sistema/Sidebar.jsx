@@ -41,6 +41,7 @@ const Sidebar = (props) => {
             { link: `/sistema/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
             { link: `/sistema/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> },
             { link: `/sistema/lojasmanager`, name: 'Lojistas', icon: <UsersIcon /> },
+            { link: `/sistema/meusanuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },
             { link: `/sistema/ciclistaperfil`, name: 'Perfil', icon: <UserIcon /> },
         ) 
 

@@ -7,11 +7,11 @@ import React, { useContext, useEffect, useState } from 'react'
 
 const Meusanuncios = () => {
 
-    const { authData } = useContext(AuthContext)
+    const { authData, routeAccess } = useContext(AuthContext)
 
     return (
         <div className=''>
-            <ClassificadosScreen produtos={ authData.meusclassificados } />
+            <ClassificadosScreen produtos={ routeAccess == 'admin' ? authData.classificados : authData.meusclassificados } canEdit/>
         </div>
     )
 }

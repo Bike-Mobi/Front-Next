@@ -70,6 +70,9 @@ const routes = {
             lojasmanager: {
                 path: '/sistema/lojasmanager'
             },
+            meusanuncios: {
+                path: '/sistema/meusanuncios'
+            },
             admindash: {
                 path: '/sistema/admindash'
             },

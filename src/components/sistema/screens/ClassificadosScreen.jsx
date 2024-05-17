@@ -15,14 +15,13 @@ const ClassificadosScreen = (props) => {
     const [search, setSearch] = useState('')
 
     const path = usePathname()
-    const router = useRouter()
 
     const produtosFiltrados = props.produtos?.filter((item) => {
         return item?.name?.toLowerCase()?.includes(search?.toLowerCase())
     })
 
     function renderCards() {
-        if (produtosFiltrados.length > 0) {
+        if (produtosFiltrados?.length > 0) {
             return produtosFiltrados.map((item) => {
                 return (
                     <CardClassificados
@@ -34,6 +33,7 @@ const ClassificadosScreen = (props) => {
                         // id={item.id}
                         data={item}
                         userId={authData.user?.id}
+                        showCrudOptions={props.canEdit}
                     ></CardClassificados>
                 )
             })
