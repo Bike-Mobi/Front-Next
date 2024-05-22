@@ -10,7 +10,6 @@ const PerfilCiclista = () => {
 
     const { authData } = useContext(AuthContext)
     const { instance } = useContext(ApiContext)
-    console.log(authData)
 
     const updateAccount = async (data) => {
         
