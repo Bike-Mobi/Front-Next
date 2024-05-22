@@ -14,7 +14,6 @@ const Lojas = () => {
       instance.get(`/allLojas`)
       .then((response) => {
         setLojas(response.data.data)
-        console.log('banana: ', response.data)
       })
   }, [])
 
