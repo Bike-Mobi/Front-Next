@@ -47,7 +47,10 @@ const Banners = () => {
 
     return (
         <div>
-            <FileInput onChange={setBannerPhoto}/>
+            <div className='items-center p-10 justify-between'>
+                <FileInput onChange={setBannerPhoto}
+                    description="SVG, PNG ou JPG"
+                />
                 <ButtonModalComponent
                     title='Add banner'
                     newData={
@@ -58,7 +61,7 @@ const Banners = () => {
                     }
                     baseUrl='banner'
                 />
-                <button className='btn'></button>
+            </div>
                 <div className="overflow-x-auto">
                     <table className="table table-zebra">
                         {/* head */}
