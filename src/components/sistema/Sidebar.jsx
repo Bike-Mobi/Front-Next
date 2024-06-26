@@ -1,7 +1,7 @@
 'use client'
 
 import { AuthContext } from '@/contexts/Auth'
-import { ArrowRightOnRectangleIcon, BanknotesIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, GlobeAltIcon, HeartIcon, NewspaperIcon, SwatchIcon, UserIcon, UsersIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowRightOnRectangleIcon, BanknotesIcon, Bars3Icon, BuildingStorefrontIcon, ChartBarSquareIcon, ClipboardDocumentListIcon, GlobeAltIcon, HeartIcon, NewspaperIcon, QueueListIcon, RectangleStackIcon, SwatchIcon, UserIcon, UsersIcon, WrenchScrewdriverIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -39,6 +39,8 @@ const Sidebar = (props) => {
         items.push(
             { link: `/sistema/admindash`, name: 'Admin', icon: <GlobeAltIcon /> },
             { link: `/sistema/premiumdash`, name: 'Premium', icon: <BanknotesIcon /> },
+            { link: `/sistema/banners`, name: 'Banners', icon: <RectangleStackIcon /> },
+            { link: `/sistema/sobrenos`, name: 'Sobre Nós', icon: <QueueListIcon /> },
             { link: `/sistema/ciclistasmanager`, name: 'Ciclistas', icon: <UsersIcon /> },
             { link: `/sistema/lojasmanager`, name: 'Lojistas', icon: <UsersIcon /> },
             { link: `/sistema/meusanuncios`, name: 'Anúncios', icon: <NewspaperIcon /> },

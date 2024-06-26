@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-const Footer = () => {
+const Footer = ({instagram, facebook, youtube, email}) => {
     return (
         <div>
             <div className='md:px-24 px-6 bg-azul w-full text-white text-base md:text-lg font-robot py-12 md:py-20 flex flex-col md:flex-row md:justify-between'>
@@ -20,19 +20,19 @@ const Footer = () => {
                 </div>
                 <div className='mt-10 md:mt-0 flex flex-col gap-5'>
                     <div className='font-bold'>Contato</div>
-                    <div>contato@bikemobi.com</div>
+                    <div>{email}</div>
                     <div className='flex gap-10'>
-                        <Link href=''>
+                        <Link href={facebook ?? ''}>
                             <div className='bg-cinzaClaro w-10 h-10 flex justify-center items-center rounded-xl'>
                                 <img src="Facebook-bk.png" alt="Icone do Facebook"/>
                             </div>
                         </Link>
-                        <Link href=''>
+                        <Link href={instagram ?? ''}>
                             <div className='bg-cinzaClaro w-10 h-10 flex justify-center items-center rounded-xl'>
                                 <img src="Instagram-bk.png" alt="Icone do Instagram" />
                             </div>
                         </Link>
-                        <Link href=''>
+                        <Link href={youtube ?? ''}>
                             <div className='bg-cinzaClaro w-10 h-10 flex justify-center items-center rounded-xl'>
                                 <img src="YouTube-bk.png" alt="Icone do LinkedIn" />
                             </div>

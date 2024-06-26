@@ -49,7 +49,7 @@ const Header = (props) => {
                         <div className='font-bold text-azul'>{shortName}</div>
                         <div className='font-normal text-cinza'>{props.type}</div>
                     </div>
-                    <img src={props.imgPerfil} alt="Icone de Usuario" className='h-12 w-12 ml-3 rounded-full object-cover'/>
+                    <img src={props.imgPerfil ?? 'perfil_default.png'} alt="Icone de Usuário" className='h-12 w-12 ml-3 rounded-full object-cover'/>
                 </div>
             </div>
             <div className='w-screen md:w-[calc(100vw-276px)]'>

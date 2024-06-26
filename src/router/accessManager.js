@@ -76,6 +76,12 @@ const routes = {
             admindash: {
                 path: '/sistema/admindash'
             },
+            banners: {
+                path: '/sistema/banners'
+            },
+            sobrenos: {
+                path: '/sistema/sobrenos'
+            },
             premiumdash: {
                 path: '/sistema/premiumdash'
             },

@@ -110,6 +110,7 @@ export function AuthProvider({ children }) {
     async function getDataByToken(token) {
 
         instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        console.log('Bearer ', token)
 
         try {
 

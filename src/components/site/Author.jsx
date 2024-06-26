@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-const Author = () => {
+const Author = ({mission, instagram_roberlan, facebook_roberlan, linkedin_roberlan}) => {
     return (
         <div className='md:mx-24 mx-6 font-dmsans mb-8 md:my-20'>
             <div className='flex flex-col md:flex-row items-center md:w-fit md:mx-auto'>
@@ -14,20 +14,20 @@ const Author = () => {
                         Roberlan Oliveira
                     </div>
                     <div className='text-cinza text-base md:text-lg text-center md:text-start md:w-[440px] mt-6'>
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisol nisi ut aliquip ex ea commodo colmer consequat aute irure sint amet.
+                        {mission}
                     </div>
                     <div className='flex gap-5 mt-8'>
-                        <Link href=''>
+                        <Link href={facebook_roberlan ?? ''}>
                             <div className='bg-cinzaClaro w-10 h-10 flex justify-center items-center rounded-xl'>
                                 <img src="Facebook.png" alt="Icone do Facebook"/>
                             </div>
                         </Link>
-                        <Link href=''>
+                        <Link href={instagram_roberlan ?? ''}>
                             <div className='bg-cinzaClaro w-10 h-10 flex justify-center items-center rounded-xl'>
                                 <img src="Instagram.png" alt="Icone do Instagram" />
                             </div>
                         </Link>
-                        <Link href=''>
+                        <Link href={linkedin_roberlan ?? ''}>
                             <div className='bg-cinzaClaro w-10 h-10 flex justify-center items-center rounded-xl'>
                                 <img src="LinkedIn.png" alt="Icone do LinkedIn" />
                             </div>

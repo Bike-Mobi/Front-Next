@@ -1,6 +1,8 @@
 'use client'
 
+import FileInput from '@/components/sistema/inputs/FileInput'
 import Admin from '@/components/sistema/screens/Admin'
+import ButtonModalComponent from '@/components/sistema/utils/ButtonModalComponent'
 import { IconBike } from '@/components/sistema/utils/icons'
 import { ApiContext } from '@/contexts/Api'
 import { AuthContext } from '@/contexts/Auth'
@@ -14,6 +16,7 @@ const Dashboard = () => {
 
     // const [manutencoesCount, setManutencoesCount] = useState('-')
     const [infos, setInfos] = useState([])
+
 
     useEffect(() => {        
         instance.get(`/adminInfos`)
