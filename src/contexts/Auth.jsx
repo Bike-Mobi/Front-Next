@@ -196,11 +196,19 @@ export function AuthProvider({ children }) {
 
     const handlerStravaUser = async () => {
         if(authData.user?.strava_athlete_id){
-            await axios.get(`https://www.strava.com/api/v3/athletes/${authData.user?.strava_athlete_id}/stats?`, {
-                params: {
-                    access_token: authData.user.strava_access_token
-                }
-            }).then(resp => setStravaStatusUser(resp.data))
+            console.log('handler strava user!!!!!!')
+            try {
+                await axios.get(`https://www.strava.com/api/v3/athletes/${authData.user?.strava_athlete_id}/stats?`, {
+                    params: {
+                        access_token: authData.user.strava_access_token
+                    }
+                }).then(resp => {
+                    console.log('resp in handler strava user!!!', resp.data)
+                    setStravaStatusUser(resp.data)
+                })
+            } catch (error) {
+                console.log('error in handler strava user: ', error)
+            }
         }
     }
 
