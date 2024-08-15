@@ -228,7 +228,7 @@ const ModalManutencoes = (props) => {
 
                             <div className='flex flex-col'>
                                 <div className='flex justify-between'>
-                                    <TextInput name="Número do Bicicleta, Nome ou CPF do Ciclista"
+                                    <TextInput name="Número da Bicicleta, Nome ou CPF do Ciclista"
                                         width={`w-full`}
                                         onChange={handleNumberBike}
                                         value={numberBike}
