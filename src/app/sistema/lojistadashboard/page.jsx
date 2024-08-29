@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import ModalManutencoesPadroes from '@/components/sistema/modals/ModalManuntecoesPadroes'
@@ -42,22 +43,25 @@ const Dashboard = () => {
     }
 
     const calculaTotalArrecadado = (manutencoesArray) => {
-        if(manutencoesArray.length < 1){
+        console.log('general maintences money: ', manutencoesArray)
+        if(manutencoesArray?.length < 1){
             return '-'
+        } else{
+            
+            let count = 0
+            console.log(manutencoesArray)
+            manutencoesArray?.map(item => {
+                const valor_mdo = item?.valor_mdo.replace(',', '.')
+                count = count + parseFloat(valor_mdo)
+                console.log('parseFloat(item?.valor_mdo): ', parseFloat(item?.valor_mdo))
+            })
+    
+            const stringCount = count + ''
+    
+            const countVirgula = stringCount.replace('.', ',')
+            return countVirgula
         }
 
-        let count = 0
-        console.log(manutencoesArray)
-        manutencoesArray?.map(item => {
-            const valor_mdo = item?.valor_mdo.replace(',', '.')
-            count = count + parseFloat(valor_mdo)
-            console.log('parseFloat(item?.valor_mdo): ', parseFloat(item?.valor_mdo))
-        })
-
-        const stringCount = count + ''
-
-        const countVirgula = stringCount.replace('.', ',')
-        return countVirgula
     }
 
     return (
@@ -92,13 +96,13 @@ const Dashboard = () => {
                                 <div className='text-lg'>
                                     <span className='text-cinza'>Esse Mes: </span>
                                     <span className='font-semibold text-azul'>
-    {/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('mes', authData?.manutencoes))} */} R$ 2 354,00
+                                        R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('mes', authData?.manutencoes))}{/*  R$ 2 354,00 */}
                                     </span>
                                 </div>
                                 <div className='text-lg'>
                                     <span className='text-cinza'>Essa Ano: </span>
                                     <span className='font-semibold text-azul'>
-    {/*                                     R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('ano', authData?.manutencoes))} */} R$ 13 424,34
+                                        R$ {calculaTotalArrecadado(manutencoesPeriodoTempo('ano', authData?.manutencoes))}{/*  R$ 13 424,34 */}
                                     </span>
                                 </div>
                             </div>
